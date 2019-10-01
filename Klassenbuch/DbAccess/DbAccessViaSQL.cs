@@ -103,13 +103,6 @@ namespace Klassenbuch.DbAccess
 
                     "WHERE Datum = '2019-10-01'  AND EinheitID = 1 AND RaumID = @raumId";
                 
-
-                    //"SELECT Nachname, Vorname FROM Person WHERE ID = 2";
-
-
-
-
-
                     SqlParameter pRaumId = new SqlParameter("@raumId", SqlDbType.BigInt);
                     pRaumId.Value = raumId;
 
@@ -156,15 +149,6 @@ namespace Klassenbuch.DbAccess
         }
 
 
-
-
-
-
-
-
-
-
-
         public static DataTable GetRaeume()
         {
             try
@@ -174,79 +158,36 @@ namespace Klassenbuch.DbAccess
                     SqlCommand command = new SqlCommand();
 
                     command.Connection = connection;
-                    command.CommandText =
-
-
-                    "SELECT " +
-                    "Unterricht.Datum, " +
-                    "Einheit.Beginn, " +
-                    "Einheit.Ende, " +
-                    "Fach.Bezeichnung AS [Fach], " +
-                    "Raum.Bezeichnung AS [Raum], " +
-                    "Lehrer.ID AS [Lehrer ID], " +
-                    "Klasse.Bezeichnung AS [Klasse], " +
-                    "Person.Vorname, " +
-                    "Person.Nachname, " +
-                    "Schueler.Layout_X, " +
-                    "Schueler.Layout_Y " +
-
-                    "FROM Unterricht " +
-
-                    "INNER JOIN Raum " +
-                    "ON Unterricht.RaumID = Raum.ID " +
-
-                    "INNER JOIN Fach " +
-                    "ON Unterricht.FachID = Fach.ID " +
-
-                    "INNER JOIN Lehrer " +
-                    "ON Fach.LehrerID = Lehrer.ID " +
-
-                    "INNER JOIN Schueler " +
-                    "ON Unterricht.SchuelerID = Schueler.ID " +
-
-                    "INNER JOIN Person " +
-                    "ON Schueler.PersonID = Person.ID " +
-
-                    "INNER JOIN Einheit " +
-                    "ON Unterricht.EinheitID = Einheit.ID " +
-
-                    "INNER JOIN Klasse " +
-                    "ON Schueler.KlasseID = Klasse.ID " +
-
-
-                    "WHERE Datum = '2019-10-01'  AND EinheitID = 1 AND RaumID = @raumId";
-
+                    command.CommandText = "SELECT Raum.Bezeichnung AS Raum FROM Raum";
 
 
                     connection.Open();
                     Debug.WriteLine("DB OPEND ...");
 
                     SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
-                    DataTable dtUnterrichtInfo = new DataTable();
+                    DataTable dtRaumInfo = new DataTable();
 
 
                     for (int col = 0; col < reader.FieldCount; col++)
                     {
-                        dtUnterrichtInfo.Columns.Add(reader.GetName(col), reader.GetFieldType(col));
+                        dtRaumInfo.Columns.Add(reader.GetName(col), reader.GetFieldType(col));
                     }
 
                     while (reader.Read())
                     {
-                        DataRow row = dtUnterrichtInfo.NewRow();
+                        DataRow row = dtRaumInfo.NewRow();
 
                         for (int col = 0; col < reader.FieldCount; col++)
                         {
                             row[col] = reader.GetValue(col);
                         }
 
-                        dtUnterrichtInfo.Rows.Add(row);
-
+                        dtRaumInfo.Rows.Add(row);
                     }
-
 
                     reader.Close();
                     Debug.WriteLine("DB CLOSED ...");
-                    return dtUnterrichtInfo;
+                    return dtRaumInfo;
                 }
             }
             catch (Exception ex)
@@ -254,11 +195,60 @@ namespace Klassenbuch.DbAccess
                 Debug.WriteLine("GetKurse(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
                 return null;
             }
-
         }
 
 
 
+
+
+
+        public static DataTable GetEinheiten()
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(DbKlassenbuchConnectionString))
+                {
+                    SqlCommand command = new SqlCommand();
+
+                    command.Connection = connection;
+                    command.CommandText = "SELECT * FROM Einheit";
+
+
+                    connection.Open();
+                    Debug.WriteLine("DB OPEND ...");
+
+                    SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                    DataTable dtEinheitInfo = new DataTable();
+
+
+                    for (int col = 0; col < reader.FieldCount; col++)
+                    {
+                        dtEinheitInfo.Columns.Add(reader.GetName(col), reader.GetFieldType(col));
+                    }
+
+                    while (reader.Read())
+                    {
+                        DataRow row = dtEinheitInfo.NewRow();
+
+                        for (int col = 0; col < reader.FieldCount; col++)
+                        {
+                            row[col] = reader.GetValue(col);
+                        }
+
+                        dtEinheitInfo.Rows.Add(row);
+                    }
+
+                    reader.Close();
+                    Debug.WriteLine("DB CLOSED ...");
+                    return dtEinheitInfo;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("GetKurse(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
+                return null;
+            }
+        }
 
 
 

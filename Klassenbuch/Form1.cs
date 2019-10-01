@@ -45,6 +45,23 @@ namespace Klassenbuch
         {
             base.OnLoad(e);
 
+
+            DataTable dtRaumInfo = DbAccessViaSQL.GetRaeume();
+            for (int i = 0; i < dtRaumInfo.Rows.Count; i++)
+            {
+               Debug.WriteLine(dtRaumInfo.Rows[i].ItemArray[0].ToString());
+            }
+
+            DataTable dtEinheitInfo = DbAccessViaSQL.GetEinheiten();
+            for (int i = 0; i < dtEinheitInfo.Rows.Count; i++)
+            {
+                Debug.WriteLine(dtEinheitInfo.Rows[i].ItemArray[0].ToString() + " "
+                                + dtEinheitInfo.Rows[i].ItemArray[1].ToString() + " "
+                                + dtEinheitInfo.Rows[i].ItemArray[2].ToString());
+            }
+
+
+
             //comboBoxRaum.Items.Add(1);
             comboBoxRaum.Items.Add(1);
             comboBoxRaum.Items.Add(2);
