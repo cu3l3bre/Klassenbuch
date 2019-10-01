@@ -9,62 +9,120 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using Klassenbuch.DbAccess;
+
 
 namespace Klassenbuch
 {
-    public partial class Form1 : Form
+
+    public enum RaumNr
+    {
+        A101 = 1,
+        A102,
+        A103,
+        A201,
+        A202,
+        A203
+    }
+
+
+
+    public partial class FormMain : Form
     {
 
-        private int anzahlSchueler = 3;
+        //private int anzahlSchueler = 3;
         private UserControlSchueler[] schueler;
         
 
 
-        public Form1()
+        public FormMain()
         {
             InitializeComponent();
 
-            comboBoxRaum.Items.Add(1);
-            comboBoxRaum.Items.Add(2);
-            comboBoxRaum.Items.Add(3);
-            comboBoxRaum.Items.Add(4);
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+
+            //comboBoxRaum.Items.Add(1);
+            comboBoxRaum.Items.Add(1);
+            comboBoxRaum.Items.Add(2);
+            comboBoxRaum.Items.Add(3);
+
+            //comboBoxRaum.Items.Add(RaumNr.A101);
+            //comboBoxRaum.Items.Add(RaumNr.A102);
+            //comboBoxRaum.Items.Add(RaumNr.A103);
+            //comboBoxRaum.Items.Add(RaumNr.A201);
         }
 
 
         private void ComboBoxRaum_TextChanged(object sender, EventArgs e)
         {
-            zeigeSchueler();
+
+            int.TryParse(comboBoxRaum.Text, out int raumId);
+
+            DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(raumId);
+            /*
+            Debug.WriteLine(dtUnterrichtInfo.Rows[0].ItemArray[0]);
+            Debug.WriteLine(dtUnterrichtInfo.Rows[0].ItemArray[1]);
+            Debug.WriteLine(dtUnterrichtInfo.Rows[1].ItemArray[0]);
+            Debug.WriteLine(dtUnterrichtInfo.Rows[1].ItemArray[1]);
+            */
+
+            if (dtUnterrichtInfo.Rows.Count > 0)
+            {
+                zeigeSchueler(dtUnterrichtInfo);
+            }
+            
+
+
+
+
+
         }
 
 
-        private void zeigeSchueler()
+        private void zeigeSchueler(DataTable dt)
         {
             panelSchueler.Controls.Clear();
 
-            int.TryParse(comboBoxRaum.Text, out int anzahl);
 
-            schueler = new UserControlSchueler[anzahl];
-            string pathToImage = Path.GetFullPath(Path.Combine(
-            Application.StartupPath, @"..\..", "Bilder", "HarryPotter.jpg"));
+            labelFach.Text = dt.Rows[0].ItemArray[3].ToString();
+            labelLehrer.Text = dt.Rows[0].ItemArray[5].ToString();
+            labelKlasse.Text = dt.Rows[0].ItemArray[6].ToString();
+
+            int anzahlSchueler = dt.Rows.Count;
+
+            //int.TryParse(comboBoxRaum.Text, out int anzahl);
+
+            schueler = new UserControlSchueler[anzahlSchueler];
+
 
             int offset = 0;
             for (int i = 0; i < schueler.Length; i++)
             {
 
-                schueler[i] = new UserControlSchueler("Harry", "Potter", pathToImage);
+                string vorname = dt.Rows[i].ItemArray[7].ToString();
+                string nachname = dt.Rows[i].ItemArray[8].ToString();
 
-                //schueler[1].Controls. += checkbox_Click
+                int.TryParse(dt.Rows[i].ItemArray[9].ToString(), out int X);
+                int.TryParse(dt.Rows[i].ItemArray[10].ToString(), out int Y);
+                Point ucLocation = new Point(X, Y);
+
+
+                string bildname = vorname + nachname + ".jpg";
+
+                string pathToImage = Path.GetFullPath(Path.Combine(
+                Application.StartupPath, @"..\..", "Bilder", bildname));
+
                 
 
-                schueler[i].Kommentar = "Platz für Kommentare";
-                //schueler[i].Anwesend
+                schueler[i] = new UserControlSchueler(vorname, nachname, pathToImage);               
+                //schueler[i].Kommentar = "Platz für Kommentare";
 
-                schueler[i].Location = new Point(10, 50 + offset);
+                //schueler[i].Location = new Point(10, 50 + offset);
+                schueler[i].Location = ucLocation;
                 panelSchueler.Controls.Add(schueler[i]);
 
                 offset += 80;

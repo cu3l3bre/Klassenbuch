@@ -45,7 +45,7 @@ namespace Klassenbuch
             pictureBoxBild.ImageLocation = bildpfad;
             pictureBoxBild.SizeMode = PictureBoxSizeMode.StretchImage;
             checkBoxAnwesend.Checked = false;
-            textBoxGrund.Text = "Platz für Kommentare";
+            textBoxGrund.Text = "-";
         }
 
         
