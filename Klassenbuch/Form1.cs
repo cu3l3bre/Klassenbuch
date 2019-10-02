@@ -121,7 +121,13 @@ namespace Klassenbuch
                 Application.StartupPath, @"..\..", "Bilder", bildname));
 
                 
-                schueler[i] = new UserControlSchueler(vorname, nachname, pathToImage, kommentar, anwesend);               
+                schueler[i] = new UserControlSchueler(vorname, nachname, pathToImage, kommentar, anwesend);
+
+                // Event Handler registrieren
+                //lottofeld[i].Click += button_Click;
+
+                schueler[i].Click += Button_Click;
+                
 
                 schueler[i].Location = ucLocation;
                 panelSchueler.Controls.Add(schueler[i]);
@@ -129,6 +135,22 @@ namespace Klassenbuch
             }
 
         }
+
+
+
+        private void Button_Click(object sender, EventArgs e)
+        {
+            /*Label labelClicked = sender as Label;
+
+            int getippteZahl = int.Parse(labelClicked.Text);
+
+            getippteZahl = (int)labelClicked.Tag;
+            */
+            Debug.WriteLine("!!!!!!!!!!!!!!!!!!!!!");
+        }
+
+
+
 
         private void ButtonDatumHeute_Click(object sender, EventArgs e)
         {
