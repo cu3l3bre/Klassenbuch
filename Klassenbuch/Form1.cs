@@ -106,6 +106,9 @@ namespace Klassenbuch
                 string vorname = dt.Rows[i].ItemArray[7].ToString();
                 string nachname = dt.Rows[i].ItemArray[8].ToString();
                 string kommentar = dt.Rows[i].ItemArray[11].ToString();
+                //bool anwesend =
+
+                bool.TryParse(dt.Rows[i].ItemArray[12].ToString(), out bool anwesend);
 
                 int.TryParse(dt.Rows[i].ItemArray[9].ToString(), out int X);
                 int.TryParse(dt.Rows[i].ItemArray[10].ToString(), out int Y);
@@ -118,7 +121,7 @@ namespace Klassenbuch
                 Application.StartupPath, @"..\..", "Bilder", bildname));
 
                 
-                schueler[i] = new UserControlSchueler(vorname, nachname, pathToImage, kommentar);               
+                schueler[i] = new UserControlSchueler(vorname, nachname, pathToImage, kommentar, anwesend);               
 
                 schueler[i].Location = ucLocation;
                 panelSchueler.Controls.Add(schueler[i]);
@@ -191,20 +194,26 @@ namespace Klassenbuch
 
         private void ButtonSpeichern_Click(object sender, EventArgs e)
         {
+
+            string datum = dateTimePicker.Value.ToString("yyyy-MM-dd");
+
+            string[] einheitBeginnEnde = comboBoxEinheit.Text.Split('-');
+            string einheitBeginn = einheitBeginnEnde[0].Trim();
+
             for (int i = 0; i < panelSchueler.Controls.Count; i++)
             {
-                UserControlSchueler test = panelSchueler.Controls[i] as UserControlSchueler;
+                UserControlSchueler schueler = panelSchueler.Controls[i] as UserControlSchueler;
                 
-
-                Debug.WriteLine(test.Kommentar);
+                DbAccessViaSQL.UpdateUnterricht(
+                    schueler.Kommentar,
+                    schueler.Anwesend,
+                    schueler.Vorname,
+                    schueler.Nachname,
+                    datum,
+                    einheitBeginn,
+                    comboBoxRaum.Text);
             }
         }
 
-        //private void FormMain_KeyPress(object sender, KeyPressEventArgs e)
-        //{
-        //    Debug.WriteLine("Button");
-        //    buttonDatumHeute.PerformClick();
-        //    buttonJetzt.PerformClick();
-        //}
     }
 }

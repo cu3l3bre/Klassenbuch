@@ -57,7 +57,8 @@ namespace Klassenbuch.DbAccess
                     "Person.Nachname, " +
                     "Schueler.Layout_X, " +
                     "Schueler.Layout_Y, " +
-                    "Unterricht.Kommentar " +
+                    "Unterricht.Kommentar, " +
+                    "Unterricht.Anwesend " +
 
                     "FROM Unterricht " +
 
@@ -227,10 +228,8 @@ namespace Klassenbuch.DbAccess
         }
 
 
-        public static bool UpdateUnterricht(int test)
+        public static bool UpdateUnterricht(string kommentar, bool anwesend, string vorname, string nachname, string datum, string beginn, string raum)
         {
-
-
             try
             {
 
@@ -238,13 +237,43 @@ namespace Klassenbuch.DbAccess
                     new SqlConnection(DbKlassenbuchConnectionString))
                 {
                     string sqlUpdate =
-                        "";
+                    "UPDATE Unterricht " +
+                    "SET Kommentar = @Kommentar, Anwesend = @Anwesend " +
+
+                    "FROM Unterricht " +
+
+                    "INNER JOIN Schueler " +
+                    "ON Schueler.ID = Unterricht.SchuelerID " +
+
+                    "INNER JOIN Person " +
+                    "ON Person.ID = Schueler.PersonID " +
+
+                    "INNER JOIN Raum " +
+                    "ON Unterricht.RaumID = Raum.ID " +
+
+                    "INNER JOIN Einheit " +
+                    "ON Unterricht.EinheitID = Einheit.ID " +
+
+                    "WHERE Person.Vorname = @vorname AND Person.Nachname = @nachname AND " +
+                    "Datum = @Datum  AND Einheit.Beginn = @Beginn AND Raum.Bezeichnung = @Raum";
 
                     SqlCommand command = new SqlCommand(sqlUpdate, connection);
-                    command.Parameters.AddWithValue("@dfdd", test);
+
+                    command.Parameters.AddWithValue("@Kommentar", kommentar);
+                    command.Parameters.AddWithValue("@Anwesend", anwesend);
+
+                    command.Parameters.AddWithValue("@Vorname", vorname);
+                    command.Parameters.AddWithValue("@Nachname", nachname);
+                    command.Parameters.AddWithValue("@Raum", raum);
+
+                    command.Parameters.AddWithValue("@Datum", datum);
+                    command.Parameters.AddWithValue("@Beginn", beginn);
+
+                    connection.Open();
 
 
-                    return true;
+
+                    return command.ExecuteNonQuery() == 1;
                 }
 
 

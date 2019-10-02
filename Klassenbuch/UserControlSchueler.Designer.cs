@@ -28,21 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelName = new System.Windows.Forms.Label();
+            this.labelVorname = new System.Windows.Forms.Label();
             this.pictureBoxBild = new System.Windows.Forms.PictureBox();
             this.checkBoxAnwesend = new System.Windows.Forms.CheckBox();
             this.textBoxGrund = new System.Windows.Forms.TextBox();
+            this.labelNachname = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBild)).BeginInit();
             this.SuspendLayout();
             // 
-            // labelName
+            // labelVorname
             // 
-            this.labelName.AutoSize = true;
-            this.labelName.Location = new System.Drawing.Point(67, 9);
-            this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(35, 13);
-            this.labelName.TabIndex = 0;
-            this.labelName.Text = "Name";
+            this.labelVorname.AutoSize = true;
+            this.labelVorname.Location = new System.Drawing.Point(67, 3);
+            this.labelVorname.Name = "labelVorname";
+            this.labelVorname.Size = new System.Drawing.Size(49, 13);
+            this.labelVorname.TabIndex = 0;
+            this.labelVorname.Text = "Vorname";
             // 
             // pictureBoxBild
             // 
@@ -50,7 +51,7 @@
             this.pictureBoxBild.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBoxBild.Location = new System.Drawing.Point(-1, -1);
             this.pictureBoxBild.Name = "pictureBoxBild";
-            this.pictureBoxBild.Size = new System.Drawing.Size(65, 58);
+            this.pictureBoxBild.Size = new System.Drawing.Size(65, 62);
             this.pictureBoxBild.TabIndex = 1;
             this.pictureBoxBild.TabStop = false;
             // 
@@ -73,15 +74,25 @@
             this.textBoxGrund.Size = new System.Drawing.Size(214, 20);
             this.textBoxGrund.TabIndex = 3;
             // 
+            // labelNachname
+            // 
+            this.labelNachname.AutoSize = true;
+            this.labelNachname.Location = new System.Drawing.Point(67, 21);
+            this.labelNachname.Name = "labelNachname";
+            this.labelNachname.Size = new System.Drawing.Size(59, 13);
+            this.labelNachname.TabIndex = 4;
+            this.labelNachname.Text = "Nachname";
+            // 
             // UserControlSchueler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this.labelNachname);
             this.Controls.Add(this.textBoxGrund);
             this.Controls.Add(this.checkBoxAnwesend);
             this.Controls.Add(this.pictureBoxBild);
-            this.Controls.Add(this.labelName);
+            this.Controls.Add(this.labelVorname);
             this.Name = "UserControlSchueler";
             this.Size = new System.Drawing.Size(310, 60);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBild)).EndInit();
@@ -92,9 +103,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Label labelName;
+        private System.Windows.Forms.Label labelVorname;
         private System.Windows.Forms.PictureBox pictureBoxBild;
         private System.Windows.Forms.CheckBox checkBoxAnwesend;
         private System.Windows.Forms.TextBox textBoxGrund;
+        private System.Windows.Forms.Label labelNachname;
     }
 }

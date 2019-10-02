@@ -28,6 +28,18 @@ namespace Klassenbuch
             set { checkBoxAnwesend.Checked ^= value; }
         }
 
+        public string Vorname
+        {
+            get { return labelVorname.Text; }
+            set { labelVorname.Text = value; }
+        }
+
+        public string Nachname
+        {
+            get { return labelNachname.Text; }
+            set { labelNachname.Text = value; }
+        }
+
 
         public UserControlSchueler()
         {
@@ -35,12 +47,13 @@ namespace Klassenbuch
         }
 
 
-        public UserControlSchueler(string vorname, string nachname, string bildpfad, string kommentar) : this()
+        public UserControlSchueler(string vorname, string nachname, string bildpfad, string kommentar, bool anwesend) : this()
         {
-            labelName.Text = vorname + " " + nachname;
+            labelVorname.Text = vorname;
+            labelNachname.Text = nachname;
             pictureBoxBild.ImageLocation = bildpfad;
             pictureBoxBild.SizeMode = PictureBoxSizeMode.StretchImage;
-            checkBoxAnwesend.Checked = false;
+            checkBoxAnwesend.Checked = anwesend;
             textBoxGrund.Text = kommentar;
         }
     }
