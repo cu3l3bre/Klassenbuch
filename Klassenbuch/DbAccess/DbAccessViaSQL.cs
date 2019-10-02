@@ -33,12 +33,14 @@ namespace Klassenbuch.DbAccess
             }
         }
 
-        public static DataTable GetUntertichtInfo(string raumBezeichnung)
+        public static DataTable GetUntertichtInfo(string raumBezeichnung, string einheitBeginn)
         {
             try
             {
                 using (SqlConnection connection = new SqlConnection(DbKlassenbuchConnectionString))
                 {
+                    Debug.WriteLine(einheitBeginn);
+
                     SqlCommand command = new SqlCommand();
 
                     command.Connection = connection;
@@ -79,14 +81,19 @@ namespace Klassenbuch.DbAccess
 
                     "INNER JOIN Klasse " +
                     "ON Schueler.KlasseID = Klasse.ID " +
-                    
-                    "WHERE Datum = '2019-10-01'  AND EinheitID = 1 AND Raum.Bezeichnung = @raumBezeichnung";
+
+                    // "WHERE Datum = '2019-10-01'  AND Einheit.Beginn = '08:00:00' AND Raum.Bezeichnung = @raumBezeichnung";
+                    "WHERE Datum = '2019-10-01'  AND Einheit.Beginn = @einheitBeginn AND Raum.Bezeichnung = @raumBezeichnung";
+
 
                     SqlParameter pRaumBezeichnung = new SqlParameter("@raumBezeichnung", SqlDbType.VarChar);
                     pRaumBezeichnung.Value = raumBezeichnung;
 
-                    command.Parameters.Add(pRaumBezeichnung);
+                    SqlParameter pEinheitBeginn = new SqlParameter("@einheitBeginn", SqlDbType.Time);
+                    pEinheitBeginn.Value = einheitBeginn;
 
+                    command.Parameters.Add(pRaumBezeichnung);
+                    command.Parameters.Add(pEinheitBeginn);
 
                     connection.Open();
                

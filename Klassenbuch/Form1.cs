@@ -56,36 +56,34 @@ namespace Klassenbuch
             DataTable dtEinheitInfo = DbAccessViaSQL.GetEinheiten();
             for (int i = 0; i < dtEinheitInfo.Rows.Count; i++)
             {
-                Debug.WriteLine(dtEinheitInfo.Rows[i].ItemArray[0].ToString() + " "
-                                + dtEinheitInfo.Rows[i].ItemArray[1].ToString());
-
-
-                comboBoxEinheit.Items.Add(dtEinheitInfo.Rows[i].ItemArray[0].ToString() + " - " + dtEinheitInfo.Rows[i].ItemArray[1].ToString());
-
+                comboBoxEinheit.Items.Add(dtEinheitInfo.Rows[i].ItemArray[0].ToString() + " - "
+                    + dtEinheitInfo.Rows[i].ItemArray[1].ToString());
             }
 
         }
 
 
-
         private void aktualisiereDaten_TextChanged(object sender, EventArgs e)
         {
 
-            int.TryParse(comboBoxRaum.Text, out int raumId);
+            string einheitBeginn = "";
+            string einheitEnde = "";
 
-            DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(comboBoxRaum.Text);
-            /*
-            Debug.WriteLine(dtUnterrichtInfo.Rows[0].ItemArray[0]);
-            Debug.WriteLine(dtUnterrichtInfo.Rows[0].ItemArray[1]);
-            Debug.WriteLine(dtUnterrichtInfo.Rows[1].ItemArray[0]);
-            Debug.WriteLine(dtUnterrichtInfo.Rows[1].ItemArray[1]);
-            */
-
-            //Debug.WriteLine(dtUnterrichtInfo.Rows[0].ItemArray[0]);
-
-            if (dtUnterrichtInfo.Rows.Count > 0)
+            if (!string.IsNullOrEmpty(comboBoxEinheit.Text) && !string.IsNullOrEmpty(comboBoxRaum.Text))
             {
-                zeigeSchueler(dtUnterrichtInfo);
+
+                string[] einheitBeginnEnde = comboBoxEinheit.Text.Split('-');
+                einheitBeginn = einheitBeginnEnde[0].Trim();
+                einheitEnde = einheitBeginnEnde[1].Trim();
+
+                DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(comboBoxRaum.Text, einheitBeginn);
+
+                panelSchueler.Controls.Clear();
+
+                if(dtUnterrichtInfo.Rows.Count > 0)
+                {
+                    zeigeSchueler(dtUnterrichtInfo);
+                }
             }
         }
 
@@ -116,21 +114,14 @@ namespace Klassenbuch
 
         private void zeigeSchueler(DataTable dt)
         {
-            panelSchueler.Controls.Clear();
-
 
             labelFach.Text = dt.Rows[0].ItemArray[3].ToString();
             labelLehrer.Text = dt.Rows[0].ItemArray[5].ToString();
             labelKlasse.Text = dt.Rows[0].ItemArray[6].ToString();
 
             int anzahlSchueler = dt.Rows.Count;
-
-            //int.TryParse(comboBoxRaum.Text, out int anzahl);
-
             schueler = new UserControlSchueler[anzahlSchueler];
 
-
-            //int offset = 0;
             for (int i = 0; i < schueler.Length; i++)
             {
 
@@ -148,15 +139,11 @@ namespace Klassenbuch
                 Application.StartupPath, @"..\..", "Bilder", bildname));
 
                 
-
                 schueler[i] = new UserControlSchueler(vorname, nachname, pathToImage);               
-                //schueler[i].Kommentar = "Platz für Kommentare";
 
-                //schueler[i].Location = new Point(10, 50 + offset);
                 schueler[i].Location = ucLocation;
                 panelSchueler.Controls.Add(schueler[i]);
 
-                //offset += 80;
             }
 
         }
