@@ -33,7 +33,7 @@ namespace Klassenbuch.DbAccess
             }
         }
 
-        public static DataTable GetUntertichtInfo(string raumBezeichnung, string einheitBeginn)
+        public static DataTable GetUntertichtInfo(string raumBezeichnung, string einheitBeginn, string unterrichtDatum)
         {
             try
             {
@@ -83,8 +83,8 @@ namespace Klassenbuch.DbAccess
                     "ON Schueler.KlasseID = Klasse.ID " +
 
                     // "WHERE Datum = '2019-10-01'  AND Einheit.Beginn = '08:00:00' AND Raum.Bezeichnung = @raumBezeichnung";
-                    "WHERE Datum = '2019-10-01'  AND Einheit.Beginn = @einheitBeginn AND Raum.Bezeichnung = @raumBezeichnung";
-
+                    //"WHERE Datum = '2019-10-01'  AND Einheit.Beginn = @einheitBeginn AND Raum.Bezeichnung = @raumBezeichnung";
+                    "WHERE Datum = @unterrichtDatum  AND Einheit.Beginn = @einheitBeginn AND Raum.Bezeichnung = @raumBezeichnung";
 
                     SqlParameter pRaumBezeichnung = new SqlParameter("@raumBezeichnung", SqlDbType.VarChar);
                     pRaumBezeichnung.Value = raumBezeichnung;
@@ -92,8 +92,12 @@ namespace Klassenbuch.DbAccess
                     SqlParameter pEinheitBeginn = new SqlParameter("@einheitBeginn", SqlDbType.Time);
                     pEinheitBeginn.Value = einheitBeginn;
 
+                    SqlParameter pUnterrichtDatum = new SqlParameter("@unterrichtDatum", SqlDbType.Date);
+                    pUnterrichtDatum.Value = unterrichtDatum;
+
                     command.Parameters.Add(pRaumBezeichnung);
                     command.Parameters.Add(pEinheitBeginn);
+                    command.Parameters.Add(pUnterrichtDatum);
 
                     connection.Open();
                

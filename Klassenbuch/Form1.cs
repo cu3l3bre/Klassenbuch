@@ -15,18 +15,6 @@ using Klassenbuch.DbAccess;
 namespace Klassenbuch
 {
 
-    /*public enum RaumNr
-    {
-        A101 = 1,
-        A102,
-        A103,
-        A201,
-        A202,
-        A203
-    }*/
-
-
-
     public partial class FormMain : Form
     {
 
@@ -44,15 +32,14 @@ namespace Klassenbuch
         {
             base.OnLoad(e);
 
-
+            // Hole die Räume die in der DB existieren und adde diese als Einträge zur Combobox
             DataTable dtRaumInfo = DbAccessViaSQL.GetRaeume();
             for (int i = 0; i < dtRaumInfo.Rows.Count; i++)
             {
                comboBoxRaum.Items.Add(dtRaumInfo.Rows[i].ItemArray[0].ToString());
             }
 
-
-
+            // Hole die Unterrichtseinheiten (Zeiten von bis) die in der DB existieren und adde diese als Einträge zur Combobox
             DataTable dtEinheitInfo = DbAccessViaSQL.GetEinheiten();
             for (int i = 0; i < dtEinheitInfo.Rows.Count; i++)
             {
@@ -72,47 +59,30 @@ namespace Klassenbuch
             if (!string.IsNullOrEmpty(comboBoxEinheit.Text) && !string.IsNullOrEmpty(comboBoxRaum.Text))
             {
 
+                string datum =
+                    dateTimePicker.Value.Year.ToString() + '-' +
+                    dateTimePicker.Value.Month.ToString() + '-' +
+                    dateTimePicker.Value.Day.ToString();
+
+                //Debug.WriteLine(datum);
+
                 string[] einheitBeginnEnde = comboBoxEinheit.Text.Split('-');
                 einheitBeginn = einheitBeginnEnde[0].Trim();
                 einheitEnde = einheitBeginnEnde[1].Trim();
 
-                DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(comboBoxRaum.Text, einheitBeginn);
+                DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(comboBoxRaum.Text, einheitBeginn, datum);
 
                 panelSchueler.Controls.Clear();
 
                 if(dtUnterrichtInfo.Rows.Count > 0)
                 {
-                    zeigeSchueler(dtUnterrichtInfo);
+                    aktualisiereDaten(dtUnterrichtInfo);
                 }
             }
         }
 
 
-        //private void ComboBoxRaum_TextChanged(object sender, EventArgs e)
-        //{
-
-        //    int.TryParse(comboBoxRaum.Text, out int raumId);
-
-        //    DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(comboBoxRaum.Text);
-        //    /*
-        //    Debug.WriteLine(dtUnterrichtInfo.Rows[0].ItemArray[0]);
-        //    Debug.WriteLine(dtUnterrichtInfo.Rows[0].ItemArray[1]);
-        //    Debug.WriteLine(dtUnterrichtInfo.Rows[1].ItemArray[0]);
-        //    Debug.WriteLine(dtUnterrichtInfo.Rows[1].ItemArray[1]);
-        //    */
-
-
-        //    //Debug.WriteLine(dtUnterrichtInfo.Rows[0].ItemArray[0]);
-
-        //    if (dtUnterrichtInfo.Rows.Count > 0)
-        //    {
-        //        zeigeSchueler(dtUnterrichtInfo);
-        //    }
-            
-        //}
-
-
-        private void zeigeSchueler(DataTable dt)
+        private void aktualisiereDaten(DataTable dt)
         {
 
             labelFach.Text = dt.Rows[0].ItemArray[3].ToString();
@@ -148,7 +118,54 @@ namespace Klassenbuch
 
         }
 
+        private void ButtonDatumHeute_Click(object sender, EventArgs e)
+        {
+            dateTimePicker.Value = DateTime.Now;
+        }
+
+        private void ButtonTagVor_Click(object sender, EventArgs e)
+        {
+            DateTime datum = dateTimePicker.Value;
+            dateTimePicker.Value = datum.AddDays(1);
+        }
+
+        private void ButtonTagZurueck_Click(object sender, EventArgs e)
+        {
+            DateTime datum = dateTimePicker.Value;
+            dateTimePicker.Value = datum.AddDays(-1);
+        }
+
+        private void ButtonJetzt_Click(object sender, EventArgs e)
+        {
+            //Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss"));
+            string aktuelleZeit = DateTime.Now.ToString("HH:mm:ss");
+
+            Debug.WriteLine(comboBoxEinheit.Items.Count);
 
 
+
+
+
+            for(int i = 0; i < comboBoxEinheit.Items.Count; i++)
+            {
+
+                string[] einheitBeginnEnde = comboBoxEinheit.Items[i].ToString().Split('-');
+                string einheitBeginn = einheitBeginnEnde[0].Trim();
+                string einheitEnde = einheitBeginnEnde[1].Trim();
+
+
+                //if(aktuelleZeit < einheitBeginn)
+                //{
+
+                //}
+                
+
+            }
+
+         
+            comboBoxEinheit.Text = comboBoxEinheit.Items[5].ToString();
+
+
+        }
     }
 }

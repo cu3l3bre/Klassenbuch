@@ -45,10 +45,11 @@
             this.labelRaumText = new System.Windows.Forms.Label();
             this.comboBoxEinheit = new System.Windows.Forms.ComboBox();
             this.labelEinheitText = new System.Windows.Forms.Label();
-            this.labelUnterrichtBeginn = new System.Windows.Forms.Label();
-            this.labelUnterrichtEnde = new System.Windows.Forms.Label();
-            this.labelUnterrichtBeginnText = new System.Windows.Forms.Label();
-            this.labelUnterrichtEndeText = new System.Windows.Forms.Label();
+            this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.buttonDatumHeute = new System.Windows.Forms.Button();
+            this.buttonTagZurueck = new System.Windows.Forms.Button();
+            this.buttonTagVor = new System.Windows.Forms.Button();
+            this.buttonJetzt = new System.Windows.Forms.Button();
             this.panelUnterricht.SuspendLayout();
             this.panelLehrstoff.SuspendLayout();
             this.SuspendLayout();
@@ -175,8 +176,9 @@
             // 
             // comboBoxRaum
             // 
+            this.comboBoxRaum.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxRaum.FormattingEnabled = true;
-            this.comboBoxRaum.Location = new System.Drawing.Point(739, 14);
+            this.comboBoxRaum.Location = new System.Drawing.Point(852, 14);
             this.comboBoxRaum.Name = "comboBoxRaum";
             this.comboBoxRaum.Size = new System.Drawing.Size(71, 21);
             this.comboBoxRaum.TabIndex = 3;
@@ -185,7 +187,7 @@
             // labelRaumText
             // 
             this.labelRaumText.AutoSize = true;
-            this.labelRaumText.Location = new System.Drawing.Point(701, 17);
+            this.labelRaumText.Location = new System.Drawing.Point(814, 17);
             this.labelRaumText.Name = "labelRaumText";
             this.labelRaumText.Size = new System.Drawing.Size(35, 13);
             this.labelRaumText.TabIndex = 4;
@@ -193,6 +195,8 @@
             // 
             // comboBoxEinheit
             // 
+            this.comboBoxEinheit.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
+            this.comboBoxEinheit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxEinheit.FormattingEnabled = true;
             this.comboBoxEinheit.Location = new System.Drawing.Point(527, 14);
             this.comboBoxEinheit.Name = "comboBoxEinheit";
@@ -209,53 +213,66 @@
             this.labelEinheitText.TabIndex = 6;
             this.labelEinheitText.Text = "Unterrichtszeit";
             // 
-            // labelUnterrichtBeginn
+            // dateTimePicker
             // 
-            this.labelUnterrichtBeginn.AutoSize = true;
-            this.labelUnterrichtBeginn.Location = new System.Drawing.Point(77, 17);
-            this.labelUnterrichtBeginn.Name = "labelUnterrichtBeginn";
-            this.labelUnterrichtBeginn.Size = new System.Drawing.Size(10, 13);
-            this.labelUnterrichtBeginn.TabIndex = 7;
-            this.labelUnterrichtBeginn.Text = "-";
+            this.dateTimePicker.Location = new System.Drawing.Point(126, 15);
+            this.dateTimePicker.Name = "dateTimePicker";
+            this.dateTimePicker.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker.TabIndex = 11;
+            this.dateTimePicker.ValueChanged += new System.EventHandler(this.aktualisiereDaten_TextChanged);
             // 
-            // labelUnterrichtEnde
+            // buttonDatumHeute
             // 
-            this.labelUnterrichtEnde.AutoSize = true;
-            this.labelUnterrichtEnde.Location = new System.Drawing.Point(169, 17);
-            this.labelUnterrichtEnde.Name = "labelUnterrichtEnde";
-            this.labelUnterrichtEnde.Size = new System.Drawing.Size(10, 13);
-            this.labelUnterrichtEnde.TabIndex = 8;
-            this.labelUnterrichtEnde.Text = "-";
+            this.buttonDatumHeute.Location = new System.Drawing.Point(358, 13);
+            this.buttonDatumHeute.Name = "buttonDatumHeute";
+            this.buttonDatumHeute.Size = new System.Drawing.Size(44, 24);
+            this.buttonDatumHeute.TabIndex = 12;
+            this.buttonDatumHeute.Text = "Heute";
+            this.buttonDatumHeute.UseVisualStyleBackColor = true;
+            this.buttonDatumHeute.Click += new System.EventHandler(this.ButtonDatumHeute_Click);
             // 
-            // labelUnterrichtBeginnText
+            // buttonTagZurueck
             // 
-            this.labelUnterrichtBeginnText.AutoSize = true;
-            this.labelUnterrichtBeginnText.Location = new System.Drawing.Point(23, 17);
-            this.labelUnterrichtBeginnText.Name = "labelUnterrichtBeginnText";
-            this.labelUnterrichtBeginnText.Size = new System.Drawing.Size(26, 13);
-            this.labelUnterrichtBeginnText.TabIndex = 9;
-            this.labelUnterrichtBeginnText.Text = "Von";
+            this.buttonTagZurueck.Location = new System.Drawing.Point(100, 15);
+            this.buttonTagZurueck.Name = "buttonTagZurueck";
+            this.buttonTagZurueck.Size = new System.Drawing.Size(20, 20);
+            this.buttonTagZurueck.TabIndex = 13;
+            this.buttonTagZurueck.Text = "<";
+            this.buttonTagZurueck.UseVisualStyleBackColor = true;
+            this.buttonTagZurueck.Click += new System.EventHandler(this.ButtonTagZurueck_Click);
             // 
-            // labelUnterrichtEndeText
+            // buttonTagVor
             // 
-            this.labelUnterrichtEndeText.AutoSize = true;
-            this.labelUnterrichtEndeText.Location = new System.Drawing.Point(137, 17);
-            this.labelUnterrichtEndeText.Name = "labelUnterrichtEndeText";
-            this.labelUnterrichtEndeText.Size = new System.Drawing.Size(20, 13);
-            this.labelUnterrichtEndeText.TabIndex = 10;
-            this.labelUnterrichtEndeText.Text = "bis";
+            this.buttonTagVor.Location = new System.Drawing.Point(332, 15);
+            this.buttonTagVor.Name = "buttonTagVor";
+            this.buttonTagVor.Size = new System.Drawing.Size(20, 20);
+            this.buttonTagVor.TabIndex = 14;
+            this.buttonTagVor.Text = ">";
+            this.buttonTagVor.UseVisualStyleBackColor = true;
+            this.buttonTagVor.Click += new System.EventHandler(this.ButtonTagVor_Click);
+            // 
+            // buttonJetzt
+            // 
+            this.buttonJetzt.Location = new System.Drawing.Point(672, 11);
+            this.buttonJetzt.Name = "buttonJetzt";
+            this.buttonJetzt.Size = new System.Drawing.Size(75, 23);
+            this.buttonJetzt.TabIndex = 15;
+            this.buttonJetzt.Text = "Jetzt";
+            this.buttonJetzt.UseVisualStyleBackColor = true;
+            this.buttonJetzt.Click += new System.EventHandler(this.ButtonJetzt_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1056, 710);
+            this.Controls.Add(this.buttonJetzt);
+            this.Controls.Add(this.buttonTagVor);
+            this.Controls.Add(this.buttonTagZurueck);
+            this.Controls.Add(this.buttonDatumHeute);
+            this.Controls.Add(this.dateTimePicker);
             this.Controls.Add(this.labelSchueler);
             this.Controls.Add(this.labelLehrstoffText);
-            this.Controls.Add(this.labelUnterrichtEndeText);
-            this.Controls.Add(this.labelUnterrichtBeginnText);
-            this.Controls.Add(this.labelUnterrichtEnde);
-            this.Controls.Add(this.labelUnterrichtBeginn);
             this.Controls.Add(this.labelEinheitText);
             this.Controls.Add(this.labelUnterrichtText);
             this.Controls.Add(this.comboBoxEinheit);
@@ -293,11 +310,12 @@
         private System.Windows.Forms.Label labelFach;
         private System.Windows.Forms.Label labelLehrer;
         private System.Windows.Forms.Label labelKlasse;
-        private System.Windows.Forms.Label labelUnterrichtBeginn;
-        private System.Windows.Forms.Label labelUnterrichtEnde;
-        private System.Windows.Forms.Label labelUnterrichtBeginnText;
-        private System.Windows.Forms.Label labelUnterrichtEndeText;
         private System.Windows.Forms.TextBox textBoxLehrstoff;
+        private System.Windows.Forms.DateTimePicker dateTimePicker;
+        private System.Windows.Forms.Button buttonDatumHeute;
+        private System.Windows.Forms.Button buttonTagZurueck;
+        private System.Windows.Forms.Button buttonTagVor;
+        private System.Windows.Forms.Button buttonJetzt;
     }
 }
 
