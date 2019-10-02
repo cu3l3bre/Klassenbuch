@@ -39,8 +39,6 @@ namespace Klassenbuch.DbAccess
             {
                 using (SqlConnection connection = new SqlConnection(DbKlassenbuchConnectionString))
                 {
-                    Debug.WriteLine(einheitBeginn);
-
                     SqlCommand command = new SqlCommand();
 
                     command.Connection = connection;
@@ -52,12 +50,14 @@ namespace Klassenbuch.DbAccess
                     "Einheit.Ende, " +
                     "Fach.Bezeichnung AS [Fach], " +
                     "Raum.Bezeichnung AS [Raum], " +
-                    "Lehrer.ID AS [Lehrer ID], " +
+                    //"Lehrer.ID AS [Lehrer ID], " +
+                    "(SELECT Person.Nachname + ', ' + Person.Vorname FROM Person WHERE Lehrer.ID = Person.ID) AS Lehrer," +
                     "Klasse.Bezeichnung AS [Klasse], " +
                     "Person.Vorname, " +
                     "Person.Nachname, " +
                     "Schueler.Layout_X, " +
-                    "Schueler.Layout_Y " +
+                    "Schueler.Layout_Y, " +
+                    "Unterricht.Kommentar " +
 
                     "FROM Unterricht " +
 
@@ -225,6 +225,46 @@ namespace Klassenbuch.DbAccess
                 return null;
             }
         }
+
+
+        public static bool UpdateUnterricht(int test)
+        {
+
+
+            try
+            {
+
+                using (SqlConnection connection =
+                    new SqlConnection(DbKlassenbuchConnectionString))
+                {
+                    string sqlUpdate =
+                        "";
+
+                    SqlCommand command = new SqlCommand(sqlUpdate, connection);
+                    command.Parameters.AddWithValue("@dfdd", test);
+
+
+                    return true;
+                }
+
+
+
+
+
+              
+
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine("UpdateUnterricht(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
+                return false;
+
+            }
+
+
+        }
+
+
 
 
 

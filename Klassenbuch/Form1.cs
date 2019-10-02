@@ -15,14 +15,14 @@ using Klassenbuch.DbAccess;
 namespace Klassenbuch
 {
 
-    public partial class FormMain : Form
+    public partial class Form1 : Form
     {
 
         private UserControlSchueler[] schueler;
         
 
 
-        public FormMain()
+        public Form1()
         {
             InitializeComponent();
         }
@@ -47,6 +47,7 @@ namespace Klassenbuch
                     + dtEinheitInfo.Rows[i].ItemArray[1].ToString());
             }
 
+            bereinigeUI();
         }
 
 
@@ -72,9 +73,16 @@ namespace Klassenbuch
 
                 DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(comboBoxRaum.Text, einheitBeginn, datum);
 
-                panelSchueler.Controls.Clear();
+                //panelSchueler.Controls.Clear();
 
-                if(dtUnterrichtInfo.Rows.Count > 0)
+                //labelFach.Text = "-";
+                //labelLehrer.Text = "-";
+                //labelKlasse.Text = "-";
+
+                bereinigeUI();
+
+
+                if (dtUnterrichtInfo != null && dtUnterrichtInfo.Rows.Count > 0)
                 {
                     aktualisiereDaten(dtUnterrichtInfo);
                 }
@@ -97,6 +105,7 @@ namespace Klassenbuch
 
                 string vorname = dt.Rows[i].ItemArray[7].ToString();
                 string nachname = dt.Rows[i].ItemArray[8].ToString();
+                string kommentar = dt.Rows[i].ItemArray[11].ToString();
 
                 int.TryParse(dt.Rows[i].ItemArray[9].ToString(), out int X);
                 int.TryParse(dt.Rows[i].ItemArray[10].ToString(), out int Y);
@@ -109,7 +118,7 @@ namespace Klassenbuch
                 Application.StartupPath, @"..\..", "Bilder", bildname));
 
                 
-                schueler[i] = new UserControlSchueler(vorname, nachname, pathToImage);               
+                schueler[i] = new UserControlSchueler(vorname, nachname, pathToImage, kommentar);               
 
                 schueler[i].Location = ucLocation;
                 panelSchueler.Controls.Add(schueler[i]);
@@ -137,15 +146,6 @@ namespace Klassenbuch
 
         private void ButtonJetzt_Click(object sender, EventArgs e)
         {
-            //Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss"));
-            string aktuelleZeit = DateTime.Now.ToString("HH:mm:ss");
-
-            Debug.WriteLine(comboBoxEinheit.Items.Count);
-
-
-
-
-
             for(int i = 0; i < comboBoxEinheit.Items.Count; i++)
             {
 
@@ -153,19 +153,58 @@ namespace Klassenbuch
                 string einheitBeginn = einheitBeginnEnde[0].Trim();
                 string einheitEnde = einheitBeginnEnde[1].Trim();
 
+                TimeSpan zeitJetzt = DateTime.Now.TimeOfDay;
 
-                //if(aktuelleZeit < einheitBeginn)
+                TimeSpan.TryParse(einheitBeginn, out TimeSpan zeitBeginn);
+                TimeSpan.TryParse(einheitEnde, out TimeSpan zeitEnde);
+                //TimeSpan zeitBeginn = DateTime.Parse(einheitBeginn).TimeOfDay;
+                //TimeSpan zeitEnde = DateTime.Parse(einheitEnde).TimeOfDay;
+
+
+                if (zeitBeginn < zeitJetzt &&  zeitEnde > zeitJetzt)
+                {
+                    comboBoxEinheit.Text = comboBoxEinheit.Items[i].ToString();
+                    break;
+                }
+                //else if(zeitJetzt < zeitBeginn)
                 //{
-
+                //    comboBoxEinheit.Text = comboBoxEinheit.Items[0].ToString();
                 //}
-                
-
+                //else
+                //{
+                //    comboBoxEinheit.Text = comboBoxEinheit.Items[comboBoxEinheit.Items.Count-1].ToString();
+                //}
             }
+        }
 
-         
-            comboBoxEinheit.Text = comboBoxEinheit.Items[5].ToString();
 
+        private void bereinigeUI()
+        {
+
+            panelSchueler.Controls.Clear();
+
+            labelFach.Text = "-";
+            labelLehrer.Text = "-";
+            labelKlasse.Text = "-";
 
         }
+
+        private void ButtonSpeichern_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < panelSchueler.Controls.Count; i++)
+            {
+                UserControlSchueler test = panelSchueler.Controls[i] as UserControlSchueler;
+                
+
+                Debug.WriteLine(test.Kommentar);
+            }
+        }
+
+        //private void FormMain_KeyPress(object sender, KeyPressEventArgs e)
+        //{
+        //    Debug.WriteLine("Button");
+        //    buttonDatumHeute.PerformClick();
+        //    buttonJetzt.PerformClick();
+        //}
     }
 }

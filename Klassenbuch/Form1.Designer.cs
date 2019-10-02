@@ -1,6 +1,6 @@
 ﻿namespace Klassenbuch
 {
-    partial class FormMain
+    partial class Form1
     {
         /// <summary>
         /// Erforderliche Designervariable.
@@ -50,6 +50,7 @@
             this.buttonTagZurueck = new System.Windows.Forms.Button();
             this.buttonTagVor = new System.Windows.Forms.Button();
             this.buttonJetzt = new System.Windows.Forms.Button();
+            this.buttonSpeichern = new System.Windows.Forms.Button();
             this.panelUnterricht.SuspendLayout();
             this.panelLehrstoff.SuspendLayout();
             this.SuspendLayout();
@@ -261,11 +262,22 @@
             this.buttonJetzt.UseVisualStyleBackColor = true;
             this.buttonJetzt.Click += new System.EventHandler(this.ButtonJetzt_Click);
             // 
-            // FormMain
+            // buttonSpeichern
+            // 
+            this.buttonSpeichern.Location = new System.Drawing.Point(969, 519);
+            this.buttonSpeichern.Name = "buttonSpeichern";
+            this.buttonSpeichern.Size = new System.Drawing.Size(75, 23);
+            this.buttonSpeichern.TabIndex = 16;
+            this.buttonSpeichern.Text = "Speichern";
+            this.buttonSpeichern.UseVisualStyleBackColor = true;
+            this.buttonSpeichern.Click += new System.EventHandler(this.ButtonSpeichern_Click);
+            // 
+            // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1056, 710);
+            this.Controls.Add(this.buttonSpeichern);
             this.Controls.Add(this.buttonJetzt);
             this.Controls.Add(this.buttonTagVor);
             this.Controls.Add(this.buttonTagZurueck);
@@ -281,7 +293,7 @@
             this.Controls.Add(this.panelLehrstoff);
             this.Controls.Add(this.panelUnterricht);
             this.Controls.Add(this.panelSchueler);
-            this.Name = "FormMain";
+            this.Name = "Form1";
             this.Text = "Klassenbuch";
             this.panelUnterricht.ResumeLayout(false);
             this.panelUnterricht.PerformLayout();
@@ -316,6 +328,7 @@
         private System.Windows.Forms.Button buttonTagZurueck;
         private System.Windows.Forms.Button buttonTagVor;
         private System.Windows.Forms.Button buttonJetzt;
+        private System.Windows.Forms.Button buttonSpeichern;
     }
 }
 

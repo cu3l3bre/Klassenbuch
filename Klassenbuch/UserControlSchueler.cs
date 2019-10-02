@@ -35,13 +35,13 @@ namespace Klassenbuch
         }
 
 
-        public UserControlSchueler(string vorname, string nachname, string bildpfad) : this()
+        public UserControlSchueler(string vorname, string nachname, string bildpfad, string kommentar) : this()
         {
             labelName.Text = vorname + " " + nachname;
             pictureBoxBild.ImageLocation = bildpfad;
             pictureBoxBild.SizeMode = PictureBoxSizeMode.StretchImage;
             checkBoxAnwesend.Checked = false;
-            textBoxGrund.Text = "-";
+            textBoxGrund.Text = kommentar;
         }
     }
 }
