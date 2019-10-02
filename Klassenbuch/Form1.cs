@@ -15,7 +15,7 @@ using Klassenbuch.DbAccess;
 namespace Klassenbuch
 {
 
-    public enum RaumNr
+    /*public enum RaumNr
     {
         A101 = 1,
         A102,
@@ -23,14 +23,13 @@ namespace Klassenbuch
         A201,
         A202,
         A203
-    }
+    }*/
 
 
 
     public partial class FormMain : Form
     {
 
-        //private int anzahlSchueler = 3;
         private UserControlSchueler[] schueler;
         
 
@@ -38,8 +37,8 @@ namespace Klassenbuch
         public FormMain()
         {
             InitializeComponent();
-
         }
+
 
         protected override void OnLoad(EventArgs e)
         {
@@ -49,37 +48,32 @@ namespace Klassenbuch
             DataTable dtRaumInfo = DbAccessViaSQL.GetRaeume();
             for (int i = 0; i < dtRaumInfo.Rows.Count; i++)
             {
-               Debug.WriteLine(dtRaumInfo.Rows[i].ItemArray[0].ToString());
+               comboBoxRaum.Items.Add(dtRaumInfo.Rows[i].ItemArray[0].ToString());
             }
+
+
 
             DataTable dtEinheitInfo = DbAccessViaSQL.GetEinheiten();
             for (int i = 0; i < dtEinheitInfo.Rows.Count; i++)
             {
                 Debug.WriteLine(dtEinheitInfo.Rows[i].ItemArray[0].ToString() + " "
-                                + dtEinheitInfo.Rows[i].ItemArray[1].ToString() + " "
-                                + dtEinheitInfo.Rows[i].ItemArray[2].ToString());
+                                + dtEinheitInfo.Rows[i].ItemArray[1].ToString());
+
+
+                comboBoxEinheit.Items.Add(dtEinheitInfo.Rows[i].ItemArray[0].ToString() + " - " + dtEinheitInfo.Rows[i].ItemArray[1].ToString());
+
             }
 
-
-
-            //comboBoxRaum.Items.Add(1);
-            comboBoxRaum.Items.Add(1);
-            comboBoxRaum.Items.Add(2);
-            comboBoxRaum.Items.Add(3);
-
-            //comboBoxRaum.Items.Add(RaumNr.A101);
-            //comboBoxRaum.Items.Add(RaumNr.A102);
-            //comboBoxRaum.Items.Add(RaumNr.A103);
-            //comboBoxRaum.Items.Add(RaumNr.A201);
         }
 
 
-        private void ComboBoxRaum_TextChanged(object sender, EventArgs e)
+
+        private void aktualisiereDaten_TextChanged(object sender, EventArgs e)
         {
 
             int.TryParse(comboBoxRaum.Text, out int raumId);
 
-            DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(raumId);
+            DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(comboBoxRaum.Text);
             /*
             Debug.WriteLine(dtUnterrichtInfo.Rows[0].ItemArray[0]);
             Debug.WriteLine(dtUnterrichtInfo.Rows[0].ItemArray[1]);
@@ -87,17 +81,37 @@ namespace Klassenbuch
             Debug.WriteLine(dtUnterrichtInfo.Rows[1].ItemArray[1]);
             */
 
+            //Debug.WriteLine(dtUnterrichtInfo.Rows[0].ItemArray[0]);
+
             if (dtUnterrichtInfo.Rows.Count > 0)
             {
                 zeigeSchueler(dtUnterrichtInfo);
             }
-            
-
-
-
-
-
         }
+
+
+        //private void ComboBoxRaum_TextChanged(object sender, EventArgs e)
+        //{
+
+        //    int.TryParse(comboBoxRaum.Text, out int raumId);
+
+        //    DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(comboBoxRaum.Text);
+        //    /*
+        //    Debug.WriteLine(dtUnterrichtInfo.Rows[0].ItemArray[0]);
+        //    Debug.WriteLine(dtUnterrichtInfo.Rows[0].ItemArray[1]);
+        //    Debug.WriteLine(dtUnterrichtInfo.Rows[1].ItemArray[0]);
+        //    Debug.WriteLine(dtUnterrichtInfo.Rows[1].ItemArray[1]);
+        //    */
+
+
+        //    //Debug.WriteLine(dtUnterrichtInfo.Rows[0].ItemArray[0]);
+
+        //    if (dtUnterrichtInfo.Rows.Count > 0)
+        //    {
+        //        zeigeSchueler(dtUnterrichtInfo);
+        //    }
+            
+        //}
 
 
         private void zeigeSchueler(DataTable dt)
@@ -116,7 +130,7 @@ namespace Klassenbuch
             schueler = new UserControlSchueler[anzahlSchueler];
 
 
-            int offset = 0;
+            //int offset = 0;
             for (int i = 0; i < schueler.Length; i++)
             {
 
@@ -142,7 +156,7 @@ namespace Klassenbuch
                 schueler[i].Location = ucLocation;
                 panelSchueler.Controls.Add(schueler[i]);
 
-                offset += 80;
+                //offset += 80;
             }
 
         }

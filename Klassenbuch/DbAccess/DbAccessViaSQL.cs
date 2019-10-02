@@ -25,34 +25,15 @@ namespace Klassenbuch.DbAccess
         {
             get
             {
-
-                // string windowsAuthSQLEXPRESS = "Data Source=.\\SQLEXPRESS;Initial Catalog=KLassenbuch;Integrated Security=true";
-                //string windowsAuth = "Data Source=(local);Initial Catalog=KLassenbuch;Integrated Security=true";
-                //sstring sqlServerAuth = "Data Source=(local);Initial Catalog=Alfatraining;UID=Alfa-SQL;PWD=alfa";
-
-
-
-                //SqlConnectionStringBuilder csWindowsAuth = new SqlConnectionStringBuilder();
-
-                //csWindowsAuth.DataSource = "(local)";
-                //csWindowsAuth.InitialCatalog = "Klassenbuch";
-                //csWindowsAuth.IntegratedSecurity = true;
-
-                // string windowsAuth = csWindowsAuth.ConnectionString;
-
                 // über App.Config datei, so muss man nicht neu kompilieren,
                 // wenn sich mal der datenbank name ändert oder so
-                string windowsAuth = Properties.Settings.Default.DbConnectionString;
-
-
-                string connectionString = windowsAuth;
+                string connectionString = Properties.Settings.Default.DbConnectionString;
                 return connectionString;
 
             }
         }
 
-
-        public static DataTable GetUntertichtInfo(int raumId)
+        public static DataTable GetUntertichtInfo(string raumBezeichnung)
         {
             try
             {
@@ -63,7 +44,6 @@ namespace Klassenbuch.DbAccess
                     command.Connection = connection;
                     command.CommandText =
 
-                   // keine Zeilenumbrüche und deswegen Fehler durch die Kommentare?????
                     "SELECT " +
                     "Unterricht.Datum, " +
                     "Einheit.Beginn, " +
@@ -99,19 +79,17 @@ namespace Klassenbuch.DbAccess
 
                     "INNER JOIN Klasse " +
                     "ON Schueler.KlasseID = Klasse.ID " +
+                    
+                    "WHERE Datum = '2019-10-01'  AND EinheitID = 1 AND Raum.Bezeichnung = @raumBezeichnung";
 
+                    SqlParameter pRaumBezeichnung = new SqlParameter("@raumBezeichnung", SqlDbType.VarChar);
+                    pRaumBezeichnung.Value = raumBezeichnung;
 
-                    "WHERE Datum = '2019-10-01'  AND EinheitID = 1 AND RaumID = @raumId";
-                
-                    SqlParameter pRaumId = new SqlParameter("@raumId", SqlDbType.BigInt);
-                    pRaumId.Value = raumId;
-
-                    command.Parameters.Add(pRaumId);
+                    command.Parameters.Add(pRaumBezeichnung);
 
 
                     connection.Open();
-                    Debug.WriteLine("DB OPEND ...");
-
+               
                     SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
                     DataTable dtUnterrichtInfo = new DataTable();
 
@@ -133,16 +111,14 @@ namespace Klassenbuch.DbAccess
                         dtUnterrichtInfo.Rows.Add(row);
 
                     }
-
-
                     reader.Close();
-                    Debug.WriteLine("DB CLOSED ...");
+
                     return dtUnterrichtInfo;
                 }
             }
             catch(Exception ex)
             {
-                Debug.WriteLine("GetKurse(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
+                Debug.WriteLine("GetUntertichtInfo(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
                 return null;
             }
 
@@ -162,7 +138,6 @@ namespace Klassenbuch.DbAccess
 
 
                     connection.Open();
-                    Debug.WriteLine("DB OPEND ...");
 
                     SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
                     DataTable dtRaumInfo = new DataTable();
@@ -184,22 +159,16 @@ namespace Klassenbuch.DbAccess
 
                         dtRaumInfo.Rows.Add(row);
                     }
-
                     reader.Close();
-                    Debug.WriteLine("DB CLOSED ...");
                     return dtRaumInfo;
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("GetKurse(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
+                Debug.WriteLine("GetRaeume(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
                 return null;
             }
         }
-
-
-
-
 
 
         public static DataTable GetEinheiten()
@@ -211,11 +180,9 @@ namespace Klassenbuch.DbAccess
                     SqlCommand command = new SqlCommand();
 
                     command.Connection = connection;
-                    command.CommandText = "SELECT * FROM Einheit";
-
+                    command.CommandText = "SELECT Einheit.Beginn, Einheit.Ende FROM Einheit";
 
                     connection.Open();
-                    Debug.WriteLine("DB OPEND ...");
 
                     SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
                     DataTable dtEinheitInfo = new DataTable();
@@ -237,15 +204,13 @@ namespace Klassenbuch.DbAccess
 
                         dtEinheitInfo.Rows.Add(row);
                     }
-
                     reader.Close();
-                    Debug.WriteLine("DB CLOSED ...");
                     return dtEinheitInfo;
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("GetKurse(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
+                Debug.WriteLine("GetEinheiten(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
                 return null;
             }
         }

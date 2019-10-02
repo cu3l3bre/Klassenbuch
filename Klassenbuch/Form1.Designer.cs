@@ -31,24 +31,24 @@
             this.panelSchueler = new System.Windows.Forms.Panel();
             this.labelSchueler = new System.Windows.Forms.Label();
             this.panelUnterricht = new System.Windows.Forms.Panel();
+            this.labelFach = new System.Windows.Forms.Label();
+            this.labelLehrer = new System.Windows.Forms.Label();
+            this.labelKlasse = new System.Windows.Forms.Label();
             this.labelFachText = new System.Windows.Forms.Label();
             this.labelLehrerText = new System.Windows.Forms.Label();
             this.labelKlasseText = new System.Windows.Forms.Label();
             this.labelUnterrichtText = new System.Windows.Forms.Label();
             this.panelLehrstoff = new System.Windows.Forms.Panel();
+            this.textBoxLehrstoff = new System.Windows.Forms.TextBox();
             this.labelLehrstoffText = new System.Windows.Forms.Label();
             this.comboBoxRaum = new System.Windows.Forms.ComboBox();
             this.labelRaumText = new System.Windows.Forms.Label();
             this.comboBoxEinheit = new System.Windows.Forms.ComboBox();
             this.labelEinheitText = new System.Windows.Forms.Label();
-            this.labelKlasse = new System.Windows.Forms.Label();
-            this.labelLehrer = new System.Windows.Forms.Label();
-            this.labelFach = new System.Windows.Forms.Label();
             this.labelUnterrichtBeginn = new System.Windows.Forms.Label();
             this.labelUnterrichtEnde = new System.Windows.Forms.Label();
             this.labelUnterrichtBeginnText = new System.Windows.Forms.Label();
             this.labelUnterrichtEndeText = new System.Windows.Forms.Label();
-            this.textBoxLehrstoff = new System.Windows.Forms.TextBox();
             this.panelSchueler.SuspendLayout();
             this.panelUnterricht.SuspendLayout();
             this.panelLehrstoff.SuspendLayout();
@@ -87,6 +87,33 @@
             this.panelUnterricht.Name = "panelUnterricht";
             this.panelUnterricht.Size = new System.Drawing.Size(1031, 97);
             this.panelUnterricht.TabIndex = 1;
+            // 
+            // labelFach
+            // 
+            this.labelFach.AutoSize = true;
+            this.labelFach.Location = new System.Drawing.Point(50, 72);
+            this.labelFach.Name = "labelFach";
+            this.labelFach.Size = new System.Drawing.Size(10, 13);
+            this.labelFach.TabIndex = 6;
+            this.labelFach.Text = "-";
+            // 
+            // labelLehrer
+            // 
+            this.labelLehrer.AutoSize = true;
+            this.labelLehrer.Location = new System.Drawing.Point(50, 49);
+            this.labelLehrer.Name = "labelLehrer";
+            this.labelLehrer.Size = new System.Drawing.Size(10, 13);
+            this.labelLehrer.TabIndex = 5;
+            this.labelLehrer.Text = "-";
+            // 
+            // labelKlasse
+            // 
+            this.labelKlasse.AutoSize = true;
+            this.labelKlasse.Location = new System.Drawing.Point(50, 28);
+            this.labelKlasse.Name = "labelKlasse";
+            this.labelKlasse.Size = new System.Drawing.Size(10, 13);
+            this.labelKlasse.TabIndex = 4;
+            this.labelKlasse.Text = "-";
             // 
             // labelFachText
             // 
@@ -134,6 +161,13 @@
             this.panelLehrstoff.Size = new System.Drawing.Size(1032, 100);
             this.panelLehrstoff.TabIndex = 2;
             // 
+            // textBoxLehrstoff
+            // 
+            this.textBoxLehrstoff.Location = new System.Drawing.Point(67, 15);
+            this.textBoxLehrstoff.Name = "textBoxLehrstoff";
+            this.textBoxLehrstoff.Size = new System.Drawing.Size(246, 20);
+            this.textBoxLehrstoff.TabIndex = 1;
+            // 
             // labelLehrstoffText
             // 
             this.labelLehrstoffText.AutoSize = true;
@@ -150,7 +184,7 @@
             this.comboBoxRaum.Name = "comboBoxRaum";
             this.comboBoxRaum.Size = new System.Drawing.Size(305, 21);
             this.comboBoxRaum.TabIndex = 3;
-            this.comboBoxRaum.TextChanged += new System.EventHandler(this.ComboBoxRaum_TextChanged);
+            this.comboBoxRaum.TextChanged += new System.EventHandler(this.aktualisiereDaten_TextChanged);
             // 
             // labelRaumText
             // 
@@ -168,6 +202,7 @@
             this.comboBoxEinheit.Name = "comboBoxEinheit";
             this.comboBoxEinheit.Size = new System.Drawing.Size(121, 21);
             this.comboBoxEinheit.TabIndex = 5;
+            this.comboBoxEinheit.TextChanged += new System.EventHandler(this.aktualisiereDaten_TextChanged);
             // 
             // labelEinheitText
             // 
@@ -177,33 +212,6 @@
             this.labelEinheitText.Size = new System.Drawing.Size(39, 13);
             this.labelEinheitText.TabIndex = 6;
             this.labelEinheitText.Text = "Einheit";
-            // 
-            // labelKlasse
-            // 
-            this.labelKlasse.AutoSize = true;
-            this.labelKlasse.Location = new System.Drawing.Point(50, 28);
-            this.labelKlasse.Name = "labelKlasse";
-            this.labelKlasse.Size = new System.Drawing.Size(10, 13);
-            this.labelKlasse.TabIndex = 4;
-            this.labelKlasse.Text = "-";
-            // 
-            // labelLehrer
-            // 
-            this.labelLehrer.AutoSize = true;
-            this.labelLehrer.Location = new System.Drawing.Point(50, 49);
-            this.labelLehrer.Name = "labelLehrer";
-            this.labelLehrer.Size = new System.Drawing.Size(10, 13);
-            this.labelLehrer.TabIndex = 5;
-            this.labelLehrer.Text = "-";
-            // 
-            // labelFach
-            // 
-            this.labelFach.AutoSize = true;
-            this.labelFach.Location = new System.Drawing.Point(50, 72);
-            this.labelFach.Name = "labelFach";
-            this.labelFach.Size = new System.Drawing.Size(10, 13);
-            this.labelFach.TabIndex = 6;
-            this.labelFach.Text = "-";
             // 
             // labelUnterrichtBeginn
             // 
@@ -240,13 +248,6 @@
             this.labelUnterrichtEndeText.Size = new System.Drawing.Size(20, 13);
             this.labelUnterrichtEndeText.TabIndex = 10;
             this.labelUnterrichtEndeText.Text = "bis";
-            // 
-            // textBoxLehrstoff
-            // 
-            this.textBoxLehrstoff.Location = new System.Drawing.Point(67, 15);
-            this.textBoxLehrstoff.Name = "textBoxLehrstoff";
-            this.textBoxLehrstoff.Size = new System.Drawing.Size(246, 20);
-            this.textBoxLehrstoff.TabIndex = 1;
             // 
             // FormMain
             // 
