@@ -37,16 +37,20 @@ namespace Klassenbuch
             DataTable dtRaumInfo = DbAccessViaSQL.GetRaeume();
             for (int i = 0; i < dtRaumInfo.Rows.Count; i++)
             {
-               comboBoxRaum.Items.Add(dtRaumInfo.Rows[i].ItemArray[0].ToString());
+                //comboBoxRaum.Items.Add(dtRaumInfo.Rows[i].ItemArray[0].ToString());
+                comboBoxRaum.Items.Add(dtRaumInfo.Rows[i][0]);
             }
 
             // Hole die Unterrichtseinheiten (Zeiten von bis) die in der DB existieren und adde diese als Einträge zur Combobox
             DataTable dtEinheitInfo = DbAccessViaSQL.GetEinheiten();
             for (int i = 0; i < dtEinheitInfo.Rows.Count; i++)
             {
-                comboBoxEinheit.Items.Add(dtEinheitInfo.Rows[i].ItemArray[0].ToString() + " - "
-                    + dtEinheitInfo.Rows[i].ItemArray[1].ToString());
-            }
+                //comboBoxEinheit.Items.Add(dtEinheitInfo.Rows[i].ItemArray[0].ToString() + " - "
+                //    + dtEinheitInfo.Rows[i].ItemArray[1].ToString());
+
+                comboBoxEinheit.Items.Add(dtEinheitInfo.Rows[i][0].ToString() + " - "
+                   + dtEinheitInfo.Rows[i][1].ToString());
+        }
 
             bereinigeUI();
         }
@@ -60,7 +64,7 @@ namespace Klassenbuch
 
             if (!string.IsNullOrEmpty(comboBoxEinheit.Text) && !string.IsNullOrEmpty(comboBoxRaum.Text))
             {
-
+                // Datums string für SQL Abfrage
                 string datum =
                     dateTimePicker.Value.Year.ToString() + '-' +
                     dateTimePicker.Value.Month.ToString() + '-' +
@@ -72,12 +76,6 @@ namespace Klassenbuch
                 einheitEnde = einheitBeginnEnde[1].Trim();
 
                 DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(comboBoxRaum.Text, einheitBeginn, datum);
-
-                //panelSchueler.Controls.Clear();
-
-                //labelFach.Text = "-";
-                //labelLehrer.Text = "-";
-                //labelKlasse.Text = "-";
 
                 bereinigeUI();
 
@@ -93,11 +91,19 @@ namespace Klassenbuch
         private void aktualisiereDaten(DataTable dt)
         {
 
-            labelFach.Text = dt.Rows[0].ItemArray[3].ToString();
-            labelLehrer.Text = dt.Rows[0].ItemArray[5].ToString();
-            labelKlasse.Text = dt.Rows[0].ItemArray[6].ToString();
+            //labelFach.Text = dt.Rows[0].ItemArray[3].ToString();
+            //labelLehrer.Text = dt.Rows[0].ItemArray[5].ToString();
+            //labelKlasse.Text = dt.Rows[0].ItemArray[6].ToString();
 
-            textBoxLehrstoff.Text = dt.Rows[0].ItemArray[13].ToString();
+            //textBoxLehrstoff.Text = dt.Rows[0].ItemArray[13].ToString();
+
+
+            labelFach.Text = (string)dt.Rows[0][3];
+            labelLehrer.Text = (string)dt.Rows[0][5];
+            labelKlasse.Text = (string)dt.Rows[0][6];
+            textBoxLehrstoff.Text = (string)dt.Rows[0][13];
+
+
 
 
             int anzahlSchueler = dt.Rows.Count;
@@ -106,9 +112,14 @@ namespace Klassenbuch
             for (int i = 0; i < schueler.Length; i++)
             {
 
-                string vorname = dt.Rows[i].ItemArray[7].ToString();
-                string nachname = dt.Rows[i].ItemArray[8].ToString();
-                string kommentar = dt.Rows[i].ItemArray[11].ToString();
+                //string vorname = dt.Rows[i].ItemArray[7].ToString();
+                //string nachname = dt.Rows[i].ItemArray[8].ToString();
+                //string kommentar = dt.Rows[i].ItemArray[11].ToString();
+
+
+                string vorname = (string)dt.Rows[i][7];
+                string nachname = (string)dt.Rows[i][8];
+                string kommentar = (string)dt.Rows[i][11];
 
 
                 CheckState anwesend = CheckState.Indeterminate;
@@ -127,9 +138,17 @@ namespace Klassenbuch
                 }
            
 
-                int.TryParse(dt.Rows[i].ItemArray[9].ToString(), out int X);
-                int.TryParse(dt.Rows[i].ItemArray[10].ToString(), out int Y);
-                Point ucLocation = new Point(X, Y);
+               // int.TryParse(dt.Rows[i].ItemArray[9].ToString(), out int X);
+               // int.TryParse(dt.Rows[i].ItemArray[10].ToString(), out int Y);
+
+
+                //int X = (int)dt.Rows[i][9]; //.TryParse(dt.Rows[i].ItemArray[9].ToString(), out int X);
+                //int Y = (int)dt.Rows[i][10];
+
+               // int.TryParse(dt.Rows[i].ItemArray[10].ToString(), out int Y);
+
+
+                Point ucLocation = new Point((int)dt.Rows[i][9], (int)dt.Rows[i][10]);
 
                 string bildname = vorname + nachname + ".jpg";
 
@@ -172,7 +191,7 @@ namespace Klassenbuch
             Point location = aktivesUsercontrol.Location;
             location.Offset(e.Location.X - vorherigeUserControlPos.X, e.Location.Y - vorherigeUserControlPos.Y);
 
-            // Bewegen des Usercontrols auf das Panels begrenzen, sonst fliegts aus der Anwendung
+            // Bewegen des Usercontrols auf das Panel begrenzen, sonst fliegts aus der Anwendung
             if (location.X < 0)
             {
                 location.X = 0;

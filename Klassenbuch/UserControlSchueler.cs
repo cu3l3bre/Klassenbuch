@@ -91,10 +91,12 @@ namespace Klassenbuch
             if (anwesend == CheckState.Checked)
             {   
                 checkBoxAnwesend.CheckState = CheckState.Checked;
+                this.BackColor = Color.LightGreen;
             }
             else if (anwesend == CheckState.Unchecked)
             {
                 checkBoxAnwesend.CheckState = CheckState.Unchecked;
+                this.BackColor = Color.PeachPuff;
             }
             else
             {
