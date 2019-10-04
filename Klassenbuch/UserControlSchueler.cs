@@ -41,6 +41,13 @@ namespace Klassenbuch
         }
 
 
+        //public int Location_X
+        //{
+        //    get { return  UserControlSchueler.  labelNachname.Text; }
+        //    set { labelNachname.Text = value; }
+        //}
+
+
         public UserControlSchueler()
         {
             InitializeComponent();

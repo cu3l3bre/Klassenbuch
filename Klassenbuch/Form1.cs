@@ -19,7 +19,8 @@ namespace Klassenbuch
     {
 
         private UserControlSchueler[] schueler;
-        
+        private UserControlSchueler aktivesUsercontrol;
+        private Point vorherigeUserControlPos;
 
 
         public Form1()
@@ -124,10 +125,9 @@ namespace Klassenbuch
                 schueler[i] = new UserControlSchueler(vorname, nachname, pathToImage, kommentar, anwesend);
 
                 // Event Handler registrieren
-                //lottofeld[i].Click += button_Click;
-
-                schueler[i].Click += Button_Click;
-                
+                schueler[i].MouseDown += usercontrol_MouseDown;
+                schueler[i].MouseMove += usercontrol_MouseMove;
+                schueler[i].MouseUp += usercontrol_MouseUp;
 
                 schueler[i].Location = ucLocation;
                 panelSchueler.Controls.Add(schueler[i]);
@@ -137,16 +137,55 @@ namespace Klassenbuch
         }
 
 
+        // https://stackoverflow.com/questions/3868941/how-to-allow-user-to-drag-a-dynamically-created-control-at-the-location-of-his-c
 
-        private void Button_Click(object sender, EventArgs e)
+        private void usercontrol_MouseDown(object sender, MouseEventArgs e)
         {
-            /*Label labelClicked = sender as Label;
+            aktivesUsercontrol = sender as UserControlSchueler;
+            vorherigeUserControlPos = e.Location;
+            Cursor = Cursors.Hand;
 
-            int getippteZahl = int.Parse(labelClicked.Text);
+        }
 
-            getippteZahl = (int)labelClicked.Tag;
-            */
-            Debug.WriteLine("!!!!!!!!!!!!!!!!!!!!!");
+        private void usercontrol_MouseMove(object sender, MouseEventArgs e)
+        {
+
+            if(aktivesUsercontrol == null || aktivesUsercontrol != sender)
+            {
+                return;
+            }
+
+            Point location = aktivesUsercontrol.Location;
+            location.Offset(e.Location.X - vorherigeUserControlPos.X, e.Location.Y - vorherigeUserControlPos.Y);
+
+            // Bewegen des Usercontrols auf das Panels begrenzen, sonst fliegts aus der Anwendung
+            if (location.X < 0)
+            {
+                location.X = 0;
+            }
+
+            if (location.Y < 0)
+            {
+                location.Y = 0;
+            }
+
+            if(location.X > (panelSchueler.Size.Width-aktivesUsercontrol.Size.Width))
+            {
+                location.X = panelSchueler.Size.Width - aktivesUsercontrol.Size.Width;
+            }
+
+            if (location.Y > (panelSchueler.Size.Height - aktivesUsercontrol.Size.Height))
+            {
+                location.Y = panelSchueler.Size.Height - aktivesUsercontrol.Size.Height;
+            }
+
+            aktivesUsercontrol.Location = location;
+        }
+
+        private void usercontrol_MouseUp(object sender, MouseEventArgs e)
+        {
+            aktivesUsercontrol = null;
+            Cursor = Cursors.Default;
         }
 
 
