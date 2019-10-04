@@ -55,8 +55,8 @@ namespace Klassenbuch.DbAccess
                     "Klasse.Bezeichnung AS [Klasse], " +
                     "Person.Vorname, " +
                     "Person.Nachname, " +
-                    "Schueler.Layout_X, " +
-                    "Schueler.Layout_Y, " +
+                    "Unterricht.Layout_X, " +
+                    "Unterricht.Layout_Y, " +
                     "Unterricht.Kommentar, " +
                     "Unterricht.Anwesend " +
 
@@ -228,7 +228,8 @@ namespace Klassenbuch.DbAccess
         }
 
 
-        public static bool UpdateUnterricht(string kommentar, bool anwesend, string vorname, string nachname, string datum, string beginn, string raum)
+        public static bool UpdateUnterricht(string kommentar, bool anwesend, string vorname, string nachname,
+            string datum, string beginn, string raum, int locationX, int locationY)
         {
             try
             {
@@ -238,7 +239,7 @@ namespace Klassenbuch.DbAccess
                 {
                     string sqlUpdate =
                     "UPDATE Unterricht " +
-                    "SET Kommentar = @Kommentar, Anwesend = @Anwesend " +
+                    "SET Kommentar = @Kommentar, Anwesend = @Anwesend, Layout_X = @Layout_X, Layout_Y = @Layout_Y " +
 
                     "FROM Unterricht " +
 
@@ -268,6 +269,10 @@ namespace Klassenbuch.DbAccess
 
                     command.Parameters.AddWithValue("@Datum", datum);
                     command.Parameters.AddWithValue("@Beginn", beginn);
+
+                    command.Parameters.AddWithValue("@Layout_X", locationX);
+                    command.Parameters.AddWithValue("@Layout_Y", locationY);
+
 
                     connection.Open();
 

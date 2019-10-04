@@ -182,6 +182,7 @@ namespace Klassenbuch
             aktivesUsercontrol.Location = location;
         }
 
+
         private void usercontrol_MouseUp(object sender, MouseEventArgs e)
         {
             aktivesUsercontrol = null;
@@ -272,7 +273,9 @@ namespace Klassenbuch
                     schueler.Nachname,
                     datum,
                     einheitBeginn,
-                    comboBoxRaum.Text);
+                    comboBoxRaum.Text,
+                    schueler.Location.X,
+                    schueler.Location.Y);
             }
         }
 
