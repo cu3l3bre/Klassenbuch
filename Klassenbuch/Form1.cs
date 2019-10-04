@@ -75,10 +75,12 @@ namespace Klassenbuch
 
                 bereinigeUI();
 
+                buttonUnterrichtHinzu.Enabled = true;
 
                 if (dtUnterrichtInfo != null && dtUnterrichtInfo.Rows.Count > 0)
                 {
                     aktualisiereDaten(dtUnterrichtInfo);
+                    buttonUnterrichtHinzu.Enabled = false;
                 }
             }
         }
@@ -318,6 +320,14 @@ namespace Klassenbuch
                     }
                 }
             }
+        }
+
+        private void ButtonUnterrichtHinzu_Click(object sender, EventArgs e)
+        {
+            Form zweiteForm = new FormUnterrichtHinzufuegen();
+            
+            zweiteForm.ShowDialog();
+
         }
     }
 }

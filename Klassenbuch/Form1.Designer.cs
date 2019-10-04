@@ -51,6 +51,9 @@
             this.buttonTagVor = new System.Windows.Forms.Button();
             this.buttonJetzt = new System.Windows.Forms.Button();
             this.buttonSpeichern = new System.Windows.Forms.Button();
+            this.buttonUnterrichtHinzu = new System.Windows.Forms.Button();
+            this.comboBoxKlasse = new System.Windows.Forms.ComboBox();
+            this.comboBoxFach = new System.Windows.Forms.ComboBox();
             this.panelUnterricht.SuspendLayout();
             this.panelLehrstoff.SuspendLayout();
             this.SuspendLayout();
@@ -59,7 +62,7 @@
             // 
             this.panelSchueler.BackColor = System.Drawing.Color.Transparent;
             this.panelSchueler.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelSchueler.Location = new System.Drawing.Point(13, 179);
+            this.panelSchueler.Location = new System.Drawing.Point(13, 198);
             this.panelSchueler.Name = "panelSchueler";
             this.panelSchueler.Size = new System.Drawing.Size(1032, 334);
             this.panelSchueler.TabIndex = 0;
@@ -67,7 +70,7 @@
             // labelSchueler
             // 
             this.labelSchueler.AutoSize = true;
-            this.labelSchueler.Location = new System.Drawing.Point(17, 163);
+            this.labelSchueler.Location = new System.Drawing.Point(17, 182);
             this.labelSchueler.Name = "labelSchueler";
             this.labelSchueler.Size = new System.Drawing.Size(111, 13);
             this.labelSchueler.TabIndex = 0;
@@ -82,7 +85,7 @@
             this.panelUnterricht.Controls.Add(this.labelFachText);
             this.panelUnterricht.Controls.Add(this.labelLehrerText);
             this.panelUnterricht.Controls.Add(this.labelKlasseText);
-            this.panelUnterricht.Location = new System.Drawing.Point(13, 51);
+            this.panelUnterricht.Location = new System.Drawing.Point(13, 73);
             this.panelUnterricht.Name = "panelUnterricht";
             this.panelUnterricht.Size = new System.Drawing.Size(1031, 97);
             this.panelUnterricht.TabIndex = 1;
@@ -144,7 +147,7 @@
             // labelUnterrichtText
             // 
             this.labelUnterrichtText.AutoSize = true;
-            this.labelUnterrichtText.Location = new System.Drawing.Point(17, 35);
+            this.labelUnterrichtText.Location = new System.Drawing.Point(17, 57);
             this.labelUnterrichtText.Name = "labelUnterrichtText";
             this.labelUnterrichtText.Size = new System.Drawing.Size(53, 13);
             this.labelUnterrichtText.TabIndex = 0;
@@ -154,7 +157,7 @@
             // 
             this.panelLehrstoff.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelLehrstoff.Controls.Add(this.textBoxLehrstoff);
-            this.panelLehrstoff.Location = new System.Drawing.Point(12, 550);
+            this.panelLehrstoff.Location = new System.Drawing.Point(12, 569);
             this.panelLehrstoff.Name = "panelLehrstoff";
             this.panelLehrstoff.Size = new System.Drawing.Size(1032, 100);
             this.panelLehrstoff.TabIndex = 2;
@@ -172,7 +175,7 @@
             // labelLehrstoffText
             // 
             this.labelLehrstoffText.AutoSize = true;
-            this.labelLehrstoffText.Location = new System.Drawing.Point(17, 534);
+            this.labelLehrstoffText.Location = new System.Drawing.Point(17, 553);
             this.labelLehrstoffText.Name = "labelLehrstoffText";
             this.labelLehrstoffText.Size = new System.Drawing.Size(48, 13);
             this.labelLehrstoffText.TabIndex = 0;
@@ -182,7 +185,7 @@
             // 
             this.comboBoxRaum.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxRaum.FormattingEnabled = true;
-            this.comboBoxRaum.Location = new System.Drawing.Point(752, 13);
+            this.comboBoxRaum.Location = new System.Drawing.Point(626, 16);
             this.comboBoxRaum.Name = "comboBoxRaum";
             this.comboBoxRaum.Size = new System.Drawing.Size(71, 21);
             this.comboBoxRaum.TabIndex = 3;
@@ -191,7 +194,7 @@
             // labelRaumText
             // 
             this.labelRaumText.AutoSize = true;
-            this.labelRaumText.Location = new System.Drawing.Point(717, 17);
+            this.labelRaumText.Location = new System.Drawing.Point(591, 20);
             this.labelRaumText.Name = "labelRaumText";
             this.labelRaumText.Size = new System.Drawing.Size(35, 13);
             this.labelRaumText.TabIndex = 4;
@@ -202,7 +205,7 @@
             this.comboBoxEinheit.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
             this.comboBoxEinheit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxEinheit.FormattingEnabled = true;
-            this.comboBoxEinheit.Location = new System.Drawing.Point(510, 13);
+            this.comboBoxEinheit.Location = new System.Drawing.Point(403, 16);
             this.comboBoxEinheit.Name = "comboBoxEinheit";
             this.comboBoxEinheit.Size = new System.Drawing.Size(121, 21);
             this.comboBoxEinheit.TabIndex = 5;
@@ -211,7 +214,7 @@
             // labelEinheitText
             // 
             this.labelEinheitText.AutoSize = true;
-            this.labelEinheitText.Location = new System.Drawing.Point(436, 17);
+            this.labelEinheitText.Location = new System.Drawing.Point(329, 20);
             this.labelEinheitText.Name = "labelEinheitText";
             this.labelEinheitText.Size = new System.Drawing.Size(74, 13);
             this.labelEinheitText.TabIndex = 6;
@@ -219,7 +222,7 @@
             // 
             // dateTimePicker
             // 
-            this.dateTimePicker.Location = new System.Drawing.Point(126, 14);
+            this.dateTimePicker.Location = new System.Drawing.Point(44, 16);
             this.dateTimePicker.Name = "dateTimePicker";
             this.dateTimePicker.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker.TabIndex = 11;
@@ -227,7 +230,7 @@
             // 
             // buttonDatumHeute
             // 
-            this.buttonDatumHeute.Location = new System.Drawing.Point(355, 14);
+            this.buttonDatumHeute.Location = new System.Drawing.Point(273, 16);
             this.buttonDatumHeute.Name = "buttonDatumHeute";
             this.buttonDatumHeute.Size = new System.Drawing.Size(45, 21);
             this.buttonDatumHeute.TabIndex = 12;
@@ -237,7 +240,7 @@
             // 
             // buttonTagZurueck
             // 
-            this.buttonTagZurueck.Location = new System.Drawing.Point(102, 14);
+            this.buttonTagZurueck.Location = new System.Drawing.Point(20, 16);
             this.buttonTagZurueck.Name = "buttonTagZurueck";
             this.buttonTagZurueck.Size = new System.Drawing.Size(20, 20);
             this.buttonTagZurueck.TabIndex = 13;
@@ -247,7 +250,7 @@
             // 
             // buttonTagVor
             // 
-            this.buttonTagVor.Location = new System.Drawing.Point(331, 14);
+            this.buttonTagVor.Location = new System.Drawing.Point(249, 16);
             this.buttonTagVor.Name = "buttonTagVor";
             this.buttonTagVor.Size = new System.Drawing.Size(20, 20);
             this.buttonTagVor.TabIndex = 14;
@@ -257,7 +260,7 @@
             // 
             // buttonJetzt
             // 
-            this.buttonJetzt.Location = new System.Drawing.Point(635, 13);
+            this.buttonJetzt.Location = new System.Drawing.Point(528, 16);
             this.buttonJetzt.Name = "buttonJetzt";
             this.buttonJetzt.Size = new System.Drawing.Size(45, 21);
             this.buttonJetzt.TabIndex = 15;
@@ -275,11 +278,44 @@
             this.buttonSpeichern.UseVisualStyleBackColor = true;
             this.buttonSpeichern.Click += new System.EventHandler(this.ButtonSpeichern_Click);
             // 
+            // buttonUnterrichtHinzu
+            // 
+            this.buttonUnterrichtHinzu.Location = new System.Drawing.Point(733, 16);
+            this.buttonUnterrichtHinzu.Name = "buttonUnterrichtHinzu";
+            this.buttonUnterrichtHinzu.Size = new System.Drawing.Size(75, 23);
+            this.buttonUnterrichtHinzu.TabIndex = 17;
+            this.buttonUnterrichtHinzu.Text = "Adde";
+            this.buttonUnterrichtHinzu.UseVisualStyleBackColor = true;
+            this.buttonUnterrichtHinzu.Click += new System.EventHandler(this.ButtonUnterrichtHinzu_Click);
+            // 
+            // comboBoxKlasse
+            // 
+            this.comboBoxKlasse.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
+            this.comboBoxKlasse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxKlasse.FormattingEnabled = true;
+            this.comboBoxKlasse.Location = new System.Drawing.Point(814, 18);
+            this.comboBoxKlasse.Name = "comboBoxKlasse";
+            this.comboBoxKlasse.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxKlasse.TabIndex = 18;
+            // 
+            // comboBoxFach
+            // 
+            this.comboBoxFach.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
+            this.comboBoxFach.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxFach.FormattingEnabled = true;
+            this.comboBoxFach.Location = new System.Drawing.Point(941, 18);
+            this.comboBoxFach.Name = "comboBoxFach";
+            this.comboBoxFach.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxFach.TabIndex = 19;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1056, 710);
+            this.ClientSize = new System.Drawing.Size(1203, 710);
+            this.Controls.Add(this.comboBoxFach);
+            this.Controls.Add(this.comboBoxKlasse);
+            this.Controls.Add(this.buttonUnterrichtHinzu);
             this.Controls.Add(this.buttonSpeichern);
             this.Controls.Add(this.buttonJetzt);
             this.Controls.Add(this.buttonTagVor);
@@ -332,6 +368,9 @@
         private System.Windows.Forms.Button buttonTagVor;
         private System.Windows.Forms.Button buttonJetzt;
         private System.Windows.Forms.Button buttonSpeichern;
+        private System.Windows.Forms.Button buttonUnterrichtHinzu;
+        private System.Windows.Forms.ComboBox comboBoxKlasse;
+        private System.Windows.Forms.ComboBox comboBoxFach;
     }
 }
 
