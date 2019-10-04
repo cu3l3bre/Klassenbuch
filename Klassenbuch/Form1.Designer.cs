@@ -182,7 +182,7 @@
             // 
             this.comboBoxRaum.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxRaum.FormattingEnabled = true;
-            this.comboBoxRaum.Location = new System.Drawing.Point(852, 14);
+            this.comboBoxRaum.Location = new System.Drawing.Point(752, 13);
             this.comboBoxRaum.Name = "comboBoxRaum";
             this.comboBoxRaum.Size = new System.Drawing.Size(71, 21);
             this.comboBoxRaum.TabIndex = 3;
@@ -191,7 +191,7 @@
             // labelRaumText
             // 
             this.labelRaumText.AutoSize = true;
-            this.labelRaumText.Location = new System.Drawing.Point(814, 17);
+            this.labelRaumText.Location = new System.Drawing.Point(717, 17);
             this.labelRaumText.Name = "labelRaumText";
             this.labelRaumText.Size = new System.Drawing.Size(35, 13);
             this.labelRaumText.TabIndex = 4;
@@ -202,7 +202,7 @@
             this.comboBoxEinheit.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
             this.comboBoxEinheit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxEinheit.FormattingEnabled = true;
-            this.comboBoxEinheit.Location = new System.Drawing.Point(527, 14);
+            this.comboBoxEinheit.Location = new System.Drawing.Point(510, 13);
             this.comboBoxEinheit.Name = "comboBoxEinheit";
             this.comboBoxEinheit.Size = new System.Drawing.Size(121, 21);
             this.comboBoxEinheit.TabIndex = 5;
@@ -211,7 +211,7 @@
             // labelEinheitText
             // 
             this.labelEinheitText.AutoSize = true;
-            this.labelEinheitText.Location = new System.Drawing.Point(450, 17);
+            this.labelEinheitText.Location = new System.Drawing.Point(436, 17);
             this.labelEinheitText.Name = "labelEinheitText";
             this.labelEinheitText.Size = new System.Drawing.Size(74, 13);
             this.labelEinheitText.TabIndex = 6;
@@ -219,7 +219,7 @@
             // 
             // dateTimePicker
             // 
-            this.dateTimePicker.Location = new System.Drawing.Point(126, 15);
+            this.dateTimePicker.Location = new System.Drawing.Point(126, 14);
             this.dateTimePicker.Name = "dateTimePicker";
             this.dateTimePicker.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker.TabIndex = 11;
@@ -227,9 +227,9 @@
             // 
             // buttonDatumHeute
             // 
-            this.buttonDatumHeute.Location = new System.Drawing.Point(358, 13);
+            this.buttonDatumHeute.Location = new System.Drawing.Point(355, 14);
             this.buttonDatumHeute.Name = "buttonDatumHeute";
-            this.buttonDatumHeute.Size = new System.Drawing.Size(44, 24);
+            this.buttonDatumHeute.Size = new System.Drawing.Size(45, 21);
             this.buttonDatumHeute.TabIndex = 12;
             this.buttonDatumHeute.Text = "Heute";
             this.buttonDatumHeute.UseVisualStyleBackColor = true;
@@ -237,7 +237,7 @@
             // 
             // buttonTagZurueck
             // 
-            this.buttonTagZurueck.Location = new System.Drawing.Point(100, 15);
+            this.buttonTagZurueck.Location = new System.Drawing.Point(102, 14);
             this.buttonTagZurueck.Name = "buttonTagZurueck";
             this.buttonTagZurueck.Size = new System.Drawing.Size(20, 20);
             this.buttonTagZurueck.TabIndex = 13;
@@ -247,7 +247,7 @@
             // 
             // buttonTagVor
             // 
-            this.buttonTagVor.Location = new System.Drawing.Point(332, 15);
+            this.buttonTagVor.Location = new System.Drawing.Point(331, 14);
             this.buttonTagVor.Name = "buttonTagVor";
             this.buttonTagVor.Size = new System.Drawing.Size(20, 20);
             this.buttonTagVor.TabIndex = 14;
@@ -257,9 +257,9 @@
             // 
             // buttonJetzt
             // 
-            this.buttonJetzt.Location = new System.Drawing.Point(672, 11);
+            this.buttonJetzt.Location = new System.Drawing.Point(635, 13);
             this.buttonJetzt.Name = "buttonJetzt";
-            this.buttonJetzt.Size = new System.Drawing.Size(75, 23);
+            this.buttonJetzt.Size = new System.Drawing.Size(45, 21);
             this.buttonJetzt.TabIndex = 15;
             this.buttonJetzt.Text = "Jetzt";
             this.buttonJetzt.UseVisualStyleBackColor = true;

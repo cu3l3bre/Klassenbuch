@@ -37,7 +37,6 @@ namespace Klassenbuch
             DataTable dtRaumInfo = DbAccessViaSQL.GetRaeume();
             for (int i = 0; i < dtRaumInfo.Rows.Count; i++)
             {
-                //comboBoxRaum.Items.Add(dtRaumInfo.Rows[i].ItemArray[0].ToString());
                 comboBoxRaum.Items.Add(dtRaumInfo.Rows[i][0]);
             }
 
@@ -45,12 +44,9 @@ namespace Klassenbuch
             DataTable dtEinheitInfo = DbAccessViaSQL.GetEinheiten();
             for (int i = 0; i < dtEinheitInfo.Rows.Count; i++)
             {
-                //comboBoxEinheit.Items.Add(dtEinheitInfo.Rows[i].ItemArray[0].ToString() + " - "
-                //    + dtEinheitInfo.Rows[i].ItemArray[1].ToString());
-
                 comboBoxEinheit.Items.Add(dtEinheitInfo.Rows[i][0].ToString() + " - "
                    + dtEinheitInfo.Rows[i][1].ToString());
-        }
+            }
 
             bereinigeUI();
         }
@@ -91,13 +87,6 @@ namespace Klassenbuch
         private void aktualisiereDaten(DataTable dt)
         {
 
-            //labelFach.Text = dt.Rows[0].ItemArray[3].ToString();
-            //labelLehrer.Text = dt.Rows[0].ItemArray[5].ToString();
-            //labelKlasse.Text = dt.Rows[0].ItemArray[6].ToString();
-
-            //textBoxLehrstoff.Text = dt.Rows[0].ItemArray[13].ToString();
-
-
             labelFach.Text = (string)dt.Rows[0][3];
             labelLehrer.Text = (string)dt.Rows[0][5];
             labelKlasse.Text = (string)dt.Rows[0][6];
@@ -111,11 +100,6 @@ namespace Klassenbuch
 
             for (int i = 0; i < schueler.Length; i++)
             {
-
-                //string vorname = dt.Rows[i].ItemArray[7].ToString();
-                //string nachname = dt.Rows[i].ItemArray[8].ToString();
-                //string kommentar = dt.Rows[i].ItemArray[11].ToString();
-
 
                 string vorname = (string)dt.Rows[i][7];
                 string nachname = (string)dt.Rows[i][8];
@@ -132,20 +116,10 @@ namespace Klassenbuch
                 {
                     anwesend = CheckState.Checked;
                 }
-                else if((bool)dt.Rows[i][12] == false)
+                else if ((bool)dt.Rows[i][12] == false)
                 {
                     anwesend = CheckState.Unchecked;
                 }
-           
-
-               // int.TryParse(dt.Rows[i].ItemArray[9].ToString(), out int X);
-               // int.TryParse(dt.Rows[i].ItemArray[10].ToString(), out int Y);
-
-
-                //int X = (int)dt.Rows[i][9]; //.TryParse(dt.Rows[i].ItemArray[9].ToString(), out int X);
-                //int Y = (int)dt.Rows[i][10];
-
-               // int.TryParse(dt.Rows[i].ItemArray[10].ToString(), out int Y);
 
 
                 Point ucLocation = new Point((int)dt.Rows[i][9], (int)dt.Rows[i][10]);
@@ -162,12 +136,37 @@ namespace Klassenbuch
                 schueler[i].MouseMove += usercontrol_MouseMove;
                 schueler[i].MouseUp += usercontrol_MouseUp;
 
+
+                foreach (Control ctrl in schueler[i].Controls)
+                {
+                    if (ctrl.GetType() == typeof(CheckBox))
+                    {
+                        CheckBox cb = ctrl as CheckBox;
+                        cb.Click += usercontrol_CheckBox_Click;
+                    }
+                }
+
                 schueler[i].Location = ucLocation;
                 panelSchueler.Controls.Add(schueler[i]);
 
             }
 
         }
+
+        private void usercontrol_CheckBox_Click(object sender, EventArgs e)
+        {
+            CheckBox cb = sender as CheckBox;
+
+            if (cb.CheckState == CheckState.Checked)
+            {
+                cb.Parent.BackColor = Color.Green;
+            }
+            else if (cb.CheckState == CheckState.Unchecked)
+            {
+                cb.Parent.BackColor = Color.Red;
+            }
+        }
+
 
 
         // https://stackoverflow.com/questions/3868941/how-to-allow-user-to-drag-a-dynamically-created-control-at-the-location-of-his-c
@@ -177,7 +176,6 @@ namespace Klassenbuch
             aktivesUsercontrol = sender as UserControlSchueler;
             vorherigeUserControlPos = e.Location;
             Cursor = Cursors.Hand;
-
         }
 
         private void usercontrol_MouseMove(object sender, MouseEventArgs e)
@@ -301,6 +299,24 @@ namespace Klassenbuch
                     schueler.Location.X,
                     schueler.Location.Y,
                     textBoxLehrstoff.Text);
+
+
+                foreach (Control ctrl in schueler.Controls)
+                {
+                    if (ctrl.GetType() == typeof(CheckBox))
+                    {
+                        CheckBox cb = ctrl as CheckBox;
+            
+                        if (cb.CheckState == CheckState.Checked)
+                        {
+                            cb.Parent.BackColor = Color.LightGreen;
+                        }
+                        else if (cb.CheckState == CheckState.Unchecked)
+                        {
+                            cb.Parent.BackColor = Color.PeachPuff;
+                        }
+                    }
+                }
             }
         }
     }
