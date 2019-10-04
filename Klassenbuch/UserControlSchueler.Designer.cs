@@ -58,6 +58,8 @@
             // checkBoxAnwesend
             // 
             this.checkBoxAnwesend.AutoSize = true;
+            this.checkBoxAnwesend.Checked = true;
+            this.checkBoxAnwesend.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.checkBoxAnwesend.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxAnwesend.Location = new System.Drawing.Point(70, 43);
             this.checkBoxAnwesend.MaximumSize = new System.Drawing.Size(30, 30);
@@ -70,6 +72,7 @@
             // 
             this.textBoxGrund.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxGrund.Location = new System.Drawing.Point(91, 37);
+            this.textBoxGrund.MaxLength = 30;
             this.textBoxGrund.Name = "textBoxGrund";
             this.textBoxGrund.Size = new System.Drawing.Size(214, 20);
             this.textBoxGrund.TabIndex = 3;

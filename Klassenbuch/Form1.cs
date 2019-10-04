@@ -98,6 +98,9 @@ namespace Klassenbuch
             labelLehrer.Text = dt.Rows[0].ItemArray[5].ToString();
             labelKlasse.Text = dt.Rows[0].ItemArray[6].ToString();
 
+            textBoxLehrstoff.Text = dt.Rows[0].ItemArray[13].ToString();
+
+
             int anzahlSchueler = dt.Rows.Count;
             schueler = new UserControlSchueler[anzahlSchueler];
 
@@ -107,9 +110,28 @@ namespace Klassenbuch
                 string vorname = dt.Rows[i].ItemArray[7].ToString();
                 string nachname = dt.Rows[i].ItemArray[8].ToString();
                 string kommentar = dt.Rows[i].ItemArray[11].ToString();
-                //bool anwesend =
 
-                bool.TryParse(dt.Rows[i].ItemArray[12].ToString(), out bool anwesend);
+                Debug.WriteLine("Test: " + dt.Rows[i].ItemArray[12].ToString());
+
+                AnwesendheitCheckState anwesend = AnwesendheitCheckState.NichtAnwesend;
+
+                if (dt.Rows[i][12] == DBNull.Value)
+                {
+                    anwesend = AnwesendheitCheckState.Undefniert;
+                }
+                else if ((bool)dt.Rows[i][12] == true)
+                {
+                    anwesend = AnwesendheitCheckState.Anwesend;
+                }
+                else if((bool)dt.Rows[i][12] == false)
+                {
+                    anwesend = AnwesendheitCheckState.NichtAnwesend;
+                }
+
+                //bool.TryParse(dt.Rows[i].ItemArray[12].ToString(), out bool anwesend);
+
+               
+
 
                 int.TryParse(dt.Rows[i].ItemArray[9].ToString(), out int X);
                 int.TryParse(dt.Rows[i].ItemArray[10].ToString(), out int Y);
@@ -121,7 +143,7 @@ namespace Klassenbuch
                 string pathToImage = Path.GetFullPath(Path.Combine(
                 Application.StartupPath, @"..\..", "Bilder", bildname));
 
-                
+                Debug.WriteLine(anwesend);
                 schueler[i] = new UserControlSchueler(vorname, nachname, pathToImage, kommentar, anwesend);
 
                 // Event Handler registrieren
@@ -231,27 +253,18 @@ namespace Klassenbuch
                     comboBoxEinheit.Text = comboBoxEinheit.Items[i].ToString();
                     break;
                 }
-                //else if(zeitJetzt < zeitBeginn)
-                //{
-                //    comboBoxEinheit.Text = comboBoxEinheit.Items[0].ToString();
-                //}
-                //else
-                //{
-                //    comboBoxEinheit.Text = comboBoxEinheit.Items[comboBoxEinheit.Items.Count-1].ToString();
-                //}
             }
         }
 
 
         private void bereinigeUI()
         {
-
             panelSchueler.Controls.Clear();
 
             labelFach.Text = "-";
             labelLehrer.Text = "-";
             labelKlasse.Text = "-";
-
+            textBoxLehrstoff.Text = "";
         }
 
         private void ButtonSpeichern_Click(object sender, EventArgs e)
@@ -265,7 +278,7 @@ namespace Klassenbuch
             for (int i = 0; i < panelSchueler.Controls.Count; i++)
             {
                 UserControlSchueler schueler = panelSchueler.Controls[i] as UserControlSchueler;
-                
+
                 DbAccessViaSQL.UpdateUnterricht(
                     schueler.Kommentar,
                     schueler.Anwesend,
@@ -275,9 +288,9 @@ namespace Klassenbuch
                     einheitBeginn,
                     comboBoxRaum.Text,
                     schueler.Location.X,
-                    schueler.Location.Y);
+                    schueler.Location.Y,
+                    textBoxLehrstoff.Text);
             }
         }
-
     }
 }

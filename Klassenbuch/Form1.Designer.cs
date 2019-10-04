@@ -161,9 +161,12 @@
             // 
             // textBoxLehrstoff
             // 
-            this.textBoxLehrstoff.Location = new System.Drawing.Point(67, 15);
+            this.textBoxLehrstoff.Location = new System.Drawing.Point(3, 3);
+            this.textBoxLehrstoff.MaxLength = 100;
+            this.textBoxLehrstoff.Multiline = true;
             this.textBoxLehrstoff.Name = "textBoxLehrstoff";
-            this.textBoxLehrstoff.Size = new System.Drawing.Size(246, 20);
+            this.textBoxLehrstoff.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxLehrstoff.Size = new System.Drawing.Size(1024, 92);
             this.textBoxLehrstoff.TabIndex = 1;
             // 
             // labelLehrstoffText
@@ -264,7 +267,7 @@
             // 
             // buttonSpeichern
             // 
-            this.buttonSpeichern.Location = new System.Drawing.Point(969, 519);
+            this.buttonSpeichern.Location = new System.Drawing.Point(969, 675);
             this.buttonSpeichern.Name = "buttonSpeichern";
             this.buttonSpeichern.Size = new System.Drawing.Size(75, 23);
             this.buttonSpeichern.TabIndex = 16;

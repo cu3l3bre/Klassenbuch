@@ -58,7 +58,8 @@ namespace Klassenbuch.DbAccess
                     "Unterricht.Layout_X, " +
                     "Unterricht.Layout_Y, " +
                     "Unterricht.Kommentar, " +
-                    "Unterricht.Anwesend " +
+                    "Unterricht.Anwesend, " +
+                    "Unterricht.Lernstoff " +
 
                     "FROM Unterricht " +
 
@@ -228,8 +229,8 @@ namespace Klassenbuch.DbAccess
         }
 
 
-        public static bool UpdateUnterricht(string kommentar, bool anwesend, string vorname, string nachname,
-            string datum, string beginn, string raum, int locationX, int locationY)
+        public static bool UpdateUnterricht(string kommentar, bool? anwesend, string vorname, string nachname,
+            string datum, string beginn, string raum, int locationX, int locationY, string lernstoff)
         {
             try
             {
@@ -239,7 +240,7 @@ namespace Klassenbuch.DbAccess
                 {
                     string sqlUpdate =
                     "UPDATE Unterricht " +
-                    "SET Kommentar = @Kommentar, Anwesend = @Anwesend, Layout_X = @Layout_X, Layout_Y = @Layout_Y " +
+                    "SET Kommentar = @Kommentar, Anwesend = @Anwesend, Layout_X = @Layout_X, Layout_Y = @Layout_Y, Lernstoff = @Lernstoff " +
 
                     "FROM Unterricht " +
 
@@ -261,7 +262,14 @@ namespace Klassenbuch.DbAccess
                     SqlCommand command = new SqlCommand(sqlUpdate, connection);
 
                     command.Parameters.AddWithValue("@Kommentar", kommentar);
-                    command.Parameters.AddWithValue("@Anwesend", anwesend);
+
+                    object objAnwesend = DBNull.Value;
+                    if (anwesend.HasValue)
+                    {
+                        objAnwesend = anwesend.Value;
+                    }
+                    command.Parameters.AddWithValue("@Anwesend", objAnwesend);
+                   // command.Parameters.AddWithValue("@Anwesend", null);
 
                     command.Parameters.AddWithValue("@Vorname", vorname);
                     command.Parameters.AddWithValue("@Nachname", nachname);
@@ -273,6 +281,7 @@ namespace Klassenbuch.DbAccess
                     command.Parameters.AddWithValue("@Layout_X", locationX);
                     command.Parameters.AddWithValue("@Layout_Y", locationY);
 
+                    command.Parameters.AddWithValue("@Lernstoff", lernstoff);
 
                     connection.Open();
 
