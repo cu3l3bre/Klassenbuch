@@ -13,14 +13,6 @@ using System.Diagnostics;
 namespace Klassenbuch
 {
 
-    public enum AnwesendheitCheckState
-    {
-        Undefniert = 0,
-        Anwesend = 1,
-        NichtAnwesend = 2,
-    }
-
-
     public partial class UserControlSchueler : UserControl
     {
 
@@ -51,7 +43,6 @@ namespace Klassenbuch
 
             set
             {
-                //checkBoxAnwesend.Checked ^= value; 
                 if (value.HasValue)
                 {
                     if (value == true)
@@ -83,32 +74,25 @@ namespace Klassenbuch
         }
 
 
-        //public int Location_X
-        //{
-        //    get { return  UserControlSchueler.  labelNachname.Text; }
-        //    set { labelNachname.Text = value; }
-        //}
-
-
         public UserControlSchueler()
         {
             InitializeComponent();
         }
 
 
-        public UserControlSchueler(string vorname, string nachname, string bildpfad, string kommentar, /*bool anwesend,*/ AnwesendheitCheckState anwesend) : this()
+        public UserControlSchueler(string vorname, string nachname, string bildpfad, string kommentar, CheckState anwesend) : this()
         {
             labelVorname.Text = vorname;
             labelNachname.Text = nachname;
             pictureBoxBild.ImageLocation = bildpfad;
             pictureBoxBild.SizeMode = PictureBoxSizeMode.StretchImage;
-            //checkBoxAnwesend.Checked = anwesend;
+            textBoxGrund.Text = kommentar;
 
-            if (anwesend == AnwesendheitCheckState.Anwesend)
+            if (anwesend == CheckState.Checked)
             {   
                 checkBoxAnwesend.CheckState = CheckState.Checked;
             }
-            else if (anwesend == AnwesendheitCheckState.NichtAnwesend)
+            else if (anwesend == CheckState.Unchecked)
             {
                 checkBoxAnwesend.CheckState = CheckState.Unchecked;
             }
@@ -116,8 +100,6 @@ namespace Klassenbuch
             {
                 checkBoxAnwesend.CheckState = CheckState.Indeterminate;
             }
-
-            textBoxGrund.Text = kommentar;
         }
     }
 }
