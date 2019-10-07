@@ -174,7 +174,7 @@ namespace Klassenbuch
 
                 string vorname = (string)dt.Rows[i][7];
                 string nachname = (string)dt.Rows[i][8];
-                string kommentar = (string)dt.Rows[i][11];
+                string kommentar = dt.Rows[i][11].ToString();
 
 
                 CheckState anwesend = CheckState.Indeterminate;

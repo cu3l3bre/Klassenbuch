@@ -484,7 +484,7 @@ namespace Klassenbuch.DbAccess
 
 
 
-        public static bool InsertUnterricht(string datum, int einheitId, int fachId, int schuelerId , int raumId)
+        public static bool InsertUnterricht(string datum, long einheitId, long fachId, long schuelerId , long raumId)
         {
             try
             {
