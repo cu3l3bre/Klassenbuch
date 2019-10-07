@@ -229,6 +229,163 @@ namespace Klassenbuch.DbAccess
         }
 
 
+
+
+
+        public static DataTable GetUntaetigeKlassen(string datum, string beginn)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(DbKlassenbuchConnectionString))
+                {
+                    SqlCommand command = new SqlCommand();
+
+                    command.Connection = connection;
+                    command.CommandText =
+
+                    "SELECT " +
+                    "Klasse.Bezeichnung " +
+                    "FROM Klasse " +
+                    "WHERE Klasse.Bezeichnung NOT IN( " +
+
+                    "SELECT " +
+                    "Klasse.Bezeichnung " +
+                    "FROM Klasse " +
+
+                    "INNER JOIN Schueler " +
+                    "ON Schueler.KlasseID = Klasse.ID " +
+
+                    "INNER JOIN Unterricht " +
+                    "ON  Unterricht.SchuelerID = Schueler.ID " +
+
+                    "INNER JOIN Einheit " +
+                    "ON Einheit.ID = Unterricht.EinheitID " +
+
+                    "WHERE Unterricht.Datum = @Datum AND Einheit.Beginn = @Beginn " +
+                    ") " +
+
+                    "GROUP BY Klasse.Bezeichnung";
+
+
+                    command.Parameters.AddWithValue("@Datum", datum);
+                    command.Parameters.AddWithValue("@Beginn", beginn);
+
+                    connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                    DataTable dtUntaetigeKlassen = new DataTable();
+
+
+                    for (int col = 0; col < reader.FieldCount; col++)
+                    {
+                        dtUntaetigeKlassen.Columns.Add(reader.GetName(col), reader.GetFieldType(col));
+                    }
+
+                    while (reader.Read())
+                    {
+                        DataRow row = dtUntaetigeKlassen.NewRow();
+
+                        for (int col = 0; col < reader.FieldCount; col++)
+                        {
+                            row[col] = reader.GetValue(col);
+                        }
+
+                        dtUntaetigeKlassen.Rows.Add(row);
+
+                    }
+                    reader.Close();
+
+                    return dtUntaetigeKlassen;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("GetUntertichtInfo(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
+                return null;
+            }
+
+        }
+
+
+
+
+
+
+        public static DataTable GetUntaetigeFaecher(string datum, string beginn)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(DbKlassenbuchConnectionString))
+                {
+                    SqlCommand command = new SqlCommand();
+
+                    command.Connection = connection;
+                    command.CommandText =
+
+                    "SELECT " +
+                    "Fach.Bezeichnung " +
+                    "FROM Fach " +
+                    "WHERE Fach.Bezeichnung NOT IN( " +
+
+                    "SELECT " +
+                    "Fach.Bezeichnung " +
+                    "FROM Fach " +
+
+                    "INNER JOIN Unterricht " +
+                    "ON  Unterricht.FachID = Fach.ID " +
+
+                    "INNER JOIN Einheit " +
+                    "ON Einheit.ID = Unterricht.EinheitID " +
+
+                    "WHERE Unterricht.Datum = @Datum AND Einheit.Beginn = @Beginn " +
+                    ") ";
+
+
+                    command.Parameters.AddWithValue("@Datum", datum);
+                    command.Parameters.AddWithValue("@Beginn", beginn);
+
+                    connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                    DataTable dtUntaetigeFaecher = new DataTable();
+
+
+                    for (int col = 0; col < reader.FieldCount; col++)
+                    {
+                        dtUntaetigeFaecher.Columns.Add(reader.GetName(col), reader.GetFieldType(col));
+                    }
+
+                    while (reader.Read())
+                    {
+                        DataRow row = dtUntaetigeFaecher.NewRow();
+
+                        for (int col = 0; col < reader.FieldCount; col++)
+                        {
+                            row[col] = reader.GetValue(col);
+                        }
+
+                        dtUntaetigeFaecher.Rows.Add(row);
+
+                    }
+                    reader.Close();
+
+                    return dtUntaetigeFaecher;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("GetUntaetigeFaecher(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
+                return null;
+            }
+
+        }
+
+
+
+
+
+
+
         public static bool UpdateUnterricht(string kommentar, bool? anwesend, string vorname, string nachname,
             string datum, string beginn, string raum, int locationX, int locationY, string lernstoff)
         {

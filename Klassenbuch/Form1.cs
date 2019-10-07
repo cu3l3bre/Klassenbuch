@@ -75,7 +75,28 @@ namespace Klassenbuch
 
                 bereinigeUI();
 
+
                 buttonUnterrichtHinzu.Enabled = true;
+
+                // Hole die untaetigen Klassen, die in der DB existieren und adde diese als Einträge zur Combobox
+                DataTable dtUntaetigeKlassen = DbAccessViaSQL.GetUntaetigeKlassen(datum, einheitBeginn);
+                comboBoxKlasse.Items.Clear();
+                for (int i = 0; i < dtUntaetigeKlassen.Rows.Count; i++)
+                {
+                    comboBoxKlasse.Items.Add(dtUntaetigeKlassen.Rows[i][0].ToString());
+                }
+
+
+                // Hole die untaetigen Faecher, die in der DB existieren und adde diese als Einträge zur Combobox
+                DataTable dtUntaetigeFaecher = DbAccessViaSQL.GetUntaetigeFaecher(datum, einheitBeginn);
+                comboBoxFach.Items.Clear();
+                for (int i = 0; i < dtUntaetigeFaecher.Rows.Count; i++)
+                {
+                    comboBoxFach.Items.Add(dtUntaetigeFaecher.Rows[i][0].ToString());
+                }
+
+
+
 
                 if (dtUnterrichtInfo != null && dtUnterrichtInfo.Rows.Count > 0)
                 {
@@ -92,8 +113,9 @@ namespace Klassenbuch
             labelFach.Text = (string)dt.Rows[0][3];
             labelLehrer.Text = (string)dt.Rows[0][5];
             labelKlasse.Text = (string)dt.Rows[0][6];
-            textBoxLehrstoff.Text = (string)dt.Rows[0][13];
 
+            // TODO besser so machen überall aus Gründen
+            textBoxLehrstoff.Text = dt.Rows[0][13].ToString();
 
 
 
