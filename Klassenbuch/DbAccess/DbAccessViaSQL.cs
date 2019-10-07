@@ -12,13 +12,14 @@ namespace Klassenbuch.DbAccess
 {
     class DbAccessViaSQL
     {
+        /*
         public enum Mode
         {
             Insert,
             Update,
             Delete
         }
-
+        */
 
 
         public static string DbKlassenbuchConnectionString
@@ -51,7 +52,6 @@ namespace Klassenbuch.DbAccess
                     "Einheit.Ende, " +
                     "Fach.Bezeichnung AS [Fach], " +
                     "Raum.Bezeichnung AS [Raum], " +
-                    //"Lehrer.ID AS [Lehrer ID], " +
                     "(SELECT Person.Nachname + ', ' + Person.Vorname FROM Person WHERE Lehrer.ID = Person.ID) AS Lehrer," +
                     "Klasse.Bezeichnung AS [Klasse], " +
                     "Person.Vorname, " +
@@ -85,33 +85,11 @@ namespace Klassenbuch.DbAccess
                     "INNER JOIN Klasse " +
                     "ON Schueler.KlasseID = Klasse.ID " +
 
-                    // "WHERE Datum = '2019-10-01'  AND Einheit.Beginn = '08:00:00' AND Raum.Bezeichnung = @raumBezeichnung";
-                    //"WHERE Datum = '2019-10-01'  AND Einheit.Beginn = @einheitBeginn AND Raum.Bezeichnung = @raumBezeichnung";
                     "WHERE Datum = @unterrichtDatum  AND Einheit.ID = @EinheitID AND Raum.ID = @RaumID";
-
-
-                    /*
-                    SqlParameter pRaumBezeichnung = new SqlParameter("@raumBezeichnung", SqlDbType.VarChar);
-                    pRaumBezeichnung.Value = raumBezeichnung;
-
-                    SqlParameter pEinheitBeginn = new SqlParameter("@einheitBeginn", SqlDbType.Time);
-                    pEinheitBeginn.Value = einheitBeginn;
-
-                    SqlParameter pUnterrichtDatum = new SqlParameter("@unterrichtDatum", SqlDbType.Date);
-                    pUnterrichtDatum.Value = unterrichtDatum;
-
-                    command.Parameters.Add(pRaumBezeichnung);
-                    command.Parameters.Add(pEinheitBeginn);
-                    command.Parameters.Add(pUnterrichtDatum);
-                    */
-
-
-
 
                     command.Parameters.AddWithValue("@RaumID", raumId);
                     command.Parameters.AddWithValue("@unterrichtDatum", unterrichtDatum);
                     command.Parameters.AddWithValue("@EinheitID", einheitId);
-
 
                     connection.Open();
                
@@ -196,12 +174,6 @@ namespace Klassenbuch.DbAccess
         }
 
 
-
-
-
-
-
-
         public static DataTable GetSchuelerVonKlasse(long klasseId)
         {
             try
@@ -259,16 +231,6 @@ namespace Klassenbuch.DbAccess
         }
 
 
-
-
-
-
-
-
-
-
-
-
         public static DataTable GetEinheiten()
         {
             try
@@ -278,7 +240,7 @@ namespace Klassenbuch.DbAccess
                     SqlCommand command = new SqlCommand();
 
                     command.Connection = connection;
-                    //command.CommandText = "SELECT Einheit.ID, FORMAT(Einheit.Beginn, N'hh\\:mm') + '-' + CAST(Einheit.Ende AS NVARCHAR(20)) AS [Zeit] FROM Einheit";
+                   
                     command.CommandText = "SELECT Einheit.ID, FORMAT(Einheit.Beginn, N'hh\\:mm') + ' - ' + FORMAT(Einheit.Ende, N'hh\\:mm') AS [Zeit] FROM Einheit";
 
                     connection.Open();
@@ -313,9 +275,6 @@ namespace Klassenbuch.DbAccess
                 return null;
             }
         }
-
-
-
 
 
         public static DataTable GetUntaetigeKlassen(string datum, long einheitId)
@@ -390,12 +349,7 @@ namespace Klassenbuch.DbAccess
                 Debug.WriteLine("GetUntertichtInfo(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
                 return null;
             }
-
         }
-
-
-
-
 
 
         public static DataTable GetUntaetigeFaecher(string datum, long einheitId)
@@ -465,13 +419,7 @@ namespace Klassenbuch.DbAccess
                 Debug.WriteLine("GetUntaetigeFaecher(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
                 return null;
             }
-
         }
-
-
-
-
-
 
 
         public static bool UpdateUnterricht(string kommentar, bool? anwesend, string vorname, string nachname,
@@ -514,47 +462,26 @@ namespace Klassenbuch.DbAccess
                         objAnwesend = anwesend.Value;
                     }
                     command.Parameters.AddWithValue("@Anwesend", objAnwesend);
-                   // command.Parameters.AddWithValue("@Anwesend", null);
-
                     command.Parameters.AddWithValue("@Vorname", vorname);
                     command.Parameters.AddWithValue("@Nachname", nachname);
                     command.Parameters.AddWithValue("@RaumID", raumId);
-
                     command.Parameters.AddWithValue("@Datum", datum);
                     command.Parameters.AddWithValue("@EinheitID", einheitId);
-
                     command.Parameters.AddWithValue("@Layout_X", locationX);
                     command.Parameters.AddWithValue("@Layout_Y", locationY);
-
                     command.Parameters.AddWithValue("@Lernstoff", lernstoff);
 
                     connection.Open();
 
-
-
                     return command.ExecuteNonQuery() == 1;
                 }
-
-
-
-
-
-              
-
             }
             catch(Exception ex)
             {
                 Debug.WriteLine("UpdateUnterricht(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
                 return false;
-
             }
-
-
         }
-
-
-
-
 
 
         public static bool InsertUnterricht(string datum, long einheitId, long fachId, long schuelerId , long raumId, int layoutX)
@@ -568,17 +495,10 @@ namespace Klassenbuch.DbAccess
 
                     command.Connection = connection;
 
-                    
                     command.CommandText =
-                    //    "INSERT INTO Belegung(KursID, TeilnehmerID) " +
-                    //    "VALUES (@KursID, @TeilnehmerID)";
 
-
-                    // sowas in  der art müsste es werden
                     "INSERT INTO Unterricht(Datum, EinheitID, FachID, SchuelerID, RaumID, Lernstoff, Kommentar, Layout_X, Layout_Y) " +
                     "VALUES(@Datum, @EinheitID, @FachID, @SchuelerID, @RaumID, '', '', @Layout_X, 10)";
-
-
 
                     command.Parameters.AddWithValue("@Datum", datum);
                     command.Parameters.AddWithValue("@EinheitID", einheitId);
@@ -586,8 +506,6 @@ namespace Klassenbuch.DbAccess
                     command.Parameters.AddWithValue("@SchuelerID", schuelerId);
                     command.Parameters.AddWithValue("@RaumID", raumId);
                     command.Parameters.AddWithValue("@Layout_X", layoutX);
-
-
 
                     connection.Open();
 
@@ -599,26 +517,9 @@ namespace Klassenbuch.DbAccess
                 Debug.WriteLine(
                     "InsertUnterricht(): Fehler: {0} Grund: {1}",
                     ex.GetType(), ex.Message);
-
                 return false;
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     }

@@ -76,24 +76,26 @@ namespace Klassenbuch
             comboBoxEinheit.SelectedIndexChanged += aktualisiereDaten_Changed;
 
 
-            bereinigeUI();
+            //bereinigeUI();
+            holeDatenUndAktualisiere();
         }
 
 
         private void aktualisiereDaten_Changed(object sender, EventArgs e)
         {
 
+            holeDatenUndAktualisiere();
 
-
+#if false         
             //long einheitId = -1;
 
             if (!string.IsNullOrEmpty(comboBoxEinheit.Text) && !string.IsNullOrEmpty(comboBoxRaum.Text))
             {
                 // Datums string für SQL Abfrage
-                string datum =
-                    dateTimePicker.Value.Year.ToString() + '-' +
-                    dateTimePicker.Value.Month.ToString() + '-' +
-                    dateTimePicker.Value.Day.ToString();
+                string datum = getDatum();
+                    //dateTimePicker.Value.Year.ToString() + '-' +
+                    //dateTimePicker.Value.Month.ToString() + '-' +
+                    //dateTimePicker.Value.Day.ToString();
 
 
                 string[] einheitBeginnEnde = comboBoxEinheit.Text.Split('-');
@@ -149,17 +151,109 @@ namespace Klassenbuch
                     buttonUnterrichtHinzu.Enabled = false;
                 }
             }
-        
 
-    }
+#endif
+
+        }
 
 
-    private void aktualisiereDaten(DataTable dt)
+
+
+
+
+        private void holeDatenUndAktualisiere()
         {
 
-            labelFach.Text = (string)dt.Rows[0][3];
-            labelLehrer.Text = (string)dt.Rows[0][5];
-            labelKlasse.Text = (string)dt.Rows[0][6];
+
+
+
+            //long einheitId = -1;
+
+            if (!string.IsNullOrEmpty(comboBoxEinheit.Text) && !string.IsNullOrEmpty(comboBoxRaum.Text))
+            {
+                // Datums string für SQL Abfrage
+                string datum = getDatum();
+                //dateTimePicker.Value.Year.ToString() + '-' +
+                //dateTimePicker.Value.Month.ToString() + '-' +
+                //dateTimePicker.Value.Day.ToString();
+
+
+                string[] einheitBeginnEnde = comboBoxEinheit.Text.Split('-');
+
+                long einheitId = (long)comboBoxEinheit.SelectedValue;
+                long raumId = (long)comboBoxRaum.SelectedValue;
+
+                // DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(comboBoxRaum.Text, einheitId, datum);
+                DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(raumId, einheitId, datum);
+
+                bereinigeUI();
+
+
+                buttonUnterrichtHinzu.Enabled = true;
+
+                // Hole die untaetigen Klassen, die in der DB existieren und adde diese als Einträge zur Combobox
+                DataTable dtUntaetigeKlassen = DbAccessViaSQL.GetUntaetigeKlassen(datum, einheitId);
+
+
+                comboBoxKlasse.DataSource = dtUntaetigeKlassen;
+                comboBoxKlasse.DisplayMember = dtUntaetigeKlassen.Columns[1].ColumnName;
+                comboBoxKlasse.ValueMember = dtUntaetigeKlassen.Columns[0].ColumnName;
+
+                /*
+                comboBoxKlasse.Items.Clear();
+                for (int i = 0; i < dtUntaetigeKlassen.Rows.Count; i++)
+                {
+                    comboBoxKlasse.Items.Add(dtUntaetigeKlassen.Rows[i][0].ToString());
+                }
+                */
+
+
+
+                // Hole die untaetigen Faecher, die in der DB existieren und adde diese als Einträge zur Combobox
+                DataTable dtUntaetigeFaecher = DbAccessViaSQL.GetUntaetigeFaecher(datum, einheitId);
+
+                comboBoxFach.DataSource = dtUntaetigeFaecher;
+                comboBoxFach.DisplayMember = dtUntaetigeFaecher.Columns[1].ColumnName;
+                comboBoxFach.ValueMember = dtUntaetigeFaecher.Columns[0].ColumnName;
+                /*
+                                comboBoxFach.Items.Clear();
+                                for (int i = 0; i < dtUntaetigeFaecher.Rows.Count; i++)
+                                {
+                                    comboBoxFach.Items.Add(dtUntaetigeFaecher.Rows[i][0].ToString());
+                                }
+                                */
+
+
+
+                if (dtUnterrichtInfo != null && dtUnterrichtInfo.Rows.Count > 0)
+                {
+                    aktualisiereDaten(dtUnterrichtInfo);
+                    buttonUnterrichtHinzu.Enabled = false;
+                }
+            }
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        private void aktualisiereDaten(DataTable dt)
+        {
+
+            labelFach.Text = dt.Rows[0][3].ToString();
+            labelLehrer.Text = dt.Rows[0][5].ToString();
+            labelKlasse.Text = dt.Rows[0][6].ToString();
 
             // TODO besser so machen überall aus Gründen
             textBoxLehrstoff.Text = dt.Rows[0][13].ToString();
@@ -172,8 +266,8 @@ namespace Klassenbuch
             for (int i = 0; i < schueler.Length; i++)
             {
 
-                string vorname = (string)dt.Rows[i][7];
-                string nachname = (string)dt.Rows[i][8];
+                string vorname = dt.Rows[i][7].ToString();
+                string nachname = dt.Rows[i][8].ToString();
                 string kommentar = dt.Rows[i][11].ToString();
 
 
@@ -319,7 +413,7 @@ namespace Klassenbuch
 
 
 
-             for(int i = 0; i < comboBoxEinheit.Items.Count; i++)
+            for(int i = 0; i < comboBoxEinheit.Items.Count; i++)
             {
 
                 string[] einheitBeginnEnde = comboBoxEinheit.Items[i].ToString().Split('-');
@@ -330,9 +424,6 @@ namespace Klassenbuch
 
                 TimeSpan.TryParse(einheitBeginn, out TimeSpan zeitBeginn);
                 TimeSpan.TryParse(einheitEnde, out TimeSpan zeitEnde);
-                //TimeSpan zeitBeginn = DateTime.Parse(einheitBeginn).TimeOfDay;
-                //TimeSpan zeitEnde = DateTime.Parse(einheitEnde).TimeOfDay;
-
 
                 if (zeitBeginn < zeitJetzt &&  zeitEnde > zeitJetzt)
                 {
@@ -407,37 +498,32 @@ namespace Klassenbuch
             long einheitId = (long)comboBoxEinheit.SelectedValue;
             long fachId = (long)comboBoxFach.SelectedValue;
             long klasseId = (long)comboBoxKlasse.SelectedValue;
-
-
-            string datum =
-            dateTimePicker.Value.Year.ToString() + '-' +
-            dateTimePicker.Value.Month.ToString() + '-' +
-            dateTimePicker.Value.Day.ToString();
-
-
+            string datum = getDatum();
+  
             DataTable dtSchuelerKlasse = DbAccessViaSQL.GetSchuelerVonKlasse(klasseId);
-
-
-            //dtUntaetigeFaecher.Rows[i][0].ToString()
-
-
-            Debug.WriteLine(dtSchuelerKlasse.Rows.Count);
 
 
             for(int i = 0; i < dtSchuelerKlasse.Rows.Count; i++)
             {
                 long schuelerId = (long)dtSchuelerKlasse.Rows[i][0];
-                Debug.WriteLine(schuelerId);
                 DbAccessViaSQL.InsertUnterricht(datum, einheitId, fachId, schuelerId, raumId, i*10);
             }
 
+            holeDatenUndAktualisiere();
 
-            //MessageBox.Show(klasseId.ToString());
-
-            //Form zweiteForm = new FormUnterrichtHinzufuegen();
-
-            //zweiteForm.ShowDialog();
 
         }
+
+
+        private string getDatum()
+        {
+            string datum =
+                dateTimePicker.Value.Year.ToString() + '-' +
+                dateTimePicker.Value.Month.ToString() + '-' +
+                dateTimePicker.Value.Day.ToString();
+            return datum;
+        }
+
+
     }
 }
