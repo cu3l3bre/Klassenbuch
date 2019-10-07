@@ -196,6 +196,79 @@ namespace Klassenbuch.DbAccess
         }
 
 
+
+
+
+
+
+
+        public static DataTable GetSchuelerVonKlasse(long klasseId)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(DbKlassenbuchConnectionString))
+                {
+                    SqlCommand command = new SqlCommand();
+
+                    command.Connection = connection;
+                    
+                    command.CommandText =
+
+                    "SELECT Schueler.ID " +
+                    "FROM Schueler " +
+
+                    "INNER JOIN Klasse " +
+                    "ON Klasse.ID = Schueler.KlasseID " +
+
+                    "WHERE Klasse.ID = @KlasseID";
+
+
+                    command.Parameters.AddWithValue("@KlasseID", klasseId);
+
+                    connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                    DataTable dtSchuelerKlasse = new DataTable();
+
+
+                    for (int col = 0; col < reader.FieldCount; col++)
+                    {
+                        dtSchuelerKlasse.Columns.Add(reader.GetName(col), reader.GetFieldType(col));
+                    }
+
+                    while (reader.Read())
+                    {
+                        DataRow row = dtSchuelerKlasse.NewRow();
+
+                        for (int col = 0; col < reader.FieldCount; col++)
+                        {
+                            row[col] = reader.GetValue(col);
+                        }
+
+                        dtSchuelerKlasse.Rows.Add(row);
+                    }
+                    reader.Close();
+                    return dtSchuelerKlasse;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("GetSchuelerVonKlasse(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
+                return null;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         public static DataTable GetEinheiten()
         {
             try
@@ -484,7 +557,7 @@ namespace Klassenbuch.DbAccess
 
 
 
-        public static bool InsertUnterricht(string datum, long einheitId, long fachId, long schuelerId , long raumId)
+        public static bool InsertUnterricht(string datum, long einheitId, long fachId, long schuelerId , long raumId, int layoutX)
         {
             try
             {
@@ -495,14 +568,26 @@ namespace Klassenbuch.DbAccess
 
                     command.Connection = connection;
 
-                    /*
+                    
                     command.CommandText =
-                        "INSERT INTO Belegung(KursID, TeilnehmerID) " +
-                        "VALUES (@KursID, @TeilnehmerID)";
+                    //    "INSERT INTO Belegung(KursID, TeilnehmerID) " +
+                    //    "VALUES (@KursID, @TeilnehmerID)";
 
-                    command.Parameters.AddWithValue("@KursID", kursId);
-                    command.Parameters.AddWithValue("@TeilnehmerID", teilnehmerId);
-                    */
+
+                    // sowas in  der art müsste es werden
+                    "INSERT INTO Unterricht(Datum, EinheitID, FachID, SchuelerID, RaumID, Lernstoff, Kommentar, Layout_X, Layout_Y) " +
+                    "VALUES(@Datum, @EinheitID, @FachID, @SchuelerID, @RaumID, '', '', @Layout_X, 10)";
+
+
+
+                    command.Parameters.AddWithValue("@Datum", datum);
+                    command.Parameters.AddWithValue("@EinheitID", einheitId);
+                    command.Parameters.AddWithValue("@FachID", fachId);
+                    command.Parameters.AddWithValue("@SchuelerID", schuelerId);
+                    command.Parameters.AddWithValue("@RaumID", raumId);
+                    command.Parameters.AddWithValue("@Layout_X", layoutX);
+
+
 
                     connection.Open();
 

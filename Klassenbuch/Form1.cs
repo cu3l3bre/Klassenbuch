@@ -409,10 +409,33 @@ namespace Klassenbuch
             long klasseId = (long)comboBoxKlasse.SelectedValue;
 
 
-            MessageBox.Show(klasseId.ToString());
+            string datum =
+            dateTimePicker.Value.Year.ToString() + '-' +
+            dateTimePicker.Value.Month.ToString() + '-' +
+            dateTimePicker.Value.Day.ToString();
+
+
+            DataTable dtSchuelerKlasse = DbAccessViaSQL.GetSchuelerVonKlasse(klasseId);
+
+
+            //dtUntaetigeFaecher.Rows[i][0].ToString()
+
+
+            Debug.WriteLine(dtSchuelerKlasse.Rows.Count);
+
+
+            for(int i = 0; i < dtSchuelerKlasse.Rows.Count; i++)
+            {
+                long schuelerId = (long)dtSchuelerKlasse.Rows[i][0];
+                Debug.WriteLine(schuelerId);
+                DbAccessViaSQL.InsertUnterricht(datum, einheitId, fachId, schuelerId, raumId, i*10);
+            }
+
+
+            //MessageBox.Show(klasseId.ToString());
 
             //Form zweiteForm = new FormUnterrichtHinzufuegen();
-            
+
             //zweiteForm.ShowDialog();
 
         }
