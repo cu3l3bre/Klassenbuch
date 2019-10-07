@@ -33,7 +33,8 @@ namespace Klassenbuch.DbAccess
             }
         }
 
-        public static DataTable GetUntertichtInfo(string raumBezeichnung, string einheitBeginn, string unterrichtDatum)
+        //public static DataTable GetUntertichtInfo(string raumBezeichnung, string einheitBeginn, string unterrichtDatum)
+        public static DataTable GetUntertichtInfo(long raumId, long einheitId, string unterrichtDatum)
         {
             try
             {
@@ -86,8 +87,10 @@ namespace Klassenbuch.DbAccess
 
                     // "WHERE Datum = '2019-10-01'  AND Einheit.Beginn = '08:00:00' AND Raum.Bezeichnung = @raumBezeichnung";
                     //"WHERE Datum = '2019-10-01'  AND Einheit.Beginn = @einheitBeginn AND Raum.Bezeichnung = @raumBezeichnung";
-                    "WHERE Datum = @unterrichtDatum  AND Einheit.Beginn = @einheitBeginn AND Raum.Bezeichnung = @raumBezeichnung";
+                    "WHERE Datum = @unterrichtDatum  AND Einheit.ID = @EinheitID AND Raum.ID = @RaumID";
 
+
+                    /*
                     SqlParameter pRaumBezeichnung = new SqlParameter("@raumBezeichnung", SqlDbType.VarChar);
                     pRaumBezeichnung.Value = raumBezeichnung;
 
@@ -100,6 +103,15 @@ namespace Klassenbuch.DbAccess
                     command.Parameters.Add(pRaumBezeichnung);
                     command.Parameters.Add(pEinheitBeginn);
                     command.Parameters.Add(pUnterrichtDatum);
+                    */
+
+
+
+
+                    command.Parameters.AddWithValue("@RaumID", raumId);
+                    command.Parameters.AddWithValue("@unterrichtDatum", unterrichtDatum);
+                    command.Parameters.AddWithValue("@EinheitID", einheitId);
+
 
                     connection.Open();
                
@@ -147,7 +159,7 @@ namespace Klassenbuch.DbAccess
                     SqlCommand command = new SqlCommand();
 
                     command.Connection = connection;
-                    command.CommandText = "SELECT Raum.Bezeichnung AS Raum FROM Raum";
+                    command.CommandText = "SELECT Raum.ID, Raum.Bezeichnung AS Raum FROM Raum";
 
 
                     connection.Open();
@@ -193,7 +205,8 @@ namespace Klassenbuch.DbAccess
                     SqlCommand command = new SqlCommand();
 
                     command.Connection = connection;
-                    command.CommandText = "SELECT Einheit.Beginn, Einheit.Ende FROM Einheit";
+                    //command.CommandText = "SELECT Einheit.ID, FORMAT(Einheit.Beginn, N'hh\\:mm') + '-' + CAST(Einheit.Ende AS NVARCHAR(20)) AS [Zeit] FROM Einheit";
+                    command.CommandText = "SELECT Einheit.ID, FORMAT(Einheit.Beginn, N'hh\\:mm') + ' - ' + FORMAT(Einheit.Ende, N'hh\\:mm') AS [Zeit] FROM Einheit";
 
                     connection.Open();
 
@@ -232,7 +245,7 @@ namespace Klassenbuch.DbAccess
 
 
 
-        public static DataTable GetUntaetigeKlassen(string datum, string beginn)
+        public static DataTable GetUntaetigeKlassen(string datum, long einheitId)
         {
             try
             {
@@ -244,6 +257,7 @@ namespace Klassenbuch.DbAccess
                     command.CommandText =
 
                     "SELECT " +
+                    "Klasse.ID, " +
                     "Klasse.Bezeichnung " +
                     "FROM Klasse " +
                     "WHERE Klasse.Bezeichnung NOT IN( " +
@@ -261,14 +275,14 @@ namespace Klassenbuch.DbAccess
                     "INNER JOIN Einheit " +
                     "ON Einheit.ID = Unterricht.EinheitID " +
 
-                    "WHERE Unterricht.Datum = @Datum AND Einheit.Beginn = @Beginn " +
+                    "WHERE Unterricht.Datum = @Datum AND Einheit.ID = @EinheitID " +
                     ") " +
 
-                    "GROUP BY Klasse.Bezeichnung";
+                    "GROUP BY Klasse.ID, Klasse.Bezeichnung";
 
 
                     command.Parameters.AddWithValue("@Datum", datum);
-                    command.Parameters.AddWithValue("@Beginn", beginn);
+                    command.Parameters.AddWithValue("@EinheitID", einheitId);
 
                     connection.Open();
 
@@ -311,7 +325,7 @@ namespace Klassenbuch.DbAccess
 
 
 
-        public static DataTable GetUntaetigeFaecher(string datum, string beginn)
+        public static DataTable GetUntaetigeFaecher(string datum, long einheitId)
         {
             try
             {
@@ -323,6 +337,7 @@ namespace Klassenbuch.DbAccess
                     command.CommandText =
 
                     "SELECT " +
+                    "Fach.ID, " +
                     "Fach.Bezeichnung " +
                     "FROM Fach " +
                     "WHERE Fach.Bezeichnung NOT IN( " +
@@ -337,12 +352,12 @@ namespace Klassenbuch.DbAccess
                     "INNER JOIN Einheit " +
                     "ON Einheit.ID = Unterricht.EinheitID " +
 
-                    "WHERE Unterricht.Datum = @Datum AND Einheit.Beginn = @Beginn " +
+                    "WHERE Unterricht.Datum = @Datum AND Einheit.ID = @EinheitID " +
                     ") ";
 
 
                     command.Parameters.AddWithValue("@Datum", datum);
-                    command.Parameters.AddWithValue("@Beginn", beginn);
+                    command.Parameters.AddWithValue("@EinheitID", einheitId);
 
                     connection.Open();
 
@@ -387,7 +402,7 @@ namespace Klassenbuch.DbAccess
 
 
         public static bool UpdateUnterricht(string kommentar, bool? anwesend, string vorname, string nachname,
-            string datum, string beginn, string raum, int locationX, int locationY, string lernstoff)
+            string datum, long einheitId, long raumId, int locationX, int locationY, string lernstoff)
         {
             try
             {
@@ -414,7 +429,7 @@ namespace Klassenbuch.DbAccess
                     "ON Unterricht.EinheitID = Einheit.ID " +
 
                     "WHERE Person.Vorname = @vorname AND Person.Nachname = @nachname AND " +
-                    "Datum = @Datum  AND Einheit.Beginn = @Beginn AND Raum.Bezeichnung = @Raum";
+                    "Datum = @Datum  AND Einheit.ID = @EinheitID AND Raum.ID = @RaumID";
 
                     SqlCommand command = new SqlCommand(sqlUpdate, connection);
 
@@ -430,10 +445,10 @@ namespace Klassenbuch.DbAccess
 
                     command.Parameters.AddWithValue("@Vorname", vorname);
                     command.Parameters.AddWithValue("@Nachname", nachname);
-                    command.Parameters.AddWithValue("@Raum", raum);
+                    command.Parameters.AddWithValue("@RaumID", raumId);
 
                     command.Parameters.AddWithValue("@Datum", datum);
-                    command.Parameters.AddWithValue("@Beginn", beginn);
+                    command.Parameters.AddWithValue("@EinheitID", einheitId);
 
                     command.Parameters.AddWithValue("@Layout_X", locationX);
                     command.Parameters.AddWithValue("@Layout_Y", locationY);
@@ -468,6 +483,41 @@ namespace Klassenbuch.DbAccess
 
 
 
+
+        public static bool InsertUnterricht(string datum, int einheitId, int fachId, int schuelerId , int raumId)
+        {
+            try
+            {
+                using (SqlConnection connection =
+                    new SqlConnection(DbKlassenbuchConnectionString))
+                {
+                    SqlCommand command = new SqlCommand();
+
+                    command.Connection = connection;
+
+                    /*
+                    command.CommandText =
+                        "INSERT INTO Belegung(KursID, TeilnehmerID) " +
+                        "VALUES (@KursID, @TeilnehmerID)";
+
+                    command.Parameters.AddWithValue("@KursID", kursId);
+                    command.Parameters.AddWithValue("@TeilnehmerID", teilnehmerId);
+                    */
+
+                    connection.Open();
+
+                    return command.ExecuteNonQuery() == 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(
+                    "InsertUnterricht(): Fehler: {0} Grund: {1}",
+                    ex.GetType(), ex.Message);
+
+                return false;
+            }
+        }
 
 
 

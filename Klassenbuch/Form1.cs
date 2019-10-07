@@ -35,28 +35,57 @@ namespace Klassenbuch
 
             // Hole die Räume die in der DB existieren und adde diese als Einträge zur Combobox
             DataTable dtRaumInfo = DbAccessViaSQL.GetRaeume();
-            for (int i = 0; i < dtRaumInfo.Rows.Count; i++)
-            {
-                comboBoxRaum.Items.Add(dtRaumInfo.Rows[i][0]);
-            }
+
+            
+            comboBoxRaum.DataSource = dtRaumInfo;
+            comboBoxRaum.DisplayMember = dtRaumInfo.Columns[1].ColumnName;
+            comboBoxRaum.ValueMember = dtRaumInfo.Columns[0].ColumnName;
+            
+
+
+            //for (int i = 0; i < dtRaumInfo.Rows.Count; i++)
+            //{
+            //    comboBoxRaum.Items.Add(dtRaumInfo.Rows[i][0]);
+            //}
+
 
             // Hole die Unterrichtseinheiten (Zeiten von bis) die in der DB existieren und adde diese als Einträge zur Combobox
             DataTable dtEinheitInfo = DbAccessViaSQL.GetEinheiten();
+
+
+            comboBoxEinheit.DataSource = dtEinheitInfo;
+            comboBoxEinheit.DisplayMember = dtEinheitInfo.Columns[1].ColumnName;//+ dtEinheitInfo.Columns[2].ColumnName;
+            comboBoxEinheit.ValueMember = dtEinheitInfo.Columns[0].ColumnName;
+
+
+
+            //Debug.WriteLine("Test " + dtEinheitInfo.Columns[1].ColumnName.ToString());
+
+            /*
             for (int i = 0; i < dtEinheitInfo.Rows.Count; i++)
             {
                 comboBoxEinheit.Items.Add(dtEinheitInfo.Rows[i][0].ToString() + " - "
                    + dtEinheitInfo.Rows[i][1].ToString());
             }
+            */
+
+
+            // Event Handler erst registrieren, nachdem die Datenbindung der Comboboxen statt gefunden haben
+            dateTimePicker.ValueChanged += aktualisiereDaten_Changed;
+            comboBoxRaum.SelectedIndexChanged += aktualisiereDaten_Changed;
+            comboBoxEinheit.SelectedIndexChanged += aktualisiereDaten_Changed;
+
 
             bereinigeUI();
         }
 
 
-        private void aktualisiereDaten_TextChanged(object sender, EventArgs e)
+        private void aktualisiereDaten_Changed(object sender, EventArgs e)
         {
 
-            string einheitBeginn = "";
-            string einheitEnde = "";
+
+
+            //long einheitId = -1;
 
             if (!string.IsNullOrEmpty(comboBoxEinheit.Text) && !string.IsNullOrEmpty(comboBoxRaum.Text))
             {
@@ -68,10 +97,12 @@ namespace Klassenbuch
 
 
                 string[] einheitBeginnEnde = comboBoxEinheit.Text.Split('-');
-                einheitBeginn = einheitBeginnEnde[0].Trim();
-                einheitEnde = einheitBeginnEnde[1].Trim();
 
-                DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(comboBoxRaum.Text, einheitBeginn, datum);
+                long einheitId = (long)comboBoxEinheit.SelectedValue;
+                long raumId = (long)comboBoxRaum.SelectedValue;
+
+               // DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(comboBoxRaum.Text, einheitId, datum);
+                DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(raumId, einheitId, datum);
 
                 bereinigeUI();
 
@@ -79,22 +110,36 @@ namespace Klassenbuch
                 buttonUnterrichtHinzu.Enabled = true;
 
                 // Hole die untaetigen Klassen, die in der DB existieren und adde diese als Einträge zur Combobox
-                DataTable dtUntaetigeKlassen = DbAccessViaSQL.GetUntaetigeKlassen(datum, einheitBeginn);
+                DataTable dtUntaetigeKlassen = DbAccessViaSQL.GetUntaetigeKlassen(datum, einheitId);
+
+                
+                comboBoxKlasse.DataSource = dtUntaetigeKlassen;
+                comboBoxKlasse.DisplayMember = dtUntaetigeKlassen.Columns[1].ColumnName;
+                comboBoxKlasse.ValueMember = dtUntaetigeKlassen.Columns[0].ColumnName;
+                
+                /*
                 comboBoxKlasse.Items.Clear();
                 for (int i = 0; i < dtUntaetigeKlassen.Rows.Count; i++)
                 {
                     comboBoxKlasse.Items.Add(dtUntaetigeKlassen.Rows[i][0].ToString());
                 }
+                */
+
 
 
                 // Hole die untaetigen Faecher, die in der DB existieren und adde diese als Einträge zur Combobox
-                DataTable dtUntaetigeFaecher = DbAccessViaSQL.GetUntaetigeFaecher(datum, einheitBeginn);
+                DataTable dtUntaetigeFaecher = DbAccessViaSQL.GetUntaetigeFaecher(datum, einheitId);
+
+                comboBoxFach.DataSource = dtUntaetigeFaecher;
+                comboBoxFach.DisplayMember = dtUntaetigeFaecher.Columns[1].ColumnName;
+                comboBoxFach.ValueMember = dtUntaetigeFaecher.Columns[0].ColumnName;
+/*
                 comboBoxFach.Items.Clear();
                 for (int i = 0; i < dtUntaetigeFaecher.Rows.Count; i++)
                 {
                     comboBoxFach.Items.Add(dtUntaetigeFaecher.Rows[i][0].ToString());
                 }
-
+                */
 
 
 
@@ -104,10 +149,12 @@ namespace Klassenbuch
                     buttonUnterrichtHinzu.Enabled = false;
                 }
             }
-        }
+        
+
+    }
 
 
-        private void aktualisiereDaten(DataTable dt)
+    private void aktualisiereDaten(DataTable dt)
         {
 
             labelFach.Text = (string)dt.Rows[0][3];
@@ -266,7 +313,13 @@ namespace Klassenbuch
 
         private void ButtonJetzt_Click(object sender, EventArgs e)
         {
-            for(int i = 0; i < comboBoxEinheit.Items.Count; i++)
+
+            // TODO muss geändert werden , da combobo nun anderes gefüllt wird
+            Debug.WriteLine(comboBoxEinheit.Items.Count);
+
+
+
+             for(int i = 0; i < comboBoxEinheit.Items.Count; i++)
             {
 
                 string[] einheitBeginnEnde = comboBoxEinheit.Items[i].ToString().Split('-');
@@ -312,14 +365,18 @@ namespace Klassenbuch
             {
                 UserControlSchueler schueler = panelSchueler.Controls[i] as UserControlSchueler;
 
+
+                long einheitId = (long)comboBoxEinheit.SelectedValue;
+                long raumId = (long)comboBoxRaum.SelectedValue;
+
                 DbAccessViaSQL.UpdateUnterricht(
                     schueler.Kommentar,
                     schueler.Anwesend,
                     schueler.Vorname,
                     schueler.Nachname,
                     datum,
-                    einheitBeginn,
-                    comboBoxRaum.Text,
+                    einheitId,
+                    raumId,
                     schueler.Location.X,
                     schueler.Location.Y,
                     textBoxLehrstoff.Text);
@@ -346,9 +403,17 @@ namespace Klassenbuch
 
         private void ButtonUnterrichtHinzu_Click(object sender, EventArgs e)
         {
-            Form zweiteForm = new FormUnterrichtHinzufuegen();
+            long raumId = (long)comboBoxRaum.SelectedValue;
+            long einheitId = (long)comboBoxEinheit.SelectedValue;
+            long fachId = (long)comboBoxFach.SelectedValue;
+            long klasseId = (long)comboBoxKlasse.SelectedValue;
+
+
+            MessageBox.Show(klasseId.ToString());
+
+            //Form zweiteForm = new FormUnterrichtHinzufuegen();
             
-            zweiteForm.ShowDialog();
+            //zweiteForm.ShowDialog();
 
         }
     }

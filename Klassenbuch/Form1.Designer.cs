@@ -189,7 +189,6 @@
             this.comboBoxRaum.Name = "comboBoxRaum";
             this.comboBoxRaum.Size = new System.Drawing.Size(71, 21);
             this.comboBoxRaum.TabIndex = 3;
-            this.comboBoxRaum.TextChanged += new System.EventHandler(this.aktualisiereDaten_TextChanged);
             // 
             // labelRaumText
             // 
@@ -209,7 +208,6 @@
             this.comboBoxEinheit.Name = "comboBoxEinheit";
             this.comboBoxEinheit.Size = new System.Drawing.Size(121, 21);
             this.comboBoxEinheit.TabIndex = 5;
-            this.comboBoxEinheit.TextChanged += new System.EventHandler(this.aktualisiereDaten_TextChanged);
             // 
             // labelEinheitText
             // 
@@ -226,7 +224,6 @@
             this.dateTimePicker.Name = "dateTimePicker";
             this.dateTimePicker.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker.TabIndex = 11;
-            this.dateTimePicker.ValueChanged += new System.EventHandler(this.aktualisiereDaten_TextChanged);
             // 
             // buttonDatumHeute
             // 
