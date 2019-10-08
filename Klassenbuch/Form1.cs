@@ -525,5 +525,12 @@ namespace Klassenbuch
         }
 
 
+
+        private void ButtonSchuelerHinzu_Click(object sender, EventArgs e)
+        {
+            FormSchuelerHinzufuegen formSchueler= new FormSchuelerHinzufuegen();
+
+            formSchueler.ShowDialog();
+        }
     }
 }

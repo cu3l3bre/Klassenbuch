@@ -54,6 +54,9 @@
             this.buttonUnterrichtHinzu = new System.Windows.Forms.Button();
             this.comboBoxKlasse = new System.Windows.Forms.ComboBox();
             this.comboBoxFach = new System.Windows.Forms.ComboBox();
+            this.labelcbKlasseText = new System.Windows.Forms.Label();
+            this.labelcbFachText = new System.Windows.Forms.Label();
+            this.buttonSchuelerHinzu = new System.Windows.Forms.Button();
             this.panelUnterricht.SuspendLayout();
             this.panelLehrstoff.SuspendLayout();
             this.SuspendLayout();
@@ -62,15 +65,15 @@
             // 
             this.panelSchueler.BackColor = System.Drawing.Color.Transparent;
             this.panelSchueler.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelSchueler.Location = new System.Drawing.Point(13, 198);
+            this.panelSchueler.Location = new System.Drawing.Point(13, 220);
             this.panelSchueler.Name = "panelSchueler";
-            this.panelSchueler.Size = new System.Drawing.Size(1032, 334);
+            this.panelSchueler.Size = new System.Drawing.Size(1178, 334);
             this.panelSchueler.TabIndex = 0;
             // 
             // labelSchueler
             // 
             this.labelSchueler.AutoSize = true;
-            this.labelSchueler.Location = new System.Drawing.Point(17, 182);
+            this.labelSchueler.Location = new System.Drawing.Point(10, 204);
             this.labelSchueler.Name = "labelSchueler";
             this.labelSchueler.Size = new System.Drawing.Size(111, 13);
             this.labelSchueler.TabIndex = 0;
@@ -85,9 +88,9 @@
             this.panelUnterricht.Controls.Add(this.labelFachText);
             this.panelUnterricht.Controls.Add(this.labelLehrerText);
             this.panelUnterricht.Controls.Add(this.labelKlasseText);
-            this.panelUnterricht.Location = new System.Drawing.Point(13, 73);
+            this.panelUnterricht.Location = new System.Drawing.Point(13, 95);
             this.panelUnterricht.Name = "panelUnterricht";
-            this.panelUnterricht.Size = new System.Drawing.Size(1031, 97);
+            this.panelUnterricht.Size = new System.Drawing.Size(1178, 97);
             this.panelUnterricht.TabIndex = 1;
             // 
             // labelFach
@@ -147,7 +150,7 @@
             // labelUnterrichtText
             // 
             this.labelUnterrichtText.AutoSize = true;
-            this.labelUnterrichtText.Location = new System.Drawing.Point(17, 57);
+            this.labelUnterrichtText.Location = new System.Drawing.Point(10, 79);
             this.labelUnterrichtText.Name = "labelUnterrichtText";
             this.labelUnterrichtText.Size = new System.Drawing.Size(53, 13);
             this.labelUnterrichtText.TabIndex = 0;
@@ -157,9 +160,9 @@
             // 
             this.panelLehrstoff.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelLehrstoff.Controls.Add(this.textBoxLehrstoff);
-            this.panelLehrstoff.Location = new System.Drawing.Point(12, 569);
+            this.panelLehrstoff.Location = new System.Drawing.Point(12, 591);
             this.panelLehrstoff.Name = "panelLehrstoff";
-            this.panelLehrstoff.Size = new System.Drawing.Size(1032, 100);
+            this.panelLehrstoff.Size = new System.Drawing.Size(1179, 100);
             this.panelLehrstoff.TabIndex = 2;
             // 
             // textBoxLehrstoff
@@ -169,13 +172,13 @@
             this.textBoxLehrstoff.Multiline = true;
             this.textBoxLehrstoff.Name = "textBoxLehrstoff";
             this.textBoxLehrstoff.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxLehrstoff.Size = new System.Drawing.Size(1024, 92);
+            this.textBoxLehrstoff.Size = new System.Drawing.Size(1171, 92);
             this.textBoxLehrstoff.TabIndex = 1;
             // 
             // labelLehrstoffText
             // 
             this.labelLehrstoffText.AutoSize = true;
-            this.labelLehrstoffText.Location = new System.Drawing.Point(17, 553);
+            this.labelLehrstoffText.Location = new System.Drawing.Point(9, 575);
             this.labelLehrstoffText.Name = "labelLehrstoffText";
             this.labelLehrstoffText.Size = new System.Drawing.Size(48, 13);
             this.labelLehrstoffText.TabIndex = 0;
@@ -185,7 +188,7 @@
             // 
             this.comboBoxRaum.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxRaum.FormattingEnabled = true;
-            this.comboBoxRaum.Location = new System.Drawing.Point(626, 16);
+            this.comboBoxRaum.Location = new System.Drawing.Point(626, 33);
             this.comboBoxRaum.Name = "comboBoxRaum";
             this.comboBoxRaum.Size = new System.Drawing.Size(71, 21);
             this.comboBoxRaum.TabIndex = 3;
@@ -193,7 +196,7 @@
             // labelRaumText
             // 
             this.labelRaumText.AutoSize = true;
-            this.labelRaumText.Location = new System.Drawing.Point(591, 20);
+            this.labelRaumText.Location = new System.Drawing.Point(623, 17);
             this.labelRaumText.Name = "labelRaumText";
             this.labelRaumText.Size = new System.Drawing.Size(35, 13);
             this.labelRaumText.TabIndex = 4;
@@ -204,7 +207,7 @@
             this.comboBoxEinheit.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
             this.comboBoxEinheit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxEinheit.FormattingEnabled = true;
-            this.comboBoxEinheit.Location = new System.Drawing.Point(403, 16);
+            this.comboBoxEinheit.Location = new System.Drawing.Point(403, 33);
             this.comboBoxEinheit.Name = "comboBoxEinheit";
             this.comboBoxEinheit.Size = new System.Drawing.Size(121, 21);
             this.comboBoxEinheit.TabIndex = 5;
@@ -212,7 +215,7 @@
             // labelEinheitText
             // 
             this.labelEinheitText.AutoSize = true;
-            this.labelEinheitText.Location = new System.Drawing.Point(329, 20);
+            this.labelEinheitText.Location = new System.Drawing.Point(400, 17);
             this.labelEinheitText.Name = "labelEinheitText";
             this.labelEinheitText.Size = new System.Drawing.Size(74, 13);
             this.labelEinheitText.TabIndex = 6;
@@ -220,14 +223,14 @@
             // 
             // dateTimePicker
             // 
-            this.dateTimePicker.Location = new System.Drawing.Point(44, 16);
+            this.dateTimePicker.Location = new System.Drawing.Point(44, 33);
             this.dateTimePicker.Name = "dateTimePicker";
             this.dateTimePicker.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker.TabIndex = 11;
             // 
             // buttonDatumHeute
             // 
-            this.buttonDatumHeute.Location = new System.Drawing.Point(273, 16);
+            this.buttonDatumHeute.Location = new System.Drawing.Point(273, 33);
             this.buttonDatumHeute.Name = "buttonDatumHeute";
             this.buttonDatumHeute.Size = new System.Drawing.Size(45, 21);
             this.buttonDatumHeute.TabIndex = 12;
@@ -237,7 +240,7 @@
             // 
             // buttonTagZurueck
             // 
-            this.buttonTagZurueck.Location = new System.Drawing.Point(20, 16);
+            this.buttonTagZurueck.Location = new System.Drawing.Point(20, 33);
             this.buttonTagZurueck.Name = "buttonTagZurueck";
             this.buttonTagZurueck.Size = new System.Drawing.Size(20, 20);
             this.buttonTagZurueck.TabIndex = 13;
@@ -247,7 +250,7 @@
             // 
             // buttonTagVor
             // 
-            this.buttonTagVor.Location = new System.Drawing.Point(249, 16);
+            this.buttonTagVor.Location = new System.Drawing.Point(249, 33);
             this.buttonTagVor.Name = "buttonTagVor";
             this.buttonTagVor.Size = new System.Drawing.Size(20, 20);
             this.buttonTagVor.TabIndex = 14;
@@ -257,7 +260,7 @@
             // 
             // buttonJetzt
             // 
-            this.buttonJetzt.Location = new System.Drawing.Point(528, 16);
+            this.buttonJetzt.Location = new System.Drawing.Point(528, 33);
             this.buttonJetzt.Name = "buttonJetzt";
             this.buttonJetzt.Size = new System.Drawing.Size(45, 21);
             this.buttonJetzt.TabIndex = 15;
@@ -267,7 +270,7 @@
             // 
             // buttonSpeichern
             // 
-            this.buttonSpeichern.Location = new System.Drawing.Point(969, 675);
+            this.buttonSpeichern.Location = new System.Drawing.Point(1116, 697);
             this.buttonSpeichern.Name = "buttonSpeichern";
             this.buttonSpeichern.Size = new System.Drawing.Size(75, 23);
             this.buttonSpeichern.TabIndex = 16;
@@ -277,11 +280,11 @@
             // 
             // buttonUnterrichtHinzu
             // 
-            this.buttonUnterrichtHinzu.Location = new System.Drawing.Point(733, 16);
+            this.buttonUnterrichtHinzu.Location = new System.Drawing.Point(1013, 36);
             this.buttonUnterrichtHinzu.Name = "buttonUnterrichtHinzu";
-            this.buttonUnterrichtHinzu.Size = new System.Drawing.Size(75, 23);
+            this.buttonUnterrichtHinzu.Size = new System.Drawing.Size(75, 21);
             this.buttonUnterrichtHinzu.TabIndex = 17;
-            this.buttonUnterrichtHinzu.Text = "Adde";
+            this.buttonUnterrichtHinzu.Text = "Hinzu";
             this.buttonUnterrichtHinzu.UseVisualStyleBackColor = true;
             this.buttonUnterrichtHinzu.Click += new System.EventHandler(this.ButtonUnterrichtHinzu_Click);
             // 
@@ -290,9 +293,9 @@
             this.comboBoxKlasse.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
             this.comboBoxKlasse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxKlasse.FormattingEnabled = true;
-            this.comboBoxKlasse.Location = new System.Drawing.Point(814, 18);
+            this.comboBoxKlasse.Location = new System.Drawing.Point(827, 37);
             this.comboBoxKlasse.Name = "comboBoxKlasse";
-            this.comboBoxKlasse.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxKlasse.Size = new System.Drawing.Size(88, 21);
             this.comboBoxKlasse.TabIndex = 18;
             // 
             // comboBoxFach
@@ -300,16 +303,47 @@
             this.comboBoxFach.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
             this.comboBoxFach.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxFach.FormattingEnabled = true;
-            this.comboBoxFach.Location = new System.Drawing.Point(941, 18);
+            this.comboBoxFach.Location = new System.Drawing.Point(921, 36);
             this.comboBoxFach.Name = "comboBoxFach";
-            this.comboBoxFach.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxFach.Size = new System.Drawing.Size(88, 21);
             this.comboBoxFach.TabIndex = 19;
+            // 
+            // labelcbKlasseText
+            // 
+            this.labelcbKlasseText.AutoSize = true;
+            this.labelcbKlasseText.Location = new System.Drawing.Point(824, 21);
+            this.labelcbKlasseText.Name = "labelcbKlasseText";
+            this.labelcbKlasseText.Size = new System.Drawing.Size(38, 13);
+            this.labelcbKlasseText.TabIndex = 20;
+            this.labelcbKlasseText.Text = "Klasse";
+            // 
+            // labelcbFachText
+            // 
+            this.labelcbFachText.AutoSize = true;
+            this.labelcbFachText.Location = new System.Drawing.Point(918, 20);
+            this.labelcbFachText.Name = "labelcbFachText";
+            this.labelcbFachText.Size = new System.Drawing.Size(31, 13);
+            this.labelcbFachText.TabIndex = 21;
+            this.labelcbFachText.Text = "Fach";
+            // 
+            // buttonSchuelerHinzu
+            // 
+            this.buttonSchuelerHinzu.Location = new System.Drawing.Point(1116, 37);
+            this.buttonSchuelerHinzu.Name = "buttonSchuelerHinzu";
+            this.buttonSchuelerHinzu.Size = new System.Drawing.Size(75, 21);
+            this.buttonSchuelerHinzu.TabIndex = 22;
+            this.buttonSchuelerHinzu.Text = "Schueler";
+            this.buttonSchuelerHinzu.UseVisualStyleBackColor = true;
+            this.buttonSchuelerHinzu.Click += new System.EventHandler(this.ButtonSchuelerHinzu_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1203, 710);
+            this.ClientSize = new System.Drawing.Size(1203, 725);
+            this.Controls.Add(this.buttonSchuelerHinzu);
+            this.Controls.Add(this.labelcbFachText);
+            this.Controls.Add(this.labelcbKlasseText);
             this.Controls.Add(this.comboBoxFach);
             this.Controls.Add(this.comboBoxKlasse);
             this.Controls.Add(this.buttonUnterrichtHinzu);
@@ -368,6 +402,9 @@
         private System.Windows.Forms.Button buttonUnterrichtHinzu;
         private System.Windows.Forms.ComboBox comboBoxKlasse;
         private System.Windows.Forms.ComboBox comboBoxFach;
+        private System.Windows.Forms.Label labelcbKlasseText;
+        private System.Windows.Forms.Label labelcbFachText;
+        private System.Windows.Forms.Button buttonSchuelerHinzu;
     }
 }
 

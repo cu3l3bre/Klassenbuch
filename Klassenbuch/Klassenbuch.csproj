@@ -53,11 +53,11 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormUnterrichtHinzufuegen.cs">
+    <Compile Include="FormSchuelerHinzufuegen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormUnterrichtHinzufuegen.Designer.cs">
-      <DependentUpon>FormUnterrichtHinzufuegen.cs</DependentUpon>
+    <Compile Include="FormSchuelerHinzufuegen.Designer.cs">
+      <DependentUpon>FormSchuelerHinzufuegen.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,6 +69,9 @@
     </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSchuelerHinzufuegen.resx">
+      <DependentUpon>FormSchuelerHinzufuegen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

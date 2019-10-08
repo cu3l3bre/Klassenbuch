@@ -277,6 +277,67 @@ namespace Klassenbuch.DbAccess
         }
 
 
+
+
+
+
+        public static DataTable GetKlassen()
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(DbKlassenbuchConnectionString))
+                {
+                    SqlCommand command = new SqlCommand();
+
+                    command.Connection = connection;
+
+                    command.CommandText = "SELECT Klasse.ID, Klasse.Bezeichnung FROM Klasse";
+
+                    connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                    DataTable dtKlassen = new DataTable();
+
+
+                    for (int col = 0; col < reader.FieldCount; col++)
+                    {
+                        dtKlassen.Columns.Add(reader.GetName(col), reader.GetFieldType(col));
+                    }
+
+                    while (reader.Read())
+                    {
+                        DataRow row = dtKlassen.NewRow();
+
+                        for (int col = 0; col < reader.FieldCount; col++)
+                        {
+                            row[col] = reader.GetValue(col);
+                        }
+
+                        dtKlassen.Rows.Add(row);
+                    }
+                    reader.Close();
+                    return dtKlassen;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("GetKlassen(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
+                return null;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
         public static DataTable GetUntaetigeKlassen(string datum, long einheitId)
         {
             try
