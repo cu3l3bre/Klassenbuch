@@ -328,11 +328,11 @@
             // 
             // buttonSchuelerHinzu
             // 
-            this.buttonSchuelerHinzu.Location = new System.Drawing.Point(1116, 37);
+            this.buttonSchuelerHinzu.Location = new System.Drawing.Point(1116, 25);
             this.buttonSchuelerHinzu.Name = "buttonSchuelerHinzu";
-            this.buttonSchuelerHinzu.Size = new System.Drawing.Size(75, 21);
+            this.buttonSchuelerHinzu.Size = new System.Drawing.Size(75, 43);
             this.buttonSchuelerHinzu.TabIndex = 22;
-            this.buttonSchuelerHinzu.Text = "Schueler";
+            this.buttonSchuelerHinzu.Text = "Schueler anlegen";
             this.buttonSchuelerHinzu.UseVisualStyleBackColor = true;
             this.buttonSchuelerHinzu.Click += new System.EventHandler(this.ButtonSchuelerHinzu_Click);
             // 

@@ -48,28 +48,28 @@
             // 
             this.comboBoxKlasse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxKlasse.FormattingEnabled = true;
-            this.comboBoxKlasse.Location = new System.Drawing.Point(85, 297);
+            this.comboBoxKlasse.Location = new System.Drawing.Point(71, 256);
             this.comboBoxKlasse.Name = "comboBoxKlasse";
             this.comboBoxKlasse.Size = new System.Drawing.Size(161, 21);
             this.comboBoxKlasse.TabIndex = 3;
             // 
             // textBoxNachname
             // 
-            this.textBoxNachname.Location = new System.Drawing.Point(85, 271);
+            this.textBoxNachname.Location = new System.Drawing.Point(71, 230);
             this.textBoxNachname.Name = "textBoxNachname";
             this.textBoxNachname.Size = new System.Drawing.Size(161, 20);
             this.textBoxNachname.TabIndex = 2;
             // 
             // textBoxVorname
             // 
-            this.textBoxVorname.Location = new System.Drawing.Point(85, 245);
+            this.textBoxVorname.Location = new System.Drawing.Point(71, 204);
             this.textBoxVorname.Name = "textBoxVorname";
             this.textBoxVorname.Size = new System.Drawing.Size(161, 20);
             this.textBoxVorname.TabIndex = 1;
             // 
             // buttonSpeichern
             // 
-            this.buttonSpeichern.Location = new System.Drawing.Point(248, 415);
+            this.buttonSpeichern.Location = new System.Drawing.Point(157, 303);
             this.buttonSpeichern.Name = "buttonSpeichern";
             this.buttonSpeichern.Size = new System.Drawing.Size(75, 23);
             this.buttonSpeichern.TabIndex = 5;
@@ -79,7 +79,7 @@
             // 
             // buttonAbbrechen
             // 
-            this.buttonAbbrechen.Location = new System.Drawing.Point(13, 415);
+            this.buttonAbbrechen.Location = new System.Drawing.Point(71, 303);
             this.buttonAbbrechen.Name = "buttonAbbrechen";
             this.buttonAbbrechen.Size = new System.Drawing.Size(75, 23);
             this.buttonAbbrechen.TabIndex = 4;
@@ -98,7 +98,7 @@
             // labelVornameText
             // 
             this.labelVornameText.AutoSize = true;
-            this.labelVornameText.Location = new System.Drawing.Point(30, 252);
+            this.labelVornameText.Location = new System.Drawing.Point(16, 207);
             this.labelVornameText.Name = "labelVornameText";
             this.labelVornameText.Size = new System.Drawing.Size(49, 13);
             this.labelVornameText.TabIndex = 6;
@@ -108,7 +108,7 @@
             // labelNachnameText
             // 
             this.labelNachnameText.AutoSize = true;
-            this.labelNachnameText.Location = new System.Drawing.Point(20, 278);
+            this.labelNachnameText.Location = new System.Drawing.Point(6, 233);
             this.labelNachnameText.Name = "labelNachnameText";
             this.labelNachnameText.Size = new System.Drawing.Size(59, 13);
             this.labelNachnameText.TabIndex = 7;
@@ -117,7 +117,7 @@
             // labelKlasseText
             // 
             this.labelKlasseText.AutoSize = true;
-            this.labelKlasseText.Location = new System.Drawing.Point(41, 305);
+            this.labelKlasseText.Location = new System.Drawing.Point(27, 259);
             this.labelKlasseText.Name = "labelKlasseText";
             this.labelKlasseText.Size = new System.Drawing.Size(38, 13);
             this.labelKlasseText.TabIndex = 8;
@@ -127,7 +127,7 @@
             // 
             this.panelBild.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelBild.Controls.Add(this.pictureBoxBild);
-            this.panelBild.Location = new System.Drawing.Point(85, 30);
+            this.panelBild.Location = new System.Drawing.Point(71, 12);
             this.panelBild.Name = "panelBild";
             this.panelBild.Size = new System.Drawing.Size(161, 139);
             this.panelBild.TabIndex = 9;
@@ -138,7 +138,7 @@
             // 
             // buttonFileDialog
             // 
-            this.buttonFileDialog.Location = new System.Drawing.Point(85, 175);
+            this.buttonFileDialog.Location = new System.Drawing.Point(71, 157);
             this.buttonFileDialog.Name = "buttonFileDialog";
             this.buttonFileDialog.Size = new System.Drawing.Size(161, 23);
             this.buttonFileDialog.TabIndex = 0;
@@ -150,7 +150,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(335, 450);
+            this.ClientSize = new System.Drawing.Size(301, 346);
             this.Controls.Add(this.buttonFileDialog);
             this.Controls.Add(this.panelBild);
             this.Controls.Add(this.labelKlasseText);
