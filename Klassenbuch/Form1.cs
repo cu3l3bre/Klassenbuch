@@ -408,55 +408,32 @@ namespace Klassenbuch
 
         private void ButtonJetzt_Click(object sender, EventArgs e)
         {
-            int hour = DateTime.Now.Hour;
-
-            foreach (DataRowView item in comboBoxEinheit.Items)
+            if (comboBoxEinheit.Items.Count > 0)
             {
-                long id = (long)item.Row[0];
-                string time = item.Row[1].ToString();
-
-                Debug.WriteLine(id + " " + time);
-            }
-
-
-
-            switch (hour)
-            {
-                case 8: comboBoxEinheit.SelectedValue = 1; break;
-                default:
-                    break;
-            }
-
-
-            // TODO muss geändert werden , da combobo nun anderes gefüllt wird
-            //Debug.WriteLine(comboBoxEinheit.Items.Count);
-
-            //Debug.WriteLine("Selected Index " + comboBoxEinheit.SelectedIndex);
-            //Debug.WriteLine("Text " + comboBoxEinheit.Text);
-
-
-
-            /*
-
-            for(int i = 0; i < comboBoxEinheit.Items.Count; i++)
-            {
-
-                string[] einheitBeginnEnde = comboBoxEinheit.Items[i].ToString().Split('-');
-                string einheitBeginn = einheitBeginnEnde[0].Trim();
-                string einheitEnde = einheitBeginnEnde[1].Trim();
-
-                TimeSpan zeitJetzt = DateTime.Now.TimeOfDay;
-
-                TimeSpan.TryParse(einheitBeginn, out TimeSpan zeitBeginn);
-                TimeSpan.TryParse(einheitEnde, out TimeSpan zeitEnde);
-
-                if (zeitBeginn < zeitJetzt &&  zeitEnde > zeitJetzt)
+                foreach (DataRowView item in comboBoxEinheit.Items)
                 {
-                    comboBoxEinheit.Text = comboBoxEinheit.Items[i].ToString();
-                    break;
+                    long id = (long)item.Row[0];
+                    string time = item.Row[1].ToString();
+
+                    string[] einheitBeginnEnde = time.ToString().Split('-');
+                    string einheitBeginn = einheitBeginnEnde[0].Trim();
+                    string einheitEnde = einheitBeginnEnde[1].Trim();
+
+                    TimeSpan zeitJetzt = DateTime.Now.TimeOfDay;
+                    TimeSpan.TryParse(einheitBeginn, out TimeSpan zeitBeginn);
+                    TimeSpan.TryParse(einheitEnde, out TimeSpan zeitEnde);
+
+                    if (zeitBeginn < zeitJetzt && zeitEnde > zeitJetzt)
+                    {
+                        comboBoxEinheit.SelectedValue = id;
+                        break;
+                    }
+                    else
+                    {
+                        comboBoxEinheit.SelectedValue = 1;
+                    }
                 }
             }
-            */
         }
 
 
@@ -536,8 +513,6 @@ namespace Klassenbuch
             }
 
             holeDatenUndAktualisiere();
-
-
         }
 
 
@@ -557,6 +532,11 @@ namespace Klassenbuch
             FormSchuelerHinzufuegen formSchueler= new FormSchuelerHinzufuegen();
 
             formSchueler.ShowDialog();
+        }
+
+        private void ButtonBeenden_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

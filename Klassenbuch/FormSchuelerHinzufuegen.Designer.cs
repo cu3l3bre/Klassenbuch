@@ -161,6 +161,7 @@
             this.Controls.Add(this.textBoxVorname);
             this.Controls.Add(this.textBoxNachname);
             this.Controls.Add(this.comboBoxKlasse);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FormSchuelerHinzufuegen";
             this.Text = "Schueler hinzufuegen";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBild)).EndInit();

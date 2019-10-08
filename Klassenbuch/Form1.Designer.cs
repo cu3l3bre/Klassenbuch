@@ -57,6 +57,7 @@
             this.labelcbKlasseText = new System.Windows.Forms.Label();
             this.labelcbFachText = new System.Windows.Forms.Label();
             this.buttonSchuelerHinzu = new System.Windows.Forms.Button();
+            this.buttonBeenden = new System.Windows.Forms.Button();
             this.panelUnterricht.SuspendLayout();
             this.panelLehrstoff.SuspendLayout();
             this.SuspendLayout();
@@ -188,7 +189,7 @@
             // 
             this.comboBoxRaum.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxRaum.FormattingEnabled = true;
-            this.comboBoxRaum.Location = new System.Drawing.Point(626, 33);
+            this.comboBoxRaum.Location = new System.Drawing.Point(520, 33);
             this.comboBoxRaum.Name = "comboBoxRaum";
             this.comboBoxRaum.Size = new System.Drawing.Size(71, 21);
             this.comboBoxRaum.TabIndex = 3;
@@ -196,7 +197,7 @@
             // labelRaumText
             // 
             this.labelRaumText.AutoSize = true;
-            this.labelRaumText.Location = new System.Drawing.Point(623, 17);
+            this.labelRaumText.Location = new System.Drawing.Point(517, 17);
             this.labelRaumText.Name = "labelRaumText";
             this.labelRaumText.Size = new System.Drawing.Size(35, 13);
             this.labelRaumText.TabIndex = 4;
@@ -207,15 +208,15 @@
             this.comboBoxEinheit.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
             this.comboBoxEinheit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxEinheit.FormattingEnabled = true;
-            this.comboBoxEinheit.Location = new System.Drawing.Point(403, 33);
+            this.comboBoxEinheit.Location = new System.Drawing.Point(351, 33);
             this.comboBoxEinheit.Name = "comboBoxEinheit";
-            this.comboBoxEinheit.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxEinheit.Size = new System.Drawing.Size(89, 21);
             this.comboBoxEinheit.TabIndex = 5;
             // 
             // labelEinheitText
             // 
             this.labelEinheitText.AutoSize = true;
-            this.labelEinheitText.Location = new System.Drawing.Point(400, 17);
+            this.labelEinheitText.Location = new System.Drawing.Point(348, 17);
             this.labelEinheitText.Name = "labelEinheitText";
             this.labelEinheitText.Size = new System.Drawing.Size(74, 13);
             this.labelEinheitText.TabIndex = 6;
@@ -260,7 +261,7 @@
             // 
             // buttonJetzt
             // 
-            this.buttonJetzt.Location = new System.Drawing.Point(528, 33);
+            this.buttonJetzt.Location = new System.Drawing.Point(444, 33);
             this.buttonJetzt.Name = "buttonJetzt";
             this.buttonJetzt.Size = new System.Drawing.Size(45, 21);
             this.buttonJetzt.TabIndex = 15;
@@ -270,7 +271,7 @@
             // 
             // buttonSpeichern
             // 
-            this.buttonSpeichern.Location = new System.Drawing.Point(1116, 697);
+            this.buttonSpeichern.Location = new System.Drawing.Point(1035, 697);
             this.buttonSpeichern.Name = "buttonSpeichern";
             this.buttonSpeichern.Size = new System.Drawing.Size(75, 23);
             this.buttonSpeichern.TabIndex = 16;
@@ -280,11 +281,11 @@
             // 
             // buttonUnterrichtHinzu
             // 
-            this.buttonUnterrichtHinzu.Location = new System.Drawing.Point(1013, 36);
+            this.buttonUnterrichtHinzu.Location = new System.Drawing.Point(850, 21);
             this.buttonUnterrichtHinzu.Name = "buttonUnterrichtHinzu";
-            this.buttonUnterrichtHinzu.Size = new System.Drawing.Size(75, 21);
+            this.buttonUnterrichtHinzu.Size = new System.Drawing.Size(75, 43);
             this.buttonUnterrichtHinzu.TabIndex = 17;
-            this.buttonUnterrichtHinzu.Text = "Hinzu";
+            this.buttonUnterrichtHinzu.Text = "Unterricht eintragen";
             this.buttonUnterrichtHinzu.UseVisualStyleBackColor = true;
             this.buttonUnterrichtHinzu.Click += new System.EventHandler(this.ButtonUnterrichtHinzu_Click);
             // 
@@ -293,7 +294,7 @@
             this.comboBoxKlasse.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
             this.comboBoxKlasse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxKlasse.FormattingEnabled = true;
-            this.comboBoxKlasse.Location = new System.Drawing.Point(827, 37);
+            this.comboBoxKlasse.Location = new System.Drawing.Point(662, 33);
             this.comboBoxKlasse.Name = "comboBoxKlasse";
             this.comboBoxKlasse.Size = new System.Drawing.Size(88, 21);
             this.comboBoxKlasse.TabIndex = 18;
@@ -303,7 +304,7 @@
             this.comboBoxFach.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
             this.comboBoxFach.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxFach.FormattingEnabled = true;
-            this.comboBoxFach.Location = new System.Drawing.Point(921, 36);
+            this.comboBoxFach.Location = new System.Drawing.Point(756, 32);
             this.comboBoxFach.Name = "comboBoxFach";
             this.comboBoxFach.Size = new System.Drawing.Size(88, 21);
             this.comboBoxFach.TabIndex = 19;
@@ -311,7 +312,7 @@
             // labelcbKlasseText
             // 
             this.labelcbKlasseText.AutoSize = true;
-            this.labelcbKlasseText.Location = new System.Drawing.Point(824, 21);
+            this.labelcbKlasseText.Location = new System.Drawing.Point(659, 17);
             this.labelcbKlasseText.Name = "labelcbKlasseText";
             this.labelcbKlasseText.Size = new System.Drawing.Size(38, 13);
             this.labelcbKlasseText.TabIndex = 20;
@@ -320,7 +321,7 @@
             // labelcbFachText
             // 
             this.labelcbFachText.AutoSize = true;
-            this.labelcbFachText.Location = new System.Drawing.Point(918, 20);
+            this.labelcbFachText.Location = new System.Drawing.Point(753, 16);
             this.labelcbFachText.Name = "labelcbFachText";
             this.labelcbFachText.Size = new System.Drawing.Size(31, 13);
             this.labelcbFachText.TabIndex = 21;
@@ -336,11 +337,22 @@
             this.buttonSchuelerHinzu.UseVisualStyleBackColor = true;
             this.buttonSchuelerHinzu.Click += new System.EventHandler(this.ButtonSchuelerHinzu_Click);
             // 
+            // buttonBeenden
+            // 
+            this.buttonBeenden.Location = new System.Drawing.Point(1116, 697);
+            this.buttonBeenden.Name = "buttonBeenden";
+            this.buttonBeenden.Size = new System.Drawing.Size(75, 23);
+            this.buttonBeenden.TabIndex = 23;
+            this.buttonBeenden.Text = "Beenden";
+            this.buttonBeenden.UseVisualStyleBackColor = true;
+            this.buttonBeenden.Click += new System.EventHandler(this.ButtonBeenden_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1203, 725);
+            this.Controls.Add(this.buttonBeenden);
             this.Controls.Add(this.buttonSchuelerHinzu);
             this.Controls.Add(this.labelcbFachText);
             this.Controls.Add(this.labelcbKlasseText);
@@ -363,6 +375,7 @@
             this.Controls.Add(this.panelLehrstoff);
             this.Controls.Add(this.panelUnterricht);
             this.Controls.Add(this.panelSchueler);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
             this.Text = "Klassenbuch";
             this.panelUnterricht.ResumeLayout(false);
@@ -405,6 +418,7 @@
         private System.Windows.Forms.Label labelcbKlasseText;
         private System.Windows.Forms.Label labelcbFachText;
         private System.Windows.Forms.Button buttonSchuelerHinzu;
+        private System.Windows.Forms.Button buttonBeenden;
     }
 }
 
