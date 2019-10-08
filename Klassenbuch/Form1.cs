@@ -405,13 +405,38 @@ namespace Klassenbuch
             dateTimePicker.Value = datum.AddDays(-1);
         }
 
+
         private void ButtonJetzt_Click(object sender, EventArgs e)
         {
+            int hour = DateTime.Now.Hour;
+
+            foreach (DataRowView item in comboBoxEinheit.Items)
+            {
+                long id = (long)item.Row[0];
+                string time = item.Row[1].ToString();
+
+                Debug.WriteLine(id + " " + time);
+            }
+
+
+
+            switch (hour)
+            {
+                case 8: comboBoxEinheit.SelectedValue = 1; break;
+                default:
+                    break;
+            }
+
 
             // TODO muss geändert werden , da combobo nun anderes gefüllt wird
-            Debug.WriteLine(comboBoxEinheit.Items.Count);
+            //Debug.WriteLine(comboBoxEinheit.Items.Count);
+
+            //Debug.WriteLine("Selected Index " + comboBoxEinheit.SelectedIndex);
+            //Debug.WriteLine("Text " + comboBoxEinheit.Text);
 
 
+
+            /*
 
             for(int i = 0; i < comboBoxEinheit.Items.Count; i++)
             {
@@ -431,6 +456,7 @@ namespace Klassenbuch
                     break;
                 }
             }
+            */
         }
 
 
