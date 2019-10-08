@@ -79,15 +79,26 @@ namespace Klassenbuch
 
         private void ButtonSpeichern_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxVorname.Text) || string.IsNullOrEmpty(textBoxNachname.Text))
+            //Debug.WriteLine("Daqteiname " + dateiName);
+
+         
+            if (string.IsNullOrEmpty(textBoxVorname.Text)
+                || string.IsNullOrWhiteSpace(textBoxVorname.Text)
+                || string.IsNullOrEmpty(textBoxNachname.Text)
+                || string.IsNullOrWhiteSpace(textBoxNachname.Text)
+                || string.IsNullOrEmpty(dateiName))
             {
                 return;
             }
 
+
             Debug.WriteLine(dateiName);
 
+            string vorname = textBoxVorname.Text.Trim();
+            string nachname = textBoxNachname.Text.Trim();
+
             string pfadZumOrdner = Path.GetFullPath(Path.Combine(Application.StartupPath, @"..\..", "Bilder"));
-            string bildName = textBoxVorname.Text.Trim() + textBoxNachname.Text.Trim() + ".jpg";
+            string bildName = vorname + nachname + ".jpg";
             string pfadZumBild = Path.GetFullPath(Path.Combine(Application.StartupPath, @"..\..", "Bilder", bildName));
 
 
@@ -98,11 +109,31 @@ namespace Klassenbuch
 
                     if (!System.IO.File.Exists(pfadZumBild))
                     {
-                        System.IO.File.Copy(dateiName, pfadZumBild, true);
+                        
                         // Hier die sql dinger rein
                         // Insert Person
+                        DbAccessViaSQL.InsertPerson(vorname, nachname);
+
+                        long personId = 0;
+
                         // Get ID von Person mit Namen
+                        DataTable dtPersonID = DbAccessViaSQL.GetPersonID(vorname, nachname);
+                        for (int i = 0; i < dtPersonID.Rows.Count; i++)
+                        {
+                            //comboBoxRaum.Items.Add(dtPersonID.Rows[i][0]);
+                            // Debug.WriteLine(dtPersonID.Rows[i][0].ToString());
+                            personId = (long)(dtPersonID.Rows[i][0]);
+                        }
+
+
+                        long klasseId = (long)comboBoxKlasse.SelectedValue;
+
                         // Insert Schueler mit PErson ID und Klase ID
+                        // DbAccessViaSQL.InsertSchueler(personId, klasseId);
+
+
+                        // Kopiere Bild in den Bildordner, wo alle Schueler "liegen"
+                        System.IO.File.Copy(dateiName, pfadZumBild, true);
 
                     }
                     else
@@ -121,7 +152,7 @@ namespace Klassenbuch
             }
 
 
-
+  
 
         }
 

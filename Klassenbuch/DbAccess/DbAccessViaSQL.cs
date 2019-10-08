@@ -330,6 +330,58 @@ namespace Klassenbuch.DbAccess
 
 
 
+        public static DataTable GetPersonID(string vorname, string nachname)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(DbKlassenbuchConnectionString))
+                {
+                    SqlCommand command = new SqlCommand();
+
+                    command.Connection = connection;
+                    command.CommandText =
+
+                    "SELECT Person.ID FROM PERSON WHERE Person.Vorname = @Vorname AND Person.Nachname = @Nachname";
+
+                    command.Parameters.AddWithValue("@Vorname", vorname);
+                    command.Parameters.AddWithValue("@Nachname", nachname);
+
+                    connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                    DataTable dtPersonID = new DataTable();
+
+
+                    for (int col = 0; col < reader.FieldCount; col++)
+                    {
+                        dtPersonID.Columns.Add(reader.GetName(col), reader.GetFieldType(col));
+                    }
+
+                    while (reader.Read())
+                    {
+                        DataRow row = dtPersonID.NewRow();
+
+                        for (int col = 0; col < reader.FieldCount; col++)
+                        {
+                            row[col] = reader.GetValue(col);
+                        }
+
+                        dtPersonID.Rows.Add(row);
+
+                    }
+                    reader.Close();
+
+                    return dtPersonID;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("GetPersonID(): Fehler: {0} Grund: {1}", ex.GetType(), ex.Message);
+                return null;
+            }
+        }
+
+
 
 
 
@@ -581,6 +633,80 @@ namespace Klassenbuch.DbAccess
                 return false;
             }
         }
+
+
+
+
+
+        public static bool InsertPerson(string vorname, string nachname)
+        {
+            try
+            {
+                using (SqlConnection connection =
+                    new SqlConnection(DbKlassenbuchConnectionString))
+                {
+                    SqlCommand command = new SqlCommand();
+
+                    command.Connection = connection;
+
+                    command.CommandText =
+
+                    "INSERT INTO Person(Vorname, Nachname) " +
+                    "VALUES(@Vorname, @Nachname)";
+
+                    command.Parameters.AddWithValue("@Vorname", vorname);
+                    command.Parameters.AddWithValue("@Nachname", nachname);
+
+                    connection.Open();
+
+                    return command.ExecuteNonQuery() == 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(
+                    "InsertPerson(): Fehler: {0} Grund: {1}",
+                    ex.GetType(), ex.Message);
+                return false;
+            }
+        }
+
+
+
+
+        public static bool InsertSchueler(long personId, long klasseId)
+        {
+            try
+            {
+                using (SqlConnection connection =
+                    new SqlConnection(DbKlassenbuchConnectionString))
+                {
+                    SqlCommand command = new SqlCommand();
+
+                    command.Connection = connection;
+
+                    command.CommandText =
+
+                    "INSERT INTO Schueler(PersonID, KlasseID) " +
+                    "VALUES(@PersonID, @KlasseID)";
+
+                    command.Parameters.AddWithValue("@PersonID", personId);
+                    command.Parameters.AddWithValue("@KlasseID", klasseId);
+
+                    connection.Open();
+
+                    return command.ExecuteNonQuery() == 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(
+                    "InsertSchueler(): Fehler: {0} Grund: {1}",
+                    ex.GetType(), ex.Message);
+                return false;
+            }
+        }
+
 
 
     }
