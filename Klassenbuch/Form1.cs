@@ -5,17 +5,6 @@ using System.IO;
 using System.Windows.Forms;
 using Klassenbuch.DbAccess;
 
-/*
-using System.Collections.Generic;
-using System.ComponentModel;
-
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System.Diagnostics;
-*/
-
 
 namespace Klassenbuch
 {
@@ -23,7 +12,6 @@ namespace Klassenbuch
     public partial class Form1 : Form
     {
 
-        //private UserControlSchueler[] schueler;
         private UserControlSchueler aktivesUsercontrol;
         private Point vorherigeUserControlPos;
 
@@ -316,8 +304,13 @@ namespace Klassenbuch
                 DbAccessViaSQL.InsertUnterricht(datum, einheitId, fachId, schuelerId, raumId, i * 10);
             }
 
-            // Nachdem die Daten hinzugefügt wurden, ist einmal das Layout zu refreshen
-            holeDatenUndAktualisiere();
+            // Nachdem die Daten hinzugefügt wurden, ist einmal das Layout zu refreshen,
+            // falls auch tatsächlich was in die Db geschrieben worden ist
+            // wenn die Klasse keine Schüler hat, kann ich nix adden und brauch dann auch nix refreshen
+            if (dtSchuelerKlasse.Rows.Count > 0)
+            {
+                holeDatenUndAktualisiere();
+            }
         }
 
 
