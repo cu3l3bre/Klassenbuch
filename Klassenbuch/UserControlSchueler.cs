@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
-using System.IO;
-using System.Diagnostics;
+
 
 namespace Klassenbuch
 {
@@ -16,12 +8,19 @@ namespace Klassenbuch
     public partial class UserControlSchueler : UserControl
     {
 
-        public string Kommentar
+        public string Vorname
         {
-            get { return textBoxGrund.Text; }
-            set { textBoxGrund.Text = value; }
+            get { return labelVorname.Text; }
+            set { labelVorname.Text = value; }
         }
 
+
+        public string Nachname
+        {
+            get { return labelNachname.Text; }
+            set { labelNachname.Text = value; }
+        }
+                          
 
         public bool? Anwesend
         {
@@ -60,17 +59,12 @@ namespace Klassenbuch
                 }
             }
         }
+        
 
-        public string Vorname
+        public string Kommentar
         {
-            get { return labelVorname.Text; }
-            set { labelVorname.Text = value; }
-        }
-
-        public string Nachname
-        {
-            get { return labelNachname.Text; }
-            set { labelNachname.Text = value; }
+            get { return textBoxGrund.Text; }
+            set { textBoxGrund.Text = value; }
         }
 
 
