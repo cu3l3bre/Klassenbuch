@@ -23,7 +23,7 @@ namespace Klassenbuch
     public partial class Form1 : Form
     {
 
-        private UserControlSchueler[] schueler;
+        //private UserControlSchueler[] schueler;
         private UserControlSchueler aktivesUsercontrol;
         private Point vorherigeUserControlPos;
 
@@ -60,7 +60,7 @@ namespace Klassenbuch
             // Setzte die aktuelle Unterrichtseinheit
             buttonJetzt.PerformClick();
 
-            //bereinigeUI();
+            // Hole Daten aus der Db und aktualsiere das UI
             holeDatenUndAktualisiere();
         }
 
@@ -383,25 +383,29 @@ namespace Klassenbuch
 
         private void aktualisiereDaten(DataTable dt)
         {
-           
+            // Fülle das Panel Unterricht mit Daten
             labelFach.Text = dt.Rows[0][3].ToString();
             labelLehrer.Text = dt.Rows[0][5].ToString();
             labelKlasse.Text = dt.Rows[0][6].ToString();
 
-            // TODO besser so machen überall aus Gründen
+            // Fülle die Textbox Lehrstoff mit Daten
             textBoxLehrstoff.Text = dt.Rows[0][13].ToString();
 
-
-
             int anzahlSchueler = dt.Rows.Count;
-            schueler = new UserControlSchueler[anzahlSchueler];
 
+            // Erzeuge ein Array vom Typ UserControlSchueler mit der Anzahl an Schülern, die am Unterricht teilnehmen
+            UserControlSchueler[] schueler = new UserControlSchueler[anzahlSchueler];
+
+            // Setzen der Daten für jedes UserControl Objekt, sowie das Hinzufügen des Controls zum Panel
             for (int i = 0; i < schueler.Length; i++)
             {
 
                 string vorname = dt.Rows[i][7].ToString();
                 string nachname = dt.Rows[i][8].ToString();
                 string kommentar = dt.Rows[i][11].ToString();
+
+                string bildname = vorname + nachname + ".jpg";
+                string pfadZumBild = Path.GetFullPath(Path.Combine(Application.StartupPath, @"..\..", "Bilder", bildname));
 
 
                 CheckState anwesend = CheckState.Indeterminate;
@@ -420,21 +424,21 @@ namespace Klassenbuch
                 }
 
 
-                Point ucLocation = new Point((int)dt.Rows[i][9], (int)dt.Rows[i][10]);
+                // Erzeugen des UserControlSchueler Objektes
+                schueler[i] = new UserControlSchueler(vorname, nachname, pfadZumBild, kommentar, anwesend);
 
-                string bildname = vorname + nachname + ".jpg";
 
-                string pathToImage = Path.GetFullPath(Path.Combine(
-                Application.StartupPath, @"..\..", "Bilder", bildname));
+                // Setzen der Location, wo das Control auf dem Panel sein soll
+                schueler[i].Location = new Point((int)dt.Rows[i][9], (int)dt.Rows[i][10]);
 
-                schueler[i] = new UserControlSchueler(vorname, nachname, pathToImage, kommentar, anwesend);
 
-                // Event Handler registrieren
+                // Registrierung der Event Handler für das Hauptelement
                 schueler[i].MouseDown += usercontrol_MouseDown;
                 schueler[i].MouseMove += usercontrol_MouseMove;
                 schueler[i].MouseUp += usercontrol_MouseUp;
 
 
+                // Registrierung des Event Handlers für die Checkbox im Control
                 foreach (Control ctrl in schueler[i].Controls)
                 {
                     if (ctrl.GetType() == typeof(CheckBox))
@@ -444,11 +448,10 @@ namespace Klassenbuch
                     }
                 }
 
-                schueler[i].Location = ucLocation;
+                // Hinzufügen des Controls zum Panel
                 panelSchueler.Controls.Add(schueler[i]);
 
             }
-
         }
 
 
