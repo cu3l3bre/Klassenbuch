@@ -342,83 +342,48 @@ namespace Klassenbuch
         private void holeDatenUndAktualisiere()
         {
 
-
-
-
-            //long einheitId = -1;
-
             if (!string.IsNullOrEmpty(comboBoxEinheit.Text) && !string.IsNullOrEmpty(comboBoxRaum.Text))
             {
-                // Datums string für SQL Abfrage
-                string datum = getDatum();
-                //dateTimePicker.Value.Year.ToString() + '-' +
-                //dateTimePicker.Value.Month.ToString() + '-' +
-                //dateTimePicker.Value.Day.ToString();
 
-
-                string[] einheitBeginnEnde = comboBoxEinheit.Text.Split('-');
-
-                long einheitId = (long)comboBoxEinheit.SelectedValue;
-                long raumId = (long)comboBoxRaum.SelectedValue;
-
-                // DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(comboBoxRaum.Text, einheitId, datum);
-                DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(raumId, einheitId, datum);
-
+                // Zunächst einmal das UI clearen
                 bereinigeUI();
 
+                string datum = getDatum();
+                long einheitId = (long)comboBoxEinheit.SelectedValue;
+                long raumId = (long)comboBoxRaum.SelectedValue;
+                
+                // Hole die Daten zum Unterricht anhand von Raum, Unterrichtseinheit und Datum
+                DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(raumId, einheitId, datum);
 
-                buttonUnterrichtHinzu.Enabled = true;
-
-                // Hole die untaetigen Klassen, die in der DB existieren und adde diese als Einträge zur Combobox
+                // Hole die untaetigen Klassen die in der Db existieren und füge diese zur Combobox hinzu
                 DataTable dtUntaetigeKlassen = DbAccessViaSQL.GetUntaetigeKlassen(datum, einheitId);
-
-
                 comboBoxKlasse.DataSource = dtUntaetigeKlassen;
                 comboBoxKlasse.DisplayMember = dtUntaetigeKlassen.Columns[1].ColumnName;
                 comboBoxKlasse.ValueMember = dtUntaetigeKlassen.Columns[0].ColumnName;
 
-                /*
-                comboBoxKlasse.Items.Clear();
-                for (int i = 0; i < dtUntaetigeKlassen.Rows.Count; i++)
-                {
-                    comboBoxKlasse.Items.Add(dtUntaetigeKlassen.Rows[i][0].ToString());
-                }
-                */
-
-
-
-                // Hole die untaetigen Faecher, die in der DB existieren und adde diese als Einträge zur Combobox
+                // Hole die untaetigen Faecher die in der Db existieren und füge diese zur Combobox hinzu
                 DataTable dtUntaetigeFaecher = DbAccessViaSQL.GetUntaetigeFaecher(datum, einheitId);
-
                 comboBoxFach.DataSource = dtUntaetigeFaecher;
                 comboBoxFach.DisplayMember = dtUntaetigeFaecher.Columns[1].ColumnName;
                 comboBoxFach.ValueMember = dtUntaetigeFaecher.Columns[0].ColumnName;
-                /*
-                                comboBoxFach.Items.Clear();
-                                for (int i = 0; i < dtUntaetigeFaecher.Rows.Count; i++)
-                                {
-                                    comboBoxFach.Items.Add(dtUntaetigeFaecher.Rows[i][0].ToString());
-                                }
-                                */
 
-
-
+                // Wenn keine Daten zum Untericht vorliegen, kann die UI nicht gefüllt werden
                 if (dtUnterrichtInfo != null && dtUnterrichtInfo.Rows.Count > 0)
                 {
                     aktualisiereDaten(dtUnterrichtInfo);
                     buttonUnterrichtHinzu.Enabled = false;
                 }
+                else
+                {
+                    buttonUnterrichtHinzu.Enabled = true;
+                }
             }
-
-
-
-
         }
 
 
         private void aktualisiereDaten(DataTable dt)
         {
-
+           
             labelFach.Text = dt.Rows[0][3].ToString();
             labelLehrer.Text = dt.Rows[0][5].ToString();
             labelKlasse.Text = dt.Rows[0][6].ToString();
