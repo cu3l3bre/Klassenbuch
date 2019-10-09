@@ -1,15 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
+using Klassenbuch.DbAccess;
+
+/*
+using System.Collections.Generic;
+using System.ComponentModel;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+
 using System.Diagnostics;
-using Klassenbuch.DbAccess;
+*/
 
 
 namespace Klassenbuch
@@ -33,51 +38,79 @@ namespace Klassenbuch
         {
             base.OnLoad(e);
 
-            // Hole die Räume die in der DB existieren und adde diese als Einträge zur Combobox
-            DataTable dtRaumInfo = DbAccessViaSQL.GetRaeume();
-
-            
+            // Hole die Räume die in der Db existieren füge diese zur Combobox hinzu
+            DataTable dtRaumInfo = DbAccessViaSQL.GetRaeume();          
             comboBoxRaum.DataSource = dtRaumInfo;
             comboBoxRaum.DisplayMember = dtRaumInfo.Columns[1].ColumnName;
             comboBoxRaum.ValueMember = dtRaumInfo.Columns[0].ColumnName;
-            
 
 
-            //for (int i = 0; i < dtRaumInfo.Rows.Count; i++)
-            //{
-            //    comboBoxRaum.Items.Add(dtRaumInfo.Rows[i][0]);
-            //}
-
-
-            // Hole die Unterrichtseinheiten (Zeiten von bis) die in der DB existieren und adde diese als Einträge zur Combobox
+            // Hole die Unterrichtseinheiten (Zeiten von bis) die in der Db existieren füge diese zur Combobox hinzu
             DataTable dtEinheitInfo = DbAccessViaSQL.GetEinheiten();
-
-
             comboBoxEinheit.DataSource = dtEinheitInfo;
-            comboBoxEinheit.DisplayMember = dtEinheitInfo.Columns[1].ColumnName;//+ dtEinheitInfo.Columns[2].ColumnName;
+            comboBoxEinheit.DisplayMember = dtEinheitInfo.Columns[1].ColumnName;
             comboBoxEinheit.ValueMember = dtEinheitInfo.Columns[0].ColumnName;
 
 
-
-            //Debug.WriteLine("Test " + dtEinheitInfo.Columns[1].ColumnName.ToString());
-
-            /*
-            for (int i = 0; i < dtEinheitInfo.Rows.Count; i++)
-            {
-                comboBoxEinheit.Items.Add(dtEinheitInfo.Rows[i][0].ToString() + " - "
-                   + dtEinheitInfo.Rows[i][1].ToString());
-            }
-            */
-
-
-            // Event Handler erst registrieren, nachdem die Datenbindung der Comboboxen statt gefunden haben
+            // Registrierung von Event Handlern (erst nachdem die Datenbindung der Comboboxen statt gefunden hat)
             dateTimePicker.ValueChanged += aktualisiereDaten_Changed;
             comboBoxRaum.SelectedIndexChanged += aktualisiereDaten_Changed;
             comboBoxEinheit.SelectedIndexChanged += aktualisiereDaten_Changed;
 
+            // Setzte die aktuelle Unterrichtseinheit
+            buttonJetzt.PerformClick();
 
             //bereinigeUI();
             holeDatenUndAktualisiere();
+        }
+
+
+
+        //**************************************************//
+        //  Event Handler                                   //
+        //**************************************************//
+
+        private void ButtonDatumHeute_Click(object sender, EventArgs e)
+        {
+            dateTimePicker.Value = DateTime.Now;
+        }
+
+        private void ButtonTagVor_Click(object sender, EventArgs e)
+        {
+            DateTime datum = dateTimePicker.Value;
+            dateTimePicker.Value = datum.AddDays(1);
+        }
+
+        private void ButtonTagZurueck_Click(object sender, EventArgs e)
+        {
+            DateTime datum = dateTimePicker.Value;
+            dateTimePicker.Value = datum.AddDays(-1);
+        }
+
+        private void ButtonJetzt_Click(object sender, EventArgs e)
+        {
+            if (comboBoxEinheit.Items.Count > 0)
+            {
+                foreach (DataRowView item in comboBoxEinheit.Items)
+                {
+                    long id = (long)item.Row[0];
+                    string zeit = item.Row[1].ToString();
+
+                    string[] einheitBeginnEnde = zeit.ToString().Split('-');
+                    string einheitBeginn = einheitBeginnEnde[0].Trim();
+                    string einheitEnde = einheitBeginnEnde[1].Trim();
+
+                    TimeSpan zeitJetzt = DateTime.Now.TimeOfDay;
+                    TimeSpan.TryParse(einheitBeginn, out TimeSpan zeitBeginn);
+                    TimeSpan.TryParse(einheitEnde, out TimeSpan zeitEnde);
+
+                    if (zeitBeginn < zeitJetzt && zeitEnde > zeitJetzt)
+                    {
+                        comboBoxEinheit.SelectedValue = id;
+                        break;
+                    }
+                }
+            }
         }
 
 
@@ -157,9 +190,154 @@ namespace Klassenbuch
         }
 
 
+        private void usercontrol_CheckBox_Click(object sender, EventArgs e)
+        {
+            CheckBox cb = sender as CheckBox;
+
+            if (cb.CheckState == CheckState.Checked)
+            {
+                cb.Parent.BackColor = Color.Green;
+            }
+            else if (cb.CheckState == CheckState.Unchecked)
+            {
+                cb.Parent.BackColor = Color.Red;
+            }
+        }
+
+
+        // https://stackoverflow.com/questions/3868941/how-to-allow-user-to-drag-a-dynamically-created-control-at-the-location-of-his-c
+
+        private void usercontrol_MouseDown(object sender, MouseEventArgs e)
+        {
+            aktivesUsercontrol = sender as UserControlSchueler;
+            vorherigeUserControlPos = e.Location;
+            Cursor = Cursors.Hand;
+        }
+
+        private void usercontrol_MouseMove(object sender, MouseEventArgs e)
+        {
+
+            if (aktivesUsercontrol == null || aktivesUsercontrol != sender)
+            {
+                return;
+            }
+
+            Point location = aktivesUsercontrol.Location;
+            location.Offset(e.Location.X - vorherigeUserControlPos.X, e.Location.Y - vorherigeUserControlPos.Y);
+
+            // Bewegen des Usercontrols auf das Panel begrenzen, sonst lässt sich das aus der Anwendung schieben
+            if (location.X < 0)
+            {
+                location.X = 0;
+            }
+
+            if (location.Y < 0)
+            {
+                location.Y = 0;
+            }
+
+            if (location.X > (panelSchueler.Size.Width - aktivesUsercontrol.Size.Width))
+            {
+                location.X = panelSchueler.Size.Width - aktivesUsercontrol.Size.Width;
+            }
+
+            if (location.Y > (panelSchueler.Size.Height - aktivesUsercontrol.Size.Height))
+            {
+                location.Y = panelSchueler.Size.Height - aktivesUsercontrol.Size.Height;
+            }
+
+            aktivesUsercontrol.Location = location;
+        }
+
+        private void usercontrol_MouseUp(object sender, MouseEventArgs e)
+        {
+            aktivesUsercontrol = null;
+            Cursor = Cursors.Default;
+        }
+
+
+        private void ButtonSpeichern_Click(object sender, EventArgs e)
+        {
+            string datum = getDatum();
+
+            for (int i = 0; i < panelSchueler.Controls.Count; i++)
+            {
+                UserControlSchueler schueler = panelSchueler.Controls[i] as UserControlSchueler;
+
+                long einheitId = (long)comboBoxEinheit.SelectedValue;
+                long raumId = (long)comboBoxRaum.SelectedValue;
+
+                DbAccessViaSQL.UpdateUnterricht(
+                    schueler.Kommentar,
+                    schueler.Anwesend,
+                    schueler.Vorname,
+                    schueler.Nachname,
+                    datum,
+                    einheitId,
+                    raumId,
+                    schueler.Location.X,
+                    schueler.Location.Y,
+                    textBoxLehrstoff.Text);
+
+
+                foreach (Control ctrl in schueler.Controls)
+                {
+                    if (ctrl.GetType() == typeof(CheckBox))
+                    {
+                        CheckBox cb = ctrl as CheckBox;
+
+                        if (cb.CheckState == CheckState.Checked)
+                        {
+                            cb.Parent.BackColor = Color.LightGreen;
+                        }
+                        else if (cb.CheckState == CheckState.Unchecked)
+                        {
+                            cb.Parent.BackColor = Color.PeachPuff;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        private void ButtonUnterrichtHinzu_Click(object sender, EventArgs e)
+        {
+            long raumId = (long)comboBoxRaum.SelectedValue;
+            long einheitId = (long)comboBoxEinheit.SelectedValue;
+            long fachId = (long)comboBoxFach.SelectedValue;
+            long klasseId = (long)comboBoxKlasse.SelectedValue;
+            string datum = getDatum();
+
+            DataTable dtSchuelerKlasse = DbAccessViaSQL.GetSchuelerVonKlasse(klasseId);
+
+            for (int i = 0; i < dtSchuelerKlasse.Rows.Count; i++)
+            {
+                long schuelerId = (long)dtSchuelerKlasse.Rows[i][0];
+                DbAccessViaSQL.InsertUnterricht(datum, einheitId, fachId, schuelerId, raumId, i * 10);
+            }
+
+            // Nachdem die Daten hinzugefügt wurden, ist einmal das Layout zu refreshen
+            holeDatenUndAktualisiere();
+        }
+
+
+        private void ButtonSchuelerHinzu_Click(object sender, EventArgs e)
+        {
+            FormSchuelerHinzufuegen formSchueler = new FormSchuelerHinzufuegen();
+            formSchueler.ShowDialog();
+        }
+
+
+        private void ButtonBeenden_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
 
 
+        //**************************************************//
+        //  Mehtoden                                        //
+        //**************************************************//
 
         private void holeDatenUndAktualisiere()
         {
@@ -238,16 +416,6 @@ namespace Klassenbuch
         }
 
 
-
-
-
-
-
-
-
-
-
-
         private void aktualisiereDaten(DataTable dt)
         {
 
@@ -318,127 +486,16 @@ namespace Klassenbuch
 
         }
 
-        private void usercontrol_CheckBox_Click(object sender, EventArgs e)
+
+        private string getDatum()
         {
-            CheckBox cb = sender as CheckBox;
-
-            if (cb.CheckState == CheckState.Checked)
-            {
-                cb.Parent.BackColor = Color.Green;
-            }
-            else if (cb.CheckState == CheckState.Unchecked)
-            {
-                cb.Parent.BackColor = Color.Red;
-            }
-        }
-
-
-
-        // https://stackoverflow.com/questions/3868941/how-to-allow-user-to-drag-a-dynamically-created-control-at-the-location-of-his-c
-
-        private void usercontrol_MouseDown(object sender, MouseEventArgs e)
-        {
-            aktivesUsercontrol = sender as UserControlSchueler;
-            vorherigeUserControlPos = e.Location;
-            Cursor = Cursors.Hand;
-        }
-
-        private void usercontrol_MouseMove(object sender, MouseEventArgs e)
-        {
-
-            if(aktivesUsercontrol == null || aktivesUsercontrol != sender)
-            {
-                return;
-            }
-
-            Point location = aktivesUsercontrol.Location;
-            location.Offset(e.Location.X - vorherigeUserControlPos.X, e.Location.Y - vorherigeUserControlPos.Y);
-
-            // Bewegen des Usercontrols auf das Panel begrenzen, sonst fliegts aus der Anwendung
-            if (location.X < 0)
-            {
-                location.X = 0;
-            }
-
-            if (location.Y < 0)
-            {
-                location.Y = 0;
-            }
-
-            if(location.X > (panelSchueler.Size.Width-aktivesUsercontrol.Size.Width))
-            {
-                location.X = panelSchueler.Size.Width - aktivesUsercontrol.Size.Width;
-            }
-
-            if (location.Y > (panelSchueler.Size.Height - aktivesUsercontrol.Size.Height))
-            {
-                location.Y = panelSchueler.Size.Height - aktivesUsercontrol.Size.Height;
-            }
-
-            aktivesUsercontrol.Location = location;
-        }
-
-
-        private void usercontrol_MouseUp(object sender, MouseEventArgs e)
-        {
-            aktivesUsercontrol = null;
-            Cursor = Cursors.Default;
-        }
-
-
-
-
-        private void ButtonDatumHeute_Click(object sender, EventArgs e)
-        {
-            dateTimePicker.Value = DateTime.Now;
-        }
-
-        private void ButtonTagVor_Click(object sender, EventArgs e)
-        {
-            DateTime datum = dateTimePicker.Value;
-            dateTimePicker.Value = datum.AddDays(1);
-        }
-
-        private void ButtonTagZurueck_Click(object sender, EventArgs e)
-        {
-            DateTime datum = dateTimePicker.Value;
-            dateTimePicker.Value = datum.AddDays(-1);
-        }
-
-
-        private void ButtonJetzt_Click(object sender, EventArgs e)
-        {
-            if (comboBoxEinheit.Items.Count > 0)
-            {
-                foreach (DataRowView item in comboBoxEinheit.Items)
-                {
-                    long id = (long)item.Row[0];
-                    string time = item.Row[1].ToString();
-
-                    string[] einheitBeginnEnde = time.ToString().Split('-');
-                    string einheitBeginn = einheitBeginnEnde[0].Trim();
-                    string einheitEnde = einheitBeginnEnde[1].Trim();
-
-                    TimeSpan zeitJetzt = DateTime.Now.TimeOfDay;
-                    TimeSpan.TryParse(einheitBeginn, out TimeSpan zeitBeginn);
-                    TimeSpan.TryParse(einheitEnde, out TimeSpan zeitEnde);
-
-                    if (zeitBeginn < zeitJetzt && zeitEnde > zeitJetzt)
-                    {
-                        comboBoxEinheit.SelectedValue = id;
-                        break;
-                    }
-                    else
-                    {
-                        comboBoxEinheit.SelectedValue = 1;
-                    }
-                }
-            }
+            return dateTimePicker.Value.ToString("yyyy-MM-dd");
         }
 
 
         private void bereinigeUI()
         {
+            // Entferne alle Controls (in diesem Fall sind das nur die UserControls) die auf dem Panel sind
             panelSchueler.Controls.Clear();
 
             labelFach.Text = "-";
@@ -447,96 +504,6 @@ namespace Klassenbuch
             textBoxLehrstoff.Text = "";
         }
 
-        private void ButtonSpeichern_Click(object sender, EventArgs e)
-        {
 
-            string datum = dateTimePicker.Value.ToString("yyyy-MM-dd");
-
-            string[] einheitBeginnEnde = comboBoxEinheit.Text.Split('-');
-            string einheitBeginn = einheitBeginnEnde[0].Trim();
-
-            for (int i = 0; i < panelSchueler.Controls.Count; i++)
-            {
-                UserControlSchueler schueler = panelSchueler.Controls[i] as UserControlSchueler;
-
-
-                long einheitId = (long)comboBoxEinheit.SelectedValue;
-                long raumId = (long)comboBoxRaum.SelectedValue;
-
-                DbAccessViaSQL.UpdateUnterricht(
-                    schueler.Kommentar,
-                    schueler.Anwesend,
-                    schueler.Vorname,
-                    schueler.Nachname,
-                    datum,
-                    einheitId,
-                    raumId,
-                    schueler.Location.X,
-                    schueler.Location.Y,
-                    textBoxLehrstoff.Text);
-
-
-                foreach (Control ctrl in schueler.Controls)
-                {
-                    if (ctrl.GetType() == typeof(CheckBox))
-                    {
-                        CheckBox cb = ctrl as CheckBox;
-            
-                        if (cb.CheckState == CheckState.Checked)
-                        {
-                            cb.Parent.BackColor = Color.LightGreen;
-                        }
-                        else if (cb.CheckState == CheckState.Unchecked)
-                        {
-                            cb.Parent.BackColor = Color.PeachPuff;
-                        }
-                    }
-                }
-            }
-        }
-
-        private void ButtonUnterrichtHinzu_Click(object sender, EventArgs e)
-        {
-            long raumId = (long)comboBoxRaum.SelectedValue;
-            long einheitId = (long)comboBoxEinheit.SelectedValue;
-            long fachId = (long)comboBoxFach.SelectedValue;
-            long klasseId = (long)comboBoxKlasse.SelectedValue;
-            string datum = getDatum();
-  
-            DataTable dtSchuelerKlasse = DbAccessViaSQL.GetSchuelerVonKlasse(klasseId);
-
-
-            for(int i = 0; i < dtSchuelerKlasse.Rows.Count; i++)
-            {
-                long schuelerId = (long)dtSchuelerKlasse.Rows[i][0];
-                DbAccessViaSQL.InsertUnterricht(datum, einheitId, fachId, schuelerId, raumId, i*10);
-            }
-
-            holeDatenUndAktualisiere();
-        }
-
-
-        private string getDatum()
-        {
-            string datum =
-                dateTimePicker.Value.Year.ToString() + '-' +
-                dateTimePicker.Value.Month.ToString() + '-' +
-                dateTimePicker.Value.Day.ToString();
-            return datum;
-        }
-
-
-
-        private void ButtonSchuelerHinzu_Click(object sender, EventArgs e)
-        {
-            FormSchuelerHinzufuegen formSchueler= new FormSchuelerHinzufuegen();
-
-            formSchueler.ShowDialog();
-        }
-
-        private void ButtonBeenden_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
     }
 }
