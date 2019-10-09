@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 
+
 namespace Klassenbuch.DbAccess
 {
     class DbAccessViaSQL
@@ -16,7 +17,6 @@ namespace Klassenbuch.DbAccess
                 // wenn sich z.B. mal der Datenenbankname ändert oder so
                 string connectionString = Properties.Settings.Default.DbConnectionString;
                 return connectionString;
-
             }
         }
 
@@ -497,7 +497,6 @@ namespace Klassenbuch.DbAccess
         //**************************************************//
         //  UPDATE Methoden                                 //
         //**************************************************//
-
 
         public static bool UpdateUnterricht(string kommentar, bool? anwesend, string vorname, string nachname,
             string datum, long einheitId, long raumId, int locationX, int locationY, string lernstoff)

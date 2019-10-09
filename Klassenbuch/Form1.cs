@@ -104,77 +104,7 @@ namespace Klassenbuch
 
         private void aktualisiereDaten_Changed(object sender, EventArgs e)
         {
-
             holeDatenUndAktualisiere();
-
-#if false         
-            //long einheitId = -1;
-
-            if (!string.IsNullOrEmpty(comboBoxEinheit.Text) && !string.IsNullOrEmpty(comboBoxRaum.Text))
-            {
-                // Datums string für SQL Abfrage
-                string datum = getDatum();
-                    //dateTimePicker.Value.Year.ToString() + '-' +
-                    //dateTimePicker.Value.Month.ToString() + '-' +
-                    //dateTimePicker.Value.Day.ToString();
-
-
-                string[] einheitBeginnEnde = comboBoxEinheit.Text.Split('-');
-
-                long einheitId = (long)comboBoxEinheit.SelectedValue;
-                long raumId = (long)comboBoxRaum.SelectedValue;
-
-               // DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(comboBoxRaum.Text, einheitId, datum);
-                DataTable dtUnterrichtInfo = DbAccessViaSQL.GetUntertichtInfo(raumId, einheitId, datum);
-
-                bereinigeUI();
-
-
-                buttonUnterrichtHinzu.Enabled = true;
-
-                // Hole die untaetigen Klassen, die in der DB existieren und adde diese als Einträge zur Combobox
-                DataTable dtUntaetigeKlassen = DbAccessViaSQL.GetUntaetigeKlassen(datum, einheitId);
-
-                
-                comboBoxKlasse.DataSource = dtUntaetigeKlassen;
-                comboBoxKlasse.DisplayMember = dtUntaetigeKlassen.Columns[1].ColumnName;
-                comboBoxKlasse.ValueMember = dtUntaetigeKlassen.Columns[0].ColumnName;
-                
-                /*
-                comboBoxKlasse.Items.Clear();
-                for (int i = 0; i < dtUntaetigeKlassen.Rows.Count; i++)
-                {
-                    comboBoxKlasse.Items.Add(dtUntaetigeKlassen.Rows[i][0].ToString());
-                }
-                */
-
-
-
-                // Hole die untaetigen Faecher, die in der DB existieren und adde diese als Einträge zur Combobox
-                DataTable dtUntaetigeFaecher = DbAccessViaSQL.GetUntaetigeFaecher(datum, einheitId);
-
-                comboBoxFach.DataSource = dtUntaetigeFaecher;
-                comboBoxFach.DisplayMember = dtUntaetigeFaecher.Columns[1].ColumnName;
-                comboBoxFach.ValueMember = dtUntaetigeFaecher.Columns[0].ColumnName;
-/*
-                comboBoxFach.Items.Clear();
-                for (int i = 0; i < dtUntaetigeFaecher.Rows.Count; i++)
-                {
-                    comboBoxFach.Items.Add(dtUntaetigeFaecher.Rows[i][0].ToString());
-                }
-                */
-
-
-
-                if (dtUnterrichtInfo != null && dtUnterrichtInfo.Rows.Count > 0)
-                {
-                    aktualisiereDaten(dtUnterrichtInfo);
-                    buttonUnterrichtHinzu.Enabled = false;
-                }
-            }
-
-#endif
-
         }
 
 
@@ -302,14 +232,12 @@ namespace Klassenbuch
             {
                 long schuelerId = (long)dtSchuelerKlasse.Rows[i][0];
                 DbAccessViaSQL.InsertUnterricht(datum, einheitId, fachId, schuelerId, raumId, i * 10);
-            }
 
-            // Nachdem die Daten hinzugefügt wurden, ist einmal das Layout zu refreshen,
-            // falls auch tatsächlich was in die Db geschrieben worden ist
-            // wenn die Klasse keine Schüler hat, kann ich nix adden und brauch dann auch nix refreshen
-            if (dtSchuelerKlasse.Rows.Count > 0)
-            {
-                holeDatenUndAktualisiere();
+                // Nach dem letzten Insert einmal refreshen
+                if(i == (dtSchuelerKlasse.Rows.Count-1))
+                {
+                    holeDatenUndAktualisiere();
+                }
             }
         }
 
@@ -464,7 +392,6 @@ namespace Klassenbuch
             labelKlasse.Text = "-";
             textBoxLehrstoff.Text = "";
         }
-
 
     }
 }
