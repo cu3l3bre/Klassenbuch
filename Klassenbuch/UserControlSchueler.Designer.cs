@@ -33,6 +33,8 @@
             this.checkBoxAnwesend = new System.Windows.Forms.CheckBox();
             this.textBoxGrund = new System.Windows.Forms.TextBox();
             this.labelNachname = new System.Windows.Forms.Label();
+            this.buttonMehrInfo = new System.Windows.Forms.Button();
+            this.labelInfoText = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBild)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,18 +88,38 @@
             this.labelNachname.TabIndex = 4;
             this.labelNachname.Text = "Nachname";
             // 
+            // buttonMehrInfo
+            // 
+            this.buttonMehrInfo.Location = new System.Drawing.Point(311, 3);
+            this.buttonMehrInfo.Name = "buttonMehrInfo";
+            this.buttonMehrInfo.Size = new System.Drawing.Size(25, 54);
+            this.buttonMehrInfo.TabIndex = 5;
+            this.buttonMehrInfo.Text = ">";
+            this.buttonMehrInfo.UseVisualStyleBackColor = true;
+            // 
+            // labelInfoText
+            // 
+            this.labelInfoText.AutoSize = true;
+            this.labelInfoText.Location = new System.Drawing.Point(342, 24);
+            this.labelInfoText.Name = "labelInfoText";
+            this.labelInfoText.Size = new System.Drawing.Size(71, 13);
+            this.labelInfoText.TabIndex = 6;
+            this.labelInfoText.Text = "Platz für Infos";
+            // 
             // UserControlSchueler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this.labelInfoText);
+            this.Controls.Add(this.buttonMehrInfo);
             this.Controls.Add(this.labelNachname);
             this.Controls.Add(this.textBoxGrund);
             this.Controls.Add(this.checkBoxAnwesend);
             this.Controls.Add(this.pictureBoxBild);
             this.Controls.Add(this.labelVorname);
             this.Name = "UserControlSchueler";
-            this.Size = new System.Drawing.Size(310, 60);
+            this.Size = new System.Drawing.Size(340, 60);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBild)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -111,5 +133,7 @@
         private System.Windows.Forms.CheckBox checkBoxAnwesend;
         private System.Windows.Forms.TextBox textBoxGrund;
         private System.Windows.Forms.Label labelNachname;
+        private System.Windows.Forms.Button buttonMehrInfo;
+        private System.Windows.Forms.Label labelInfoText;
     }
 }

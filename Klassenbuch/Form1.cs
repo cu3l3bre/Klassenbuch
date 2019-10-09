@@ -123,6 +123,27 @@ namespace Klassenbuch
         }
 
 
+        private void usercontrol_Button_Click(object sender, EventArgs e)
+        {
+            Button bt = sender as Button;
+
+            int defaultBreite = 340;
+            int expBreite = defaultBreite + 100;
+
+            if (bt.Parent.Width == defaultBreite)
+            {
+                bt.Parent.Width = expBreite;
+                bt.Text = "<";
+            }
+            else if(bt.Parent.Width == expBreite)
+            {
+                bt.Parent.Width = defaultBreite;
+                bt.Text = ">";
+            }
+        }
+
+
+
         // https://stackoverflow.com/questions/3868941/how-to-allow-user-to-drag-a-dynamically-created-control-at-the-location-of-his-c
 
         private void usercontrol_MouseDown(object sender, MouseEventArgs e)
@@ -134,6 +155,9 @@ namespace Klassenbuch
 
         private void usercontrol_MouseMove(object sender, MouseEventArgs e)
         {
+            // Bringe das Control nach vorne wenn die Maus drüber fährt
+            UserControlSchueler ctrl = sender as UserControlSchueler;
+            ctrl.BringToFront();
 
             if (aktivesUsercontrol == null || aktivesUsercontrol != sender)
             {
@@ -359,13 +383,18 @@ namespace Klassenbuch
                 schueler[i].MouseUp += usercontrol_MouseUp;
 
 
-                // Registrierung des Event Handlers für die Checkbox im Control
+                // Registrierung der Event Handler für die Checkbox und Button im Control
                 foreach (Control ctrl in schueler[i].Controls)
                 {
                     if (ctrl.GetType() == typeof(CheckBox))
                     {
                         CheckBox cb = ctrl as CheckBox;
                         cb.Click += usercontrol_CheckBox_Click;
+                    }
+                    else if(ctrl.GetType() == typeof(Button))
+                    {
+                        Button bt = ctrl as Button;
+                        bt.Click += usercontrol_Button_Click;
                     }
                 }
 

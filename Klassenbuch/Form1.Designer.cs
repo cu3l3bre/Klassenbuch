@@ -294,9 +294,9 @@
             this.comboBoxKlasse.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
             this.comboBoxKlasse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxKlasse.FormattingEnabled = true;
-            this.comboBoxKlasse.Location = new System.Drawing.Point(662, 33);
+            this.comboBoxKlasse.Location = new System.Drawing.Point(656, 33);
             this.comboBoxKlasse.Name = "comboBoxKlasse";
-            this.comboBoxKlasse.Size = new System.Drawing.Size(88, 21);
+            this.comboBoxKlasse.Size = new System.Drawing.Size(94, 21);
             this.comboBoxKlasse.TabIndex = 18;
             // 
             // comboBoxFach
@@ -312,7 +312,7 @@
             // labelcbKlasseText
             // 
             this.labelcbKlasseText.AutoSize = true;
-            this.labelcbKlasseText.Location = new System.Drawing.Point(659, 17);
+            this.labelcbKlasseText.Location = new System.Drawing.Point(653, 17);
             this.labelcbKlasseText.Name = "labelcbKlasseText";
             this.labelcbKlasseText.Size = new System.Drawing.Size(38, 13);
             this.labelcbKlasseText.TabIndex = 20;
