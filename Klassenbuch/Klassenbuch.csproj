@@ -100,16 +100,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Bilder\arror_right.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Bilder\arror_left.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Icons\arror_left.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icons\arror_right.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Bilder\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
