@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Diagnostics;
+
 
 namespace Klassenbuch
 {
@@ -10,6 +10,8 @@ namespace Klassenbuch
     {
 
         private bool formExpandieren;
+        private int formBreiteDefault;
+        private int formBreiteExpandiert;
 
         public bool UcExpandieren
         {
@@ -87,6 +89,8 @@ namespace Klassenbuch
         public UserControlSchueler(string vorname, string nachname, string bildpfad, string kommentar, CheckState anwesend) : this()
         {
             formExpandieren = false;
+            formBreiteDefault = 340;
+            formBreiteExpandiert = formBreiteDefault + 100;
 
             labelVorname.Text = vorname;
             labelNachname.Text = nachname;
@@ -109,6 +113,7 @@ namespace Klassenbuch
                 checkBoxAnwesend.CheckState = CheckState.Indeterminate;
             }
 
+            // Registrieren der Event Handler
             buttonMehrInfo.Click += new EventHandler(button_Click);
             timer.Tick += new EventHandler(timer_Tick);
             checkBoxAnwesend.Click += new EventHandler(checkBox_Click);
@@ -128,15 +133,12 @@ namespace Klassenbuch
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            int defaultBreite = 340;
-            int expBreite = defaultBreite + 100;
-
-            if (this.Width < expBreite && formExpandieren)
+            if (this.Width < formBreiteExpandiert && formExpandieren)
             {
                 buttonMehrInfo.Text = "<";
                 this.Width += 5;
             }
-            else if (this.Width > defaultBreite && !formExpandieren)
+            else if (this.Width > formBreiteDefault && !formExpandieren)
             {
                 buttonMehrInfo.Text = ">";
                 this.Width -= 5;

@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Klassenbuch.DbAccess;
-using System.Diagnostics;
+
 
 namespace Klassenbuch
 {
