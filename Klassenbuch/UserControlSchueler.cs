@@ -133,14 +133,23 @@ namespace Klassenbuch
 
         private void timer_Tick(object sender, EventArgs e)
         {
+
+            buttonMehrInfo.Text = "";
+            buttonMehrInfo.BackgroundImageLayout = ImageLayout.Stretch;
+
             if (this.Width < formBreiteExpandiert && formExpandieren)
             {
-                buttonMehrInfo.Text = "<";
+                //buttonMehrInfo.Text = "<";
+                //buttonMehrInfo.BackgroundImageLayout = ImageLayout.Stretch;
+                buttonMehrInfo.BackgroundImage = Image.FromFile(@"C:\Users\Alfa\Desktop\at_c#\repos\Projekt\Klassenbuch\Klassenbuch\Bilder\arror_left.jpg");
+
+
                 this.Width += 5;
             }
             else if (this.Width > formBreiteDefault && !formExpandieren)
             {
-                buttonMehrInfo.Text = ">";
+                //buttonMehrInfo.Text = ">";
+                buttonMehrInfo.BackgroundImage = Image.FromFile(@"C:\Users\Alfa\Desktop\at_c#\repos\Projekt\Klassenbuch\Klassenbuch\Bilder\arror_right.jpg");
                 this.Width -= 5;
             }
             else
