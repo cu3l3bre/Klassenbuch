@@ -108,5 +108,11 @@
   <ItemGroup>
     <Folder Include="Bilder\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\blue_arrow_left.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\blue_arrow_right.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

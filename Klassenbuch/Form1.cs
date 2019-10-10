@@ -26,6 +26,16 @@ namespace Klassenbuch
         {
             base.OnLoad(e);
 
+            // Icons auf Buttons
+            buttonTagZurueck.Text = "";
+            buttonTagZurueck.BackgroundImageLayout = ImageLayout.Stretch;
+            buttonTagZurueck.BackgroundImage = Properties.Resources.blue_arrow_left;
+
+            buttonTagVor.Text = "";
+            buttonTagVor.BackgroundImageLayout = ImageLayout.Stretch;
+            buttonTagVor.BackgroundImage = Properties.Resources.blue_arrow_right;
+
+
             // Hole die Räume die in der Db existieren füge diese zur Combobox hinzu
             DataTable dtRaumInfo = DbAccessViaSQL.GetRaeume();          
             comboBoxRaum.DataSource = dtRaumInfo;
