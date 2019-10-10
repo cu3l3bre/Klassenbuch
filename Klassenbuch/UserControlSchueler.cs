@@ -117,6 +117,11 @@ namespace Klassenbuch
             buttonMehrInfo.Click += new EventHandler(button_Click);
             timer.Tick += new EventHandler(timer_Tick);
             checkBoxAnwesend.Click += new EventHandler(checkBox_Click);
+
+
+            buttonMehrInfo.Text = "";
+            buttonMehrInfo.BackgroundImageLayout = ImageLayout.Stretch;
+            buttonMehrInfo.BackgroundImage = Image.FromFile(@"C:\Users\Alfa\Desktop\at_c#\repos\Projekt\Klassenbuch\Klassenbuch\Bilder\arror_right.jpg");
         }
 
 
@@ -140,7 +145,8 @@ namespace Klassenbuch
             if (this.Width < formBreiteExpandiert && formExpandieren)
             {
                 //buttonMehrInfo.Text = "<";
-                //buttonMehrInfo.BackgroundImageLayout = ImageLayout.Stretch;
+                //myProject.Properties.Resources.Image01;
+                //Klassenbuch.Properties.Resources
                 buttonMehrInfo.BackgroundImage = Image.FromFile(@"C:\Users\Alfa\Desktop\at_c#\repos\Projekt\Klassenbuch\Klassenbuch\Bilder\arror_left.jpg");
 
 
