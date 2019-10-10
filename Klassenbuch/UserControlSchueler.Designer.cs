@@ -108,10 +108,6 @@
             this.labelInfoText.TabIndex = 6;
             this.labelInfoText.Text = "Platz für Infos";
             // 
-            // timer
-            // 
-            this.timer.Interval = 1;
-            // 
             // UserControlSchueler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

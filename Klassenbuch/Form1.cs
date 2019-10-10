@@ -108,31 +108,7 @@ namespace Klassenbuch
         }
 
 
-        private void usercontrol_CheckBox_Click(object sender, EventArgs e)
-        {
-            CheckBox cb = sender as CheckBox;
-
-            if (cb.CheckState == CheckState.Checked)
-            {
-                cb.Parent.BackColor = Color.Green;
-            }
-            else if (cb.CheckState == CheckState.Unchecked)
-            {
-                cb.Parent.BackColor = Color.Red;
-            }
-        }
-
-
-        private void usercontrol_Button_Click(object sender, EventArgs e)
-        {
-            Button bt = sender as Button;
-            UserControlSchueler ctrl = bt.Parent as UserControlSchueler;
-            ctrl.UcExpandieren ^= true;
-            ctrl.timer.Start();
-        }
-
-
-
+     
         // https://stackoverflow.com/questions/3868941/how-to-allow-user-to-drag-a-dynamically-created-control-at-the-location-of-his-c
 
         private void usercontrol_MouseDown(object sender, MouseEventArgs e)
@@ -185,6 +161,7 @@ namespace Klassenbuch
             aktivesUsercontrol = null;
             Cursor = Cursors.Default;
         }
+
 
 
         private void ButtonSpeichern_Click(object sender, EventArgs e)
@@ -371,21 +348,6 @@ namespace Klassenbuch
                 schueler[i].MouseMove += usercontrol_MouseMove;
                 schueler[i].MouseUp += usercontrol_MouseUp;
 
-
-                // Registrierung der Event Handler für die Checkbox und Button im Control
-                foreach (Control ctrl in schueler[i].Controls)
-                {
-                    if (ctrl.GetType() == typeof(CheckBox))
-                    {
-                        CheckBox cb = ctrl as CheckBox;
-                        cb.Click += usercontrol_CheckBox_Click;
-                    }
-                    else if(ctrl.GetType() == typeof(Button))
-                    {
-                        Button bt = ctrl as Button;
-                        bt.Click += usercontrol_Button_Click;
-                    }
-                }
 
                 // Hinzufügen des Controls zum Panel
                 panelSchueler.Controls.Add(schueler[i]);

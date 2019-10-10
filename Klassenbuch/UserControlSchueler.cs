@@ -9,7 +9,7 @@ namespace Klassenbuch
     public partial class UserControlSchueler : UserControl
     {
 
-        bool formExpandieren;
+        private bool formExpandieren;
 
         public bool UcExpandieren
         {
@@ -109,13 +109,22 @@ namespace Klassenbuch
                 checkBoxAnwesend.CheckState = CheckState.Indeterminate;
             }
 
+            buttonMehrInfo.Click += new EventHandler(button_Click);
             timer.Tick += new EventHandler(timer_Tick);
+            checkBoxAnwesend.Click += new EventHandler(checkBox_Click);
         }
 
 
         //**************************************************//
         //  Event Handler                                   //
         //**************************************************//
+
+        private void button_Click(object sender, EventArgs e)
+        {
+            this.formExpandieren ^= true;
+            timer.Start();
+        }
+
 
         private void timer_Tick(object sender, EventArgs e)
         {
@@ -135,6 +144,19 @@ namespace Klassenbuch
             else
             {
                 timer.Stop();
+            }
+        }
+
+
+        private void checkBox_Click(object sender, EventArgs e)
+        {
+            if (checkBoxAnwesend.CheckState == CheckState.Checked)
+            {
+                this.BackColor = Color.Green;
+            }
+            else if (checkBoxAnwesend.CheckState == CheckState.Unchecked)
+            {
+                this.BackColor = Color.Red;
             }
         }
 
