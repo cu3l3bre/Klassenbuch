@@ -121,7 +121,7 @@ namespace Klassenbuch
 
             buttonMehrInfo.Text = "";
             buttonMehrInfo.BackgroundImageLayout = ImageLayout.Stretch;
-            buttonMehrInfo.BackgroundImage = Image.FromFile(@"C:\Users\Alfa\Desktop\at_c#\repos\Projekt\Klassenbuch\Klassenbuch\Bilder\arror_right.jpg");
+            buttonMehrInfo.BackgroundImage = Properties.Resources.arror_right;
         }
 
 
@@ -145,17 +145,14 @@ namespace Klassenbuch
             if (this.Width < formBreiteExpandiert && formExpandieren)
             {
                 //buttonMehrInfo.Text = "<";
-                //myProject.Properties.Resources.Image01;
-                //Klassenbuch.Properties.Resources
-                buttonMehrInfo.BackgroundImage = Image.FromFile(@"C:\Users\Alfa\Desktop\at_c#\repos\Projekt\Klassenbuch\Klassenbuch\Bilder\arror_left.jpg");
-
+                buttonMehrInfo.BackgroundImage = Properties.Resources.arror_left;
 
                 this.Width += 5;
             }
             else if (this.Width > formBreiteDefault && !formExpandieren)
             {
                 //buttonMehrInfo.Text = ">";
-                buttonMehrInfo.BackgroundImage = Image.FromFile(@"C:\Users\Alfa\Desktop\at_c#\repos\Projekt\Klassenbuch\Klassenbuch\Bilder\arror_right.jpg");
+                buttonMehrInfo.BackgroundImage = Properties.Resources.arror_right;
                 this.Width -= 5;
             }
             else
