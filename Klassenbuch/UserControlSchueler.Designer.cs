@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.labelVorname = new System.Windows.Forms.Label();
             this.pictureBoxBild = new System.Windows.Forms.PictureBox();
             this.checkBoxAnwesend = new System.Windows.Forms.CheckBox();
@@ -35,6 +36,7 @@
             this.labelNachname = new System.Windows.Forms.Label();
             this.buttonMehrInfo = new System.Windows.Forms.Button();
             this.labelInfoText = new System.Windows.Forms.Label();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBild)).BeginInit();
             this.SuspendLayout();
             // 
@@ -106,6 +108,10 @@
             this.labelInfoText.TabIndex = 6;
             this.labelInfoText.Text = "Platz für Infos";
             // 
+            // timer
+            // 
+            this.timer.Interval = 1;
+            // 
             // UserControlSchueler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -135,5 +141,6 @@
         private System.Windows.Forms.Label labelNachname;
         private System.Windows.Forms.Button buttonMehrInfo;
         private System.Windows.Forms.Label labelInfoText;
+        public System.Windows.Forms.Timer timer;
     }
 }

@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Klassenbuch.DbAccess;
-
+using System.Diagnostics;
 
 namespace Klassenbuch
 {
@@ -126,20 +126,9 @@ namespace Klassenbuch
         private void usercontrol_Button_Click(object sender, EventArgs e)
         {
             Button bt = sender as Button;
-
-            int defaultBreite = 340;
-            int expBreite = defaultBreite + 100;
-
-            if (bt.Parent.Width == defaultBreite)
-            {
-                bt.Parent.Width = expBreite;
-                bt.Text = "<";
-            }
-            else if(bt.Parent.Width == expBreite)
-            {
-                bt.Parent.Width = defaultBreite;
-                bt.Text = ">";
-            }
+            UserControlSchueler ctrl = bt.Parent as UserControlSchueler;
+            ctrl.UcExpandieren ^= true;
+            ctrl.timer.Start();
         }
 
 

@@ -1,12 +1,22 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
-
+using System.Diagnostics;
 
 namespace Klassenbuch
 {
 
     public partial class UserControlSchueler : UserControl
     {
+
+        bool formExpandieren;
+
+        public bool UcExpandieren
+        {
+            get { return formExpandieren; }
+            set { formExpandieren = value; }
+        }
+
 
         public string Vorname
         {
@@ -76,6 +86,8 @@ namespace Klassenbuch
 
         public UserControlSchueler(string vorname, string nachname, string bildpfad, string kommentar, CheckState anwesend) : this()
         {
+            formExpandieren = false;
+
             labelVorname.Text = vorname;
             labelNachname.Text = nachname;
             pictureBoxBild.ImageLocation = bildpfad;
@@ -97,9 +109,35 @@ namespace Klassenbuch
                 checkBoxAnwesend.CheckState = CheckState.Indeterminate;
             }
 
-
-            Timer timer = new Timer();
-
+            timer.Tick += new EventHandler(timer_Tick);
         }
+
+
+        //**************************************************//
+        //  Event Handler                                   //
+        //**************************************************//
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            int defaultBreite = 340;
+            int expBreite = defaultBreite + 100;
+
+            if (this.Width < expBreite && formExpandieren)
+            {
+                buttonMehrInfo.Text = "<";
+                this.Width += 5;
+            }
+            else if (this.Width > defaultBreite && !formExpandieren)
+            {
+                buttonMehrInfo.Text = ">";
+                this.Width -= 5;
+            }
+            else
+            {
+                timer.Stop();
+            }
+        }
+
+
     }
 }
