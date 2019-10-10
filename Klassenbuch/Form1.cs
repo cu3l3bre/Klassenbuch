@@ -369,7 +369,7 @@ namespace Klassenbuch
                 }
 
 
-                // Erzeugen des UserControlSchueler Objektes
+                // Erzeugen eines UserControlSchueler Objektes
                 schueler[i] = new UserControlSchueler(vorname, nachname, pfadZumBild, kommentar, anwesend);
 
 

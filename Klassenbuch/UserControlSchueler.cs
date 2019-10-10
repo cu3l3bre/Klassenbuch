@@ -96,6 +96,10 @@ namespace Klassenbuch
             {
                 checkBoxAnwesend.CheckState = CheckState.Indeterminate;
             }
+
+
+            Timer timer = new Timer();
+
         }
     }
 }
