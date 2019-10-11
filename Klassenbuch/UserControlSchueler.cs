@@ -138,18 +138,14 @@ namespace Klassenbuch
 
         private void timer_Tick(object sender, EventArgs e)
         {
-
-            buttonMehrInfo.Text = "";
-            buttonMehrInfo.BackgroundImageLayout = ImageLayout.Stretch;
-
-            if (this.Width < formBreiteExpandiert && formExpandieren)
+            if (formExpandieren && (this.Width < formBreiteExpandiert))
             {
                 //buttonMehrInfo.Text = "<";
                 buttonMehrInfo.BackgroundImage = Properties.Resources.arror_left;
 
                 this.Width += 5;
             }
-            else if (this.Width > formBreiteDefault && !formExpandieren)
+            else if (!formExpandieren && (this.Width > formBreiteDefault))
             {
                 //buttonMehrInfo.Text = ">";
                 buttonMehrInfo.BackgroundImage = Properties.Resources.arror_right;

@@ -81,27 +81,36 @@ namespace Klassenbuch
                         if (!File.Exists(pfadZumBild))
                         {
                             // Füge den Schüler zunächst als neue Person zur Db hinzu
-                            DbAccessViaSQL.InsertPerson(vorname, nachname);
-
-                            long personId = 0;
-
-                            // Hole die PersonenID vom neu angelegten Schüler
-                            DataTable dtPersonID = DbAccessViaSQL.GetPersonID(vorname, nachname);
-                            for (int i = 0; i < dtPersonID.Rows.Count; i++)
+                            if (DbAccessViaSQL.InsertPerson(vorname, nachname))
                             {
-                                personId = (long)(dtPersonID.Rows[i][0]);
+                                long personId = 0;
+
+                                // Hole die PersonenID vom neu angelegten Schüler
+                                DataTable dtPersonID = DbAccessViaSQL.GetPersonID(vorname, nachname);
+                                for (int i = 0; i < dtPersonID.Rows.Count; i++)
+                                {
+                                    personId = (long)(dtPersonID.Rows[i][0]);
+                                }
+
+                                // Die ID der Klasse, je nach Auswahl in der Combobox, in die der Schüler kommen soll
+                                long klasseId = (long)comboBoxKlasse.SelectedValue;
+
+
+                                // Den neuen Schüler zur Db hinzufuegen
+                                if (DbAccessViaSQL.InsertSchueler(personId, klasseId))
+                                {
+                                    // Kopiere das Bild in den Bildordner, wo alle Schueler gespeichert sind
+                                    File.Copy(dateiName, pfadZumBild, true);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Fehler beim Eintragen des neuen Schülers in die Schüler-Tabelle der Datenbank");
+                                }
                             }
-
-                            // Die ID der Klasse, je nach Auswahl in der Combobox, in die der Schüler kommen soll
-                            long klasseId = (long)comboBoxKlasse.SelectedValue;
-
-
-                            // Den neuen Schüler zur Db hinzufuegen
-                            DbAccessViaSQL.InsertSchueler(personId, klasseId);
-
-
-                            // Kopiere das Bild in den Bildordner, wo alle Schueler gespeichert sind
-                            File.Copy(dateiName, pfadZumBild, true);
+                            else
+                            {
+                                MessageBox.Show("Fehler beim Eintragen des neuen Schülers in die Person-Tabelle der Datenbank");
+                            }
                         }
                         else
                         {

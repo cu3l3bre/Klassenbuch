@@ -177,15 +177,18 @@ namespace Klassenbuch
         private void ButtonSpeichern_Click(object sender, EventArgs e)
         {
             string datum = getDatum();
+            bool updateOK;
 
             for (int i = 0; i < panelSchueler.Controls.Count; i++)
             {
+                
                 UserControlSchueler schueler = panelSchueler.Controls[i] as UserControlSchueler;
 
                 long einheitId = (long)comboBoxEinheit.SelectedValue;
                 long raumId = (long)comboBoxRaum.SelectedValue;
 
-                DbAccessViaSQL.UpdateUnterricht(
+                updateOK = false;
+                updateOK = DbAccessViaSQL.UpdateUnterricht(
                     schueler.Kommentar,
                     schueler.Anwesend,
                     schueler.Vorname,
@@ -197,22 +200,28 @@ namespace Klassenbuch
                     schueler.Location.Y,
                     textBoxLehrstoff.Text);
 
-
-                foreach (Control ctrl in schueler.Controls)
+                if (updateOK)
                 {
-                    if (ctrl.GetType() == typeof(CheckBox))
+                    foreach (Control ctrl in schueler.Controls)
                     {
-                        CheckBox cb = ctrl as CheckBox;
+                        if (ctrl.GetType() == typeof(CheckBox))
+                        {
+                            CheckBox cb = ctrl as CheckBox;
 
-                        if (cb.CheckState == CheckState.Checked)
-                        {
-                            cb.Parent.BackColor = Color.LightGreen;
-                        }
-                        else if (cb.CheckState == CheckState.Unchecked)
-                        {
-                            cb.Parent.BackColor = Color.PeachPuff;
+                            if (cb.CheckState == CheckState.Checked)
+                            {
+                                cb.Parent.BackColor = Color.LightGreen;
+                            }
+                            else if (cb.CheckState == CheckState.Unchecked)
+                            {
+                                cb.Parent.BackColor = Color.PeachPuff;
+                            }
                         }
                     }
+                }
+                else
+                {
+                    MessageBox.Show("Fehler beim Speichern und Eintragen der Änderungen in die Datenbank");
                 }
             }
         }
@@ -231,12 +240,18 @@ namespace Klassenbuch
             for (int i = 0; i < dtSchuelerKlasse.Rows.Count; i++)
             {
                 long schuelerId = (long)dtSchuelerKlasse.Rows[i][0];
-                DbAccessViaSQL.InsertUnterricht(datum, einheitId, fachId, schuelerId, raumId, i * 10);
 
-                // Nach dem letzten Insert einmal refreshen
-                if(i == (dtSchuelerKlasse.Rows.Count-1))
+                if (DbAccessViaSQL.InsertUnterricht(datum, einheitId, fachId, schuelerId, raumId, i * 10))
                 {
-                    holeDatenUndAktualisiere();
+                    // Nach dem letzten Insert einmal refreshen
+                    if (i == (dtSchuelerKlasse.Rows.Count - 1))
+                    {
+                        holeDatenUndAktualisiere();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Fehler beim Eintragen des Unterrichtes in die Datenbank");
                 }
             }
         }
